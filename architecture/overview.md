@@ -4,23 +4,24 @@ MiraSpeak is a **TTS-only** desktop app: there is no microphone path and no voic
 
 ## Layer diagram
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│  ui/          Qt Speak, settings, quick bar, overlays   │
-├─────────────────────────────────────────────────────────┤
-│  app/  mcp/  modules/     service, synth, settings,     │
-│                           chat, MCP host, module runtime│
-├─────────────────────────────────────────────────────────┤
-│  audio/  avatar/          devices, pitch, player, VMC   │
-├─────────────────────────────────────────────────────────┤
-│  engines/                 adapters (Kokoro, VOICEVOX,   │
-│                           Azure Speech) + registry      │
-├─────────────────────────────────────────────────────────┤
-│  core/                    line text, markers, commands  │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    ui["<b>ui/</b><br/>Qt: Speak, settings, quick bar, overlays"]
+    app["<b>app/</b><br/>service, synth, settings, chat"]
+    mcp["<b>mcp/</b><br/>local MCP server"]
+    modules["<b>modules/</b><br/>module runtime, web policy"]
+    audio["<b>audio/</b><br/>devices, pitch, player"]
+    avatar["<b>avatar/</b><br/>VMC mouth shapes"]
+    engines["<b>engines/</b><br/>Kokoro, VOICEVOX, Azure Speech + registry"]
+    core["<b>core/</b><br/>line text, markers, commands"]
+
+    ui --> app & mcp & modules
+    app & mcp & modules --> audio & avatar
+    audio & avatar --> engines
+    engines --> core
 ```
 
-Import direction is strict: lower layers never import higher ones. **Qt lives only in `ui/`** (and the process entrypoint). Widgets talk to an `AppController` facade—not the service, registry, or settings I/O modules directly.
+Each arrow points to the next layer down. A layer may import anything below it and nothing above it. **Qt lives only in `ui/`** (and the process entrypoint). Widgets talk to an `AppController` facade—not the service, registry, or settings I/O modules directly.
 
 ## Product constraints
 
