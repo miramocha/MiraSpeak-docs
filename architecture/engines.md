@@ -8,7 +8,7 @@ Each adapter exposes:
 
 - Whether it is local or cloud, and whether it is currently configured  
 - Models (if any), voices, styles, paces, speech languages  
-- Inline marker catalog (what `[id]` tokens survive scrubbing); the registry always adds MiraSpeak `[date]` / `[time]` on top  
+- Inline marker catalog (what `[id]` tokens survive scrubbing); the registry always adds MiraSpeak `[date]` / `[time]` on top (`[time:full]` / `[time:24h]` / `[time:tod]` / `[time:h|m|s]` share the time keep id)  
 - `multi_style` — checklist Style picker vs single-select  
 - `synthesize(request) →` audio clip  
 

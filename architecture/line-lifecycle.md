@@ -9,7 +9,7 @@ One spoken line moves through fixed stages. Synthesis of the next line may overl
 | Submit | UI | Slash commands parsed first (if any). Remaining text is scrubbed for markers. Engine, model, voice, styles, pace, speech language, pitch (and preset label) are **frozen** on the line. Optional “split sentences” enqueues one entry per sentence. |
 | Queue | — | Line waits as `queued`. |
 | Synthesize | Synth worker | Acquire ahead permit; take oldest line → `synthesizing`. |
-| Cache / network | Synth worker | Expand `[date]` / `[time]` from local now (speech language, else VOICEVOX `ja` / Azure voice locale / English) **before** fingerprint and adapter input. If cache-read is allowed and the fingerprint hits, load cached audio. Otherwise call the adapter. Cache-write (when enabled) stores pre-pitch audio. Then apply pitch → `ready`. |
+| Cache / network | Synth worker | Expand `[date]` / `[time]` and `time:` parts from local now (speech language, else VOICEVOX `ja` / Azure voice locale / English) **before** fingerprint and adapter input. `[time]` is hour and minute (same-minute cache hits); `[time:full]` includes seconds; `[time:24h]` is `HH:MM`; `[time:tod]` is the day period. If cache-read is allowed and the fingerprint hits, load cached audio. Otherwise call the adapter. Cache-write (when enabled) stores pre-pitch audio. Then apply pitch → `ready`. |
 | Drop or play | Synth / Play | If the session was cleared, drop the clip. Else hand off to the play queue. |
 | Play | Play worker | Release ahead permit; optional mouth analysis; captions / avatar follow; play clip → `playing`. |
 | Done | Play worker | Clip ends or stop; avatar zeros; captions clear after a short idle delay → terminal state. |
