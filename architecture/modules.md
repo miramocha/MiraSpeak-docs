@@ -11,7 +11,7 @@ Modules are **third-party add-ons under Speak**. They speak with the voices Mira
 | **Form + web** | A form above a web panel on the same page. |
 | **Browser Source** | Optional localhost stream of the same page for OBS and similar tools, behind a tokenized URL. |
 
-Enabled module pages appear in the Speak navigation group. A Modules page manages enablement, permissions, and Browser Source.
+Enabled module pages appear under Speak, above the settings search. Integrations → Modules manages enablement, permissions, and Browser Source.
 
 ## Host boundary
 

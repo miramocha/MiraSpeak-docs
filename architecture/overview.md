@@ -43,9 +43,9 @@ Each arrow points to the next layer down. A layer may import anything below it a
 
 Typical top-level groups:
 
-1. **Speak** — main thread, enabled module pages, Modules manager  
+1. **Speak** — main thread, then one row per enabled module page  
 2. **Voice Engines** — Kokoro, VOICEVOX, Azure Speech (cache / usage where relevant)  
 3. **Voice** — Presets, Commands & Markers  
 4. **Output** — Audio Devices, Text Output, Avatar (VMC)  
-5. **Integrations** — Live Chat, MCP  
+5. **Integrations** — Live Chat, MCP, Modules (enable, permissions, Browser Source)  
 6. **Interface** — Quick Bar, Appearance  
