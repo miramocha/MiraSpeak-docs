@@ -6,7 +6,7 @@ Each layer has a clear job. Higher layers may call lower ones; the reverse is fo
 
 Line text and speak commands, with no I/O to engines or UI.
 
-- **Tags / markers** — Scrub or keep bracket tokens; expand marker aliases (`[-name]` → catalog id). Styles are not parsed from mid-line brackets into chip state.
+- **Tags / markers** — Scrub or keep bracket tokens; expand marker aliases (`[-name]` → catalog id). Styles are not parsed from mid-line brackets into chip state. MiraSpeak-wide `[date]` / `[time]` stay in stored line text and expand at synth/play from the local clock (`core/dynamic_markers.py`).
 - **Commands** — Start-of-line slash catalog (`/presetN`, `/stop`, `/file`, …) and user bindings (alias, fixed phrase, or live file). Mid-line `/…` is ordinary speech text. Leading `//` escapes.
 
 ## `engines/`

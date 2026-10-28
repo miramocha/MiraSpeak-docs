@@ -37,7 +37,7 @@ Each arrow points to the next layer down. A layer may import anything below it a
 
 ## Style and pace
 
-**Style** (delivery) and **Pace** (speed) are separate UI chips fed by the active adapter. Engines that support multi-style (e.g. Azure Dragon HD / Omni) expose a checklist Style picker; others stay single-select. Unsupported styles degrade to the engine default. Bracket markers in text are not a second style channel for chip state—inline markers are scrubbed or kept according to the adapter’s marker catalog.
+**Style** (delivery) and **Pace** (speed) are separate UI chips fed by the active adapter. Engines that support multi-style (e.g. Azure Dragon HD / Omni) expose a checklist Style picker; others stay single-select. Unsupported styles degrade to the engine default. Bracket markers in text are not a second style channel for chip state—inline markers are scrubbed or kept according to the adapter’s marker catalog plus MiraSpeak-wide `[date]` / `[time]` (expanded at synth/play from the local clock).
 
 ## Navigation surface (settings)
 
