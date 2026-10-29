@@ -6,7 +6,7 @@ Modules are **third-party add-ons under Speak**. They speak with the voices Mira
 
 | Surface | Role |
 | --- | --- |
-| **Form page** | Declarative fields (plain data). The host renders them with its own form builders, so modules supply no widgets, styles, or colors. |
+| **Form page** | Declarative fields (plain data). The host renders them with its own form builders, so modules supply no widgets, styles, or colors. A `ui.Rows` list with no rows shows the host empty state from `ui.Empty` (title, body, an action that opens a File field's Browse or reaches `on_action`, and art named from `ui.ART_NAMES`), set on the spec with `when_empty` or at runtime with `ctx.ui.set_empty`. |
 | **Web panel** | Full-bleed Chromium page served from a private `miramod://` scheme, with a fenced network policy and a small JS SDK (`window.miraspeak`). |
 | **Form + web** | A form above a web panel on the same page. |
 | **Browser Source** | Optional localhost stream of the same page for OBS and similar tools, behind a tokenized URL. |
