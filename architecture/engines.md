@@ -38,7 +38,7 @@ When Kokoro's phoneme output changes, its cache version bumps so old takes miss 
 
 Each engine is checked in the background: at launch, when its settings page opens, after Test / Refresh / key / URL / download changes, on engine or preset switch, and after a failed line. VOICEVOX is re-polled while it is failing and in view or in use; Azure is never polled.
 
-- You can still switch to an engine that isn't ready (picker, preset, MCP). While the **speaking** engine is not ready, speech is gated: the Speak button and module controls that speak are off, and Enter on plain text is refused. Slash commands still run so you can switch away. Replay and Regen stay on (frozen engine, may hit cache).
+- You can still switch to an engine that isn't ready (picker, preset, MCP). While the **speaking** engine is not ready, speech is gated: the Speak button and module controls that speak are off, and Enter on plain text is refused. Slash commands still run so you can switch away, except `/render`, which needs the engine. Replay and Regen stay on (frozen engine, may hit cache).
 - The voice bar footer shows the failing engine's summary with **Check again** and **Open settings**; the nav marks in-use failing engines with a dot. Nothing navigates to a settings page on its own.
 - Provider pages always show connection and local rows (cache, synth ahead, usage); only the voice/character catalog waits behind the check.
 - MCP, hotkeys, Live Chat, and web panels are not gated.
