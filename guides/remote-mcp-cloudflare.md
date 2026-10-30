@@ -72,7 +72,25 @@ npx -y mcp-remote https://<host>/mcp --transport http-only \
   --header "CF-Access-Client-Secret:${CF_ACCESS_CLIENT_SECRET}"
 ```
 
-Tip: give the agent a rule to call `get_status` before `speak` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
+Tip: give the agent a rule to call `get_status` before `speak` or `render` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
+
+## 6. Get audio files back (`render`)
+
+`render` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It is the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
+
+```json
+{"ok": true, "path": "/renders/<token>.mp3", "format": "mp3", "mime_type": "audio/mpeg", "duration_s": 2.48, "bytes": 39821, "expires_in_s": 600}
+```
+
+Download it from the same host with the same two Access headers, before it expires (10 minutes; files are also cleared when MCP is turned off or on):
+
+```sh
+curl -s -o line.mp3 "https://<host>/renders/<token>.mp3" \
+  -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+  -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET"
+```
+
+Because the Access application covers the whole hostname (Path empty), `/renders/` is protected by the same service token as `/mcp`. A `404` means the token in the path is unknown or expired. A render waits in the normal speaking queue and is stopped after 90 seconds (under Cloudflare's 100-second limit), so keep long lines short or split them.
 
 ## Troubleshooting
 
@@ -82,3 +100,4 @@ Tip: give the agent a rule to call `get_status` before `speak` and ask first whe
 | `403` with token | Wrong token, policy action not **Service Auth**, or token not in Include |
 | `502` with token | MCP off in MiraSpeak, or wrong port |
 | `421` / host errors | HTTP Host Header not set to `localhost:<port>` |
+| `404` on `/renders/…` | Render expired (10 min), MCP was restarted, or the path was mistyped |
