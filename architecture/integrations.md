@@ -11,6 +11,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 - Every tool call hops to the GUI thread through the shared bridge. Failures come back as structured `{ok, reason, message}` results.
 - Changing a live voice setting switches to Manual (no active preset); editing a preset does not.
 - There are no tools for secrets.
+- To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md).
 
 ## Live Chat
 

@@ -14,6 +14,7 @@ The application source is private. This repository documents how the system is d
 | [Voice engines](architecture/engines.md) | Adapter model and shipped engines |
 | [Modules](architecture/modules.md) | Third-party form / web add-ons under Speak |
 | [Integrations](architecture/integrations.md) | MCP, Live Chat, Avatar (VMC), captions |
+| [Remote MCP via Cloudflare](guides/remote-mcp-cloudflare.md) | Guide: reach the MCP server securely from a cloud agent |
 
 ## What this repo is not
 
