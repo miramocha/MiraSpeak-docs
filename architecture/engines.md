@@ -20,7 +20,7 @@ Unsupported styles selected in the UI degrade to that engine’s default.
 | --- | --- | --- |
 | **Kokoro** | Local (ONNX) | Offline synthesis; styles/paces from adapter capabilities. |
 | **VOICEVOX** | Local HTTP | Expects a running VOICEVOX engine. Character + style (mood) selection; catalog labels are user-facing. |
-| **Azure Speech** | Cloud | One Azure settings surface with a **model** chip (e.g. Dragon HD / Omni / Neural). Multi-style checklist where the model supports it. Secrets in keyring. Optional usage meter and limit action. |
+| **Azure Speech** | Cloud | One Azure settings surface with a **model** chip (e.g. Dragon HD / Omni / Neural). Multi-style checklist where the model supports it. Secrets in keyring. Optional usage meter and limit action. Setup: [Azure guide](../guides/azure-speech-translator.md). |
 
 Engines share the same submit → synth → play path. Synth-ahead and cache policies are configured per engine id (Azure models share one Azure bucket).
 
