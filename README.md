@@ -11,7 +11,8 @@ The application source is private. This repository documents how the system is d
 | [Architecture overview](architecture/overview.md) | Product shape, hard constraints, layer diagram |
 | [Layers](architecture/layers.md) | Responsibilities of each package layer |
 | [Line lifecycle](architecture/line-lifecycle.md) | From submit to playback (threads, capture, cache) |
-| [Voice engines](architecture/engines.md) | Adapter model and shipped engines |
+| [Voice engines](architecture/engines.md) | Adapter model, shipped engines, readiness checks |
+| [Translation](architecture/translation.md) | Translating lines into the speech language before synthesis |
 | [Modules](architecture/modules.md) | Third-party form / web add-ons under Speak |
 | [Integrations](architecture/integrations.md) | MCP, Live Chat, Avatar (VMC), captions |
 | [Remote MCP via Cloudflare](guides/remote-mcp-cloudflare.md) | Guide: reach the MCP server securely from a cloud agent |
