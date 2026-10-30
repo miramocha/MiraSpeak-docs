@@ -25,7 +25,7 @@ If translation fails (no key, no installed pair, network error, bad output), the
 
 ## Providers
 
-- **Azure Translator** — key in the OS credential store, separate from the Azure Speech key. Region is optional. Characters served from cache count toward a saved-characters meter.
+- **Azure Translator** — key in the OS credential store, separate from the Azure Speech key. Region is optional. Characters served from cache count toward a saved-characters meter. Setup: [Azure guide](../guides/azure-speech-translator.md).
 - **Argos** — language pairs download into local app data. A missing direct pair pivots through English, and downloading it installs both legs. Decoding uses a repetition penalty and a length cap so small models don't loop; output still stuck on one repeated character is treated as a failure (spoken as typed, never cached).
 
 ## Caching
