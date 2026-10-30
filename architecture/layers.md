@@ -8,6 +8,7 @@ Line text and speak commands, with no I/O to engines or UI.
 
 - **Tags / markers** — Scrub or keep bracket tokens; expand marker aliases (`[-name]` → catalog id). Styles are not parsed from mid-line brackets into chip state. MiraSpeak-wide `[date]` / `[time]` stay in stored line text and expand at synth/play from the local clock (`core/dynamic_markers.py`). `[time]` is hour and minute; `[time:full]` adds seconds; `[time:24h]` is `HH:MM`; `[time:tod]` is the day period (empty on 24-hour locales); `[time:h]` / `[time:m]` / `[time:s]` are digits.
 - **Commands** — Start-of-line slash catalog (`/presetN`, `/stop`, `/file`, …) and user bindings (alias, fixed phrase, or live file). Mid-line `/…` is ordinary speech text. Leading `//` escapes.
+- **Argument commands** — `/theme`, `/preset`, `/presetset`, `/engine`, `/split`, `/livechat`, `/speech`, and `/translate` take a choice instead of speech. Once the token is confirmed, the message field becomes a search over that command's choices; the remainder is matched (exact value, exact label, then label prefix, word prefix, substring) and never spoken. Adding one is data: a spec plus a choice source in the controller.
 
 ## `engines/`
 
@@ -31,6 +32,7 @@ Qt-free application services:
 - Line status model (queued → synthesizing → ready → playing → terminal).
 - Secrets via keyring; speech cache policy; latest-line / session file helpers.
 - Live Chat bridge (`app/chat`) — platform-agnostic; Twitch is the first adapter.
+- Translation (`app/translation`) — providers, language detection, marker-safe segmenting, and the SQLite translation cache. See [Translation](translation.md).
 
 ## `mcp/`
 

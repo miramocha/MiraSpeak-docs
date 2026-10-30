@@ -13,7 +13,7 @@ Modules are **third-party add-ons under Speak**. They speak with the voices Mira
 
 Enabled module pages appear under Speak, above the settings search. Integrations → Modules manages enablement, permissions, and Browser Source.
 
-When a module has the `speak` grant, the host pins the same voice bar Speak uses to the bottom of its page (form, web, or both). Its footer shows `Ctrl+Shift+1-9 preset` and has no control on the right. Modules do not declare or place voice controls: they speak with Live, and code that needs a fixed voice passes Preset *N*.
+When a module has the `speak` grant, the host pins the same voice bar Speak uses to the bottom of its page (form, web, or both), minus the Translate chip. The bar ends with a "now speaking" level meter. Its footer shows `Ctrl+Shift+1-9 preset` and has no control on the right. While the speaking engine isn't ready, module controls marked as speaking are turned off. Modules do not declare or place voice controls: they speak with Live, and code that needs a fixed voice passes Preset *N*.
 
 ## Host boundary
 
