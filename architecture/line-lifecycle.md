@@ -17,6 +17,10 @@ One spoken line moves through fixed stages. Synthesis of the next line may overl
 
 Adapter work and disk/network cache I/O never run on the Qt thread.
 
+## Render lines
+
+A render line goes through the same stages but is never played. The `/render` command asks where to save before anything is queued, and the MCP `render` tool returns a short-lived download path. At the play stage the clip is handed back to whoever asked for it instead of going to the player, so the line ends `done` without ever reaching `playing`. Captions, the latest-line file, Live Chat, the avatar, and the playback feed skip it; modules still see its line events, marked `silent`. The Speak row shows a **Render** or **MCP render** badge and ends as **Rendered**. A stop or failure is reported to the caller and nothing is saved.
+
 ## Frozen capture
 
 While a line is in flight, live chip changes do **not** rewrite that line. Replay and regenerate reuse the frozen capture on the line’s status object. Live submits snapshot current settings at submit time.
