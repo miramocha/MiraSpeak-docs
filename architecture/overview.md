@@ -31,7 +31,7 @@ Each arrow points to the next layer down. A layer may import anything below it a
 | Secrets out of settings | API keys and tokens go in the OS credential store (keyring), never `settings.toml`. |
 | Hotkeys without hooks | Global hotkeys use `RegisterHotKey` only—no low-level keyboard hooks. |
 | Capture frozen at submit | Engine, model, voice, styles, pace, speech language, pitch, and translation choices are snapshotted on the line object while it is in flight. |
-| Speech waits for a ready engine | Each engine is checked in the background; while the engine in use is not ready, speaking is off (slash commands still run). |
+| Speech waits for a ready engine | Each engine is checked in the background; while the engine in use is not ready, speaking is off (slash commands still run, except `/render`, which needs the engine). |
 | Synth ahead | Per-engine concurrency limit (how many clips may synthesize or sit ready while one plays). |
 | Speech cache | Optional per-engine disk cache (pre-pitch audio); pitch applied after load. |
 | Modules don’t own providers | Third-party modules speak with the user’s configured voices; they never add engines or keys. |
