@@ -7,25 +7,25 @@ Install MiraSpeak, get a free local voice, and hear your first line. It takes ab
 
 ## 1. What you need
 
-- Windows 10 or 11.
+- Windows 10 or 11 (x64), or a 64-bit Linux desktop with PulseAudio or PipeWire.
 - About 350 MB of free disk space for the Kokoro voice models (a download of about 300 MB).
 
 ## 2. Install and start MiraSpeak
 
 <!-- TODO: replace with the release URL once the first public build is published. -->
 
-1. Download `MiraSpeak-<version>-windows.zip` from <download link>.
+1. Download `MiraSpeak-<version>-windows-x64.zip` from <download link>.
 2. Extract the zip anywhere you like, for example `C:\Apps\MiraSpeak`. Keep the whole `MiraSpeak` folder together.
 3. Run `MiraSpeak.exe`. The build isn't code-signed yet, so Windows SmartScreen may warn you: click **More info**, then **Run anyway**.
 
 MiraSpeak starts in the system tray (check the **^** overflow next to the clock if you don't see the icon). Click the icon to open the window. Closing the window keeps MiraSpeak running in the tray. To exit, right-click the icon and choose **Quit**.
 
+**On Linux:** download `MiraSpeak-<version>-linux-x86_64` from the same release, extract it, and run `MiraSpeak` from the folder. Your desktop needs a system tray (most do; on GNOME, install the AppIndicator extension). Global hotkeys (the quick bar shortcut and **Ctrl+Shift+1–9**) are Windows-only for now, so on Linux use the window or the tray instead.
+
 > **Beta testers:** beta builds ask you to sign in with GitHub before the app starts. Regular builds don't.
 >
-> <!-- TODO: replace with the beta release URL. -->
->
-> 1. Accept the GitHub invite to the beta repository first.
-> 2. Download `MiraSpeak-<version>-beta-windows.zip` from <beta download link> and extract it as above.
+> 1. Accept your invite at [github.com/MiraSpeak/MiraSpeak-beta/invitations](https://github.com/MiraSpeak/MiraSpeak-beta/invitations) first.
+> 2. Download `MiraSpeak-<version>-beta-windows-x64.zip` (or the `linux-x86_64` build) from the [beta releases](https://github.com/MiraSpeak/MiraSpeak-beta/releases/latest) and extract it as above.
 > 3. On first launch, click **Sign in with GitHub**. GitHub opens in your browser with the code already on your clipboard. Paste it there and approve MiraSpeak.
 >
 > MiraSpeak checks your beta access each time it starts. If GitHub can't be reached, it keeps working for up to 7 days after the last successful check.
@@ -70,7 +70,8 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 
 ## 7. Next steps
 
-- **Send the voice to OBS:** open **Output → Audio Devices → Set up VB-Cable**. After the installer finishes (reboot if it asks), click **Rescan**. Output switches to `CABLE Input`. In OBS, use `CABLE Output` as the microphone. Set **Monitor** to your headphones to keep hearing yourself.
+- **Send the voice to OBS:** open **Output → Audio Devices → Set up VB-Cable**. After the installer finishes (reboot if it asks), click **Rescan**. Output switches to `CABLE Input`. In OBS, use `CABLE Output` as the microphone. Set **Monitor** to your headphones to keep hearing yourself (Monitor is a second copy of each line, played alongside Output).
+- **Send the voice to OBS on Linux:** open **Output → Audio Devices** and click the virtual output button. It creates a `MiraSpeak` sink and switches Output to it. In OBS, add an **Audio Input Capture** and pick **Monitor of MiraSpeak**.
 - **On-stream captions:** turn on **Output → Text Output → Caption file** and point an OBS Text source at the file.
 - **Azure voices and translation:** see [Azure Speech + Translator](azure-speech-translator.md).
 - **Japanese character voices:** install and run [VOICEVOX](https://voicevox.hiroshiba.jp/), then open **Voice Engines → VOICEVOX** and click **Refresh voices**.
@@ -91,11 +92,11 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 
 | Symptom | Fix |
 | --- | --- |
-| You hear nothing | Check **Output → Audio Devices → Output**. Monitor only plays alongside Output, never on its own. Click **Rescan** after plugging in a device or changing the Windows default. |
+| You hear nothing | Check **Output → Audio Devices → Output**. Monitor is only an extra copy of Output, so it never plays on its own. Click **Rescan** after plugging in a device or changing the Windows default. |
 | A line fails with "Output device '…' not found" | A device you picked is unplugged or gone. Pick another, or **System default**. |
 | A line fails with "No default output device" | Windows has no default playback device. Set one in Windows sound settings, then **Rescan**, or pick a device under **Output**. |
 | The Speak button is greyed out | The engine isn't ready yet: download the Kokoro models (step 3), or start VOICEVOX if you're using it. |
 | The quick bar shortcut does nothing | Another app already uses it. Pick a different one under **Interface → Quick Bar → Hotkey**. |
 | The window doesn't appear when you start MiraSpeak | It's already running in the tray. Click the tray icon. |
-| Beta: "Not on the beta list" | Accept the invite on GitHub, then click **Check again**. Signed in with the wrong account? Sign out of GitHub in your browser, then click **Use another account**. |
+| Beta: "Not on the beta list" | Accept the invite at [github.com/MiraSpeak/MiraSpeak-beta/invitations](https://github.com/MiraSpeak/MiraSpeak-beta/invitations), then click **Check again**. Signed in with the wrong account? Sign out of GitHub in your browser, then click **Use another account**. |
 | Beta: "Can't reach GitHub" | It's been more than 7 days since MiraSpeak last confirmed your access. Reconnect, then click **Try again**. |
