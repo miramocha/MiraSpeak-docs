@@ -28,14 +28,26 @@ MiraSpeak starts in the system tray (check the **^** overflow next to the clock 
 > 2. Download `MiraSpeak-<version>-beta-windows-x64.zip` (or the `linux-x86_64` build) from the [beta releases](https://github.com/MiraSpeak/MiraSpeak-beta/releases/latest) and extract it as above.
 > 3. On first launch, click **Sign in with GitHub**. GitHub opens in your browser with the code already on your clipboard. Paste it there and approve MiraSpeak.
 >
+>    ![Beta sign-in dialog](images/quick-start/01-beta-dialog.png)
+>
+>    ![Paste the code on GitHub](images/quick-start/02-device-code.png)
+>
+>    ![Authorize MiraSpeak Beta](images/quick-start/03-authorize.png)
+>
 > MiraSpeak checks your beta access each time it starts. If GitHub can't be reached, it keeps working for up to 7 days after the last successful check.
 
 ## 3. Get a voice
 
 MiraSpeak's built-in engine, **Kokoro**, is free and runs entirely on your PC.
 
+Until then, Speak shows that Kokoro isn't downloaded yet:
+
+![First launch, Kokoro not downloaded](images/quick-start/04-first-launch.png)
+
 1. In the MiraSpeak window, open **Voice Engines → Kokoro**.
 2. Click **Download models**. This is a one-time download.
+
+   ![Kokoro page with Download models](images/quick-start/05-kokoro.png)
 
 The default voice (Heart) works as soon as the download finishes. To pick from more voices later, click **Refresh voices** and check the ones you want to see on Speak. **Download Japanese** on the same page improves Kokoro Japanese voice pronunciation. Other languages do not need it.
 
@@ -44,7 +56,11 @@ The default voice (Heart) works as soon as the download finishes. To pick from m
 1. Open **Speak**.
 2. Type a line and press **Enter**.
 
+   ![A line on Speak](images/quick-start/06-first-line.png)
+
 You hear it on your computer's default speakers or headphones. To use a different device, open **Output → Audio Devices** and change **Output**.
+
+![Audio Devices](images/quick-start/07-audio-devices.png)
 
 To change the voice, pick **Manual** on the **Preset** chip, then use the chips under the line box: **Engine**, **Voice**, **Style**, **Pace**, and **Pitch**. Which chips appear depends on the engine and voice.
 
@@ -71,7 +87,7 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 ## 7. Next steps
 
 - **Send the voice to OBS:** open **Output → Audio Devices → Set up VB-Cable**. After the installer finishes (reboot if it asks), click **Rescan**. Output switches to `CABLE Input`. In OBS, use `CABLE Output` as the microphone. Set **Monitor** to your headphones to keep hearing yourself (Monitor is a second copy of each line, played alongside Output).
-- **Send the voice to OBS on Linux:** open **Output → Audio Devices** and click the virtual output button. It creates a `MiraSpeak` sink and switches Output to it. In OBS, add an **Audio Input Capture** and pick **Monitor of MiraSpeak**.
+- **Send the voice to OBS on Linux:** open **Output → Audio Devices** and click **Create virtual output**. It creates a `MiraSpeak` sink and switches Output to it. In OBS, add an **Audio Input Capture** and pick **Monitor of MiraSpeak**.
 - **On-stream captions:** turn on **Output → Text Output → Caption file** and point an OBS Text source at the file.
 - **Azure voices and translation:** see [Azure Speech + Translator](azure-speech-translator.md).
 - **Japanese character voices:** install and run [VOICEVOX](https://voicevox.hiroshiba.jp/), then open **Voice Engines → VOICEVOX** and click **Refresh voices**.
