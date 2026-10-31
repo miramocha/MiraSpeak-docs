@@ -8,7 +8,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 
 - Streamable HTTP on `127.0.0.1` only, at a configurable port. A port collision fails softly and doesn't block startup.
 - Tools cover speaking, stopping, presets and preset sets, the live voice chips (engine, model, voice, styles, pace, language, pitch), catalogs, themes and appearance (including Font Set and font weight), translation (`set_translation`, `list_translation_languages`, and translation state in `get_status`), rendering speech to an audio file without playing it (`render`; see [Line lifecycle](line-lifecycle.md#render-lines)), and running modules' own tools.
-- `speak` accepts the same leading slash commands as the line box, except `/file` and `/render`, which open a dialog on the PC. Use `speak_from_file` and `render` instead.
+- `speak` accepts the same leading slash commands as the line box, except `/file` and `/render`, which open a dialog on the PC. Use `speak_from_file` and `render` instead. `/loadmodule` and `/installmodule` are refused too: only the person at the PC can add modules.
 - Switching to an engine that isn't ready succeeds with a warning; speech then waits until the engine is ready (see [Voice engines](engines.md#readiness-checks)).
 - Every tool call hops to the GUI thread through the shared bridge. Failures come back as structured `{ok, reason, message}` results.
 - Changing a live voice setting switches to Manual (no active preset); editing a preset does not.
