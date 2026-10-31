@@ -8,6 +8,7 @@ The application source is private. This repository documents how the system is d
 
 | Doc | Topic |
 | --- | --- |
+| [Quick start](guides/quick-start.md) | Guide: install MiraSpeak and speak your first line |
 | [Architecture overview](architecture/overview.md) | Product shape, hard constraints, layer diagram |
 | [Layers](architecture/layers.md) | Responsibilities of each package layer |
 | [Line lifecycle](architecture/line-lifecycle.md) | From submit to playback (threads, capture, cache) |
