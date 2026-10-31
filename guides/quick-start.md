@@ -3,7 +3,7 @@
 Install MiraSpeak, get a free local voice, and hear your first line. It takes about ten minutes, most of it the one-time voice download.
 
 - You don't need an account, an API key, or a virtual audio cable to get started.
-- Streaming setup (OBS, Warudo) and cloud voices are optional. See [Next steps](#7-next-steps).
+- Streaming setup (OBS), avatar mouth movement (VMC), and cloud voices are optional. See [Next steps](#7-next-steps).
 
 ## 1. What you need
 
@@ -70,12 +70,12 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 
 ## 7. Next steps
 
-- **Send the voice to OBS or Warudo:** open **Output → Audio Devices → Set up VB-Cable**. After the installer finishes (reboot if it asks), click **Rescan**. Output switches to `CABLE Input`. In OBS or Warudo, use `CABLE Output` as the microphone. Set **Monitor** to your headphones to keep hearing yourself.
+- **Send the voice to OBS:** open **Output → Audio Devices → Set up VB-Cable**. After the installer finishes (reboot if it asks), click **Rescan**. Output switches to `CABLE Input`. In OBS, use `CABLE Output` as the microphone. Set **Monitor** to your headphones to keep hearing yourself.
 - **On-stream captions:** turn on **Output → Text Output → Caption file** and point an OBS Text source at the file.
 - **Azure voices and translation:** see [Azure Speech + Translator](azure-speech-translator.md).
 - **Japanese character voices:** install and run [VOICEVOX](https://voicevox.hiroshiba.jp/), then open **Voice Engines → VOICEVOX** and click **Refresh voices**.
 - **Twitch chat:** **Integrations → Live Chat** can speak your own chat messages, or post what you speak to your channel.
-- **Avatar mouth movement:** **Output → Avatar (VMC)** sends mouth shapes to a VMC receiver while a line plays.
+- **Avatar mouth movement:** **Output → Avatar (VMC)** sends mouth shapes to a VMC receiver, such as Warudo, while a line plays.
 - **AI agents:** **Integrations → MCP** lets an agent such as Cursor drive MiraSpeak. To reach it from a cloud agent, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
 - **Themes:** **Interface → Appearance** or `/theme` switches between the built-in themes, most of them in Light, Dark, and Midtones. To make your own, click **Duplicate** and edit the copy.
 - **Modules:** **Integrations → Modules** installs add-ons such as a timer or lyrics reader. Only install modules from people you trust.
@@ -86,17 +86,6 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 - Stray `[brackets]` are skipped, not spoken. Type `[[` for a literal `[`.
 - Check **Split Sentences** under the line box to speak each sentence as its own line.
 - Start a line with `//` to speak a leading slash instead of running a command.
-
-## Where your files live
-
-| What | Where |
-| --- | --- |
-| Settings | `%APPDATA%\MiraSpeak\settings.toml` |
-| Voice models and speech cache | `%LOCALAPPDATA%\MiraSpeak` |
-| Log (share this when asking for help) | `%LOCALAPPDATA%\MiraSpeak\logs\miraspeak.log` |
-| API keys and sign-ins | Windows Credential Manager, never in `settings.toml` |
-
-To try MiraSpeak from scratch without touching your setup, start it from a terminal with a profile name, for example `MiraSpeak.exe --profile test`. That profile uses its own folders (`%APPDATA%\MiraSpeak-test`, `%LOCALAPPDATA%\MiraSpeak-test`) and its own saved keys and sign-ins, so beta builds ask you to sign in again. To reset it, quit MiraSpeak and delete those two folders.
 
 ## Troubleshooting
 
