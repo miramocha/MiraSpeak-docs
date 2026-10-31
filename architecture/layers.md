@@ -33,6 +33,7 @@ Qt-free application services:
 - Secrets via keyring; speech cache policy; latest-line / session file helpers.
 - Live Chat bridge (`app/chat`) — platform-agnostic; Twitch is the first adapter.
 - Translation (`app/translation`) — providers, language detection, marker-safe segmenting, and the SQLite translation cache. See [Translation](translation.md).
+- Beta access (`app/beta_access`) — GitHub device-flow sign-in and the beta-list check for beta builds. See [Startup](overview.md#startup).
 
 ## `mcp/`
 
