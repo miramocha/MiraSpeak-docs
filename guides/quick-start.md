@@ -37,7 +37,7 @@ MiraSpeak's built-in engine, **Kokoro**, is free and runs entirely on your PC.
 1. In the MiraSpeak window, open **Voice Engines → Kokoro**.
 2. Click **Download models**. This is a one-time download.
 
-The default voice (Heart) works as soon as the download finishes. To pick from more voices later, click **Refresh voices** and check the ones you want to see on Speak.
+The default voice (Heart) works as soon as the download finishes. To pick from more voices later, click **Refresh voices** and check the ones you want to see on Speak. **Download Japanese** on the same page improves Kokoro Japanese voice pronunciation. Other languages do not need it.
 
 ## 4. Speak your first line
 
