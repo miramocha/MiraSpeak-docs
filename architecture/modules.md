@@ -42,6 +42,14 @@ Modules never inject slash commands and never change the live chips as a side ef
 
 Guard rails refuse speech past a waiting-line cap or a call-rate window, stop a Python module after repeated errors, and disable a web module after repeated renderer crashes.
 
+## Install and consent
+
+A module installs from a .zip. The archive is checked member by member before anything is written: no absolute paths, parent-directory escapes, symbolic links, encrypted entries, or names Windows cannot hold, with caps on total size and file count that are enforced on the bytes actually written. It is extracted to a staging folder, its manifest is validated, and only then is it swapped into the modules folder, with the old copy restored if the swap fails. The manifest sits at the zip root or inside a single top-level folder.
+
+Before a new module is enabled, a consent screen lists its permissions in plain words and the exact network hosts it asked for. Python modules are told they run with the same access as MiraSpeak; web-only modules are told what the fence allows; modules with a Browser Source page are told anyone with the stream URL can see its events and saved values. An update that asks for more than was granted shows the new items marked and stays disabled until approved. Declining installs the files but leaves the module off, and enabling it later asks again. Installed web modules reach only the hosts that were granted.
+
+Removing an installed module deletes its files; the user chooses whether to keep or delete its saved data and settings.
+
 ## Web fence
 
 One Qt-free policy module owns path resolution, the content security policy, connect-host matching, and file tokens. The scheme handler, the request interceptor, and the Browser Source server all call it. Only the module's own scheme, `data:`, `blob:`, and `about:` are allowed by default; `http(s)` and `ws(s)` need the `network` grant plus a declared host. Grants are fixed for a panel's life, so changing them restarts the module.
