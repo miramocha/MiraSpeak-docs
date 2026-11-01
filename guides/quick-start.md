@@ -95,7 +95,7 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 - **Avatar mouth movement:** **Output → Avatar (VMC)** sends mouth shapes to a VMC receiver, such as Warudo, while a line plays.
 - **AI agents:** **Integrations → MCP** lets an agent such as Cursor drive MiraSpeak. To reach it from a cloud agent, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
 - **Themes:** **Interface → Appearance** or `/theme` switches between the built-in themes, most of them in Light, Dark, and Midtones. To make your own, click **Duplicate** and edit the copy.
-- **Modules:** **Integrations → Modules** installs add-ons such as a timer or lyrics reader. Only install modules from people you trust.
+- **Modules:** **Integrations → Modules** installs add-ons such as a timer or lyrics reader, from a .zip or a public GitHub link. Only install modules from people you trust.
 
 ## Tips for typing lines
 
@@ -108,7 +108,7 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 
 | Symptom | Fix |
 | --- | --- |
-| You hear nothing | Check **Output → Audio Devices → Output**. Monitor is only an extra copy of Output, so it never plays on its own. Click **Rescan** after plugging in a device or changing the Windows default. |
+| You hear nothing | Check **Output → Audio Devices → Output**. Monitor is only an extra copy of Output, so it never plays on its own. Click **Rescan** after plugging in a device or changing the system default. |
 | A line fails with "Output device '…' not found" | A device you picked is unplugged or gone. Pick another, or **System default**. |
 | A line fails with "No default output device" | Windows has no default playback device. Set one in Windows sound settings, then **Rescan**, or pick a device under **Output**. |
 | The Speak button is greyed out | The engine isn't ready yet: download the Kokoro models (step 3), or start VOICEVOX if you're using it. |

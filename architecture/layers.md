@@ -20,7 +20,7 @@ TTS adapters behind a shared contract (`Capabilities`, synthesize → audio clip
 
 ## `audio/` and `avatar/`
 
-- **Audio** — Device enumeration, formant-preserving pitch, dual-output playback.
+- **Audio** — Device enumeration (Output starts on the system default device), formant-preserving pitch, dual-output playback. Audio Devices can create a virtual output — VB-Cable on Windows, a PulseAudio null sink on Linux — so OBS can take the voice.
 - **Avatar** — Optional VMC mouth blendshapes (ARKit or AEIOU profiles). Mouth analysis runs on the play path so it does not block the next synthesis.
 
 ## `app/`
