@@ -40,6 +40,18 @@ Modules never inject slash commands and never change the live chips as a side ef
 
 Guard rails refuse speech past a waiting-line cap or a call-rate window, and stop a Python module after repeated errors.
 
+## Official modules
+
+These install from GitHub. Paste the URL under **Integrations → Modules → Install from GitHub**. Use the tag `v0.1.0`, or leave the ref blank for the default branch.
+
+| Module | URL | Asks for |
+| --- | --- | --- |
+| Timer | https://github.com/miramocha/MiraSpeak-timer | speak, MCP tools |
+| Lyrics | https://github.com/miramocha/MiraSpeak-lyrics | speak, network, MCP tools |
+| EPUB | https://github.com/miramocha/MiraSpeak-epub | speak |
+
+Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Granting network to a Python module is not limited to that host: the module runs with the same access as MiraSpeak.
+
 ## Install and consent
 
 A module installs from a .zip, or from a public GitHub repository URL plus a tag, branch, or commit (blank uses the default branch). A GitHub install downloads that commit's archive and runs it through the same .zip checks; there is no git clone. The archive is checked member by member before anything is written: no absolute paths, parent-directory escapes, symbolic links, encrypted entries, or names Windows cannot hold, with caps on total size and file count that are enforced on the bytes actually written. It is extracted to a staging folder, its manifest is validated, and only then is it swapped into the modules folder, with the old copy restored if the swap fails. The manifest sits at the zip root or inside a single top-level folder. A GitHub install records the repository URL and the commit on the Modules row; updating asks for the ref again and does not check in the background. Installing or updating from a .zip clears that record.
