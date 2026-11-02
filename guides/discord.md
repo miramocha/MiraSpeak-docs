@@ -10,11 +10,12 @@ MiraSpeak's **Discord** module lets a bot join your voice channel and play every
 
 ## 1. Create the bot in the Discord developer portal
 
-Open the [Discord developer portal](https://discord.com/developers/applications).
+Open the [Discord developer portal](https://discord.com/developers/applications). You can also click **Open developer portal** on MiraSpeak's Discord page.
 
 1. Click **New Application** and give it a name, for example the name of your character.
 2. **Bot** tab: click **Reset Token** and copy the token. It's shown **once**.
    - You need the **Bot token**. The Public Key, Client ID and Client Secret won't work.
+   - Keep **Public Bot** off, so only you can add it to servers.
 3. **Installation** tab: set **Install Link** to **None**.
 
 ## 2. Enable the module in MiraSpeak
@@ -28,28 +29,41 @@ Open the [Discord developer portal](https://discord.com/developers/applications)
 
 Open the **Discord** page under **Speak**.
 
+**Bot** section
+
 1. Paste the token into **Bot token**. It stays private on your computer.
 2. Click **Open invite link**, pick your server and click **Authorize**. You need the **Manage Server** permission on that server.
 3. Click **Connect**. The status should read `Connected as <bot name>`.
-4. Click **Refresh servers**, then pick your **server** and **voice channel**.
-5. Click **Join**, then **Test sound**.
+**Voice channel** section
 
-From now on, every line MiraSpeak speaks also plays in the voice channel.
+4. Click **Refresh servers**, then pick your **Server** and **Voice channel**.
+5. Join that voice channel yourself in Discord, so you can hear the bot.
+6. Click **Join**, then **Test sound**. The status shows how much audio was sent and its peak level.
 
-## Page settings
+From now on, every line MiraSpeak speaks also plays in the voice channel. Click **Leave** to disconnect the bot from the channel.
+
+## Behavior settings
 
 | Setting | What it does |
 | --- | --- |
-| Connect and join when MiraSpeak starts | Reconnects and rejoins the last channel automatically |
-| Leave when idle (minutes) | Leaves the channel after this many quiet minutes. `0` means never |
+| Connect and join when MiraSpeak starts | Reconnects and rejoins the last channel automatically (on by default) |
+| Leave when idle | Leaves the channel after this many quiet minutes (default 10, up to 240). `0` means never |
 
 ## Troubleshooting
 
-| Symptom | Fix |
+The status line on the Discord page tells you what's wrong. The common messages are below.
+
+| Status message | Fix |
 | --- | --- |
-| "Not in any server" | The invite didn't finish. Click **Open invite link** again, then **Refresh servers** |
-| Bot connected but silent | In Discord, right-click the bot and untick **Server Mute** |
-| Bot connected but silent | Check that the channel allows the bot to **Speak** |
-| Bot connected but silent | Make sure other people are in the voice channel |
+| "Connected as …, but the bot is not in any server" | The invite didn't finish. Click **Open invite link** again, then **Refresh servers** |
+| "That does not look like a bot token" | You copied the Public Key, Client ID or Client Secret. Copy the token from the **Bot** tab |
 | "Discord rejected the token" | **Reset Token** in the portal and paste the new token. Never share it |
-| No audio on Linux | Install libopus, for example `sudo apt install libopus0` |
+| "The bot can't see #…" / "lacks Connect" / "lacks Speak" | Give the bot **View Channel**, **Connect** and **Speak** in that channel's permissions |
+| "The bot is server-muted in #…" | In Discord, right-click the bot and untick **Server Mute** |
+| "The bot is suppressed in Stage #…" | In a Stage channel, a moderator must invite the bot to speak |
+| "The bot muted itself in #…" | Click **Leave**, then **Join** again |
+| "Removed from #…" | Someone disconnected the bot. Click **Join** to return |
+| "That channel is gone" | Click **Connect** to refresh the lists |
+| Test sound plays but nobody hears it | Make sure you or other people are in the voice channel before the bot joins, then click **Leave** and **Join** |
+| "Discord voice needs libopus" (Linux) | Install libopus, for example `sudo apt install libopus0` |
+| "Discord support is not installed in this copy of MiraSpeak" | Your build doesn't include Discord support. Update to the latest MiraSpeak build |
