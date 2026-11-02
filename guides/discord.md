@@ -25,10 +25,11 @@ Open the [Discord developer portal](https://discord.com/developers/applications)
    ![Install Link set to None](images/discord/03-installation-install-link-none.png)
 
 3. **Bot** tab: turn **Public Bot** off, so only you can add it to servers, and save.
-4. Still on the **Bot** tab, click **Reset Token** and copy the token. It's shown **once**.
-   - You need the **Bot token**. The Public Key, Client ID and Client Secret won't work.
 
    ![Bot tab with Public Bot off](images/discord/04-bot-public-bot-off.png)
+
+4. Still on the **Bot** tab, click **Reset Token** and copy the token. It's shown **once**.
+   - You need the **Bot token**. The Public Key, Client ID and Client Secret won't work.
 
 ## 2. Enable the module in MiraSpeak
 
@@ -54,7 +55,7 @@ Open the **Discord** page. It's at the top of the sidebar, directly under **Spea
 
    ![Bot added to the server](images/discord/06-invite-success.png)
 
-3. Click **Connect**. The status should read `Connected as <bot name>`. Until you connect, the page shows "Press Connect first."
+3. Click **Connect**. The status should read `Connected as <bot name>`. Until you connect, the voice channel controls show "Press Connect first."
 
    ![Not connected yet](images/discord/08-miraspeak-press-connect-first.png)
 
@@ -93,5 +94,5 @@ The status line on the Discord page tells you what's wrong. The common messages 
 | Test sound plays but nobody hears it | Make sure you or other people are in the voice channel before the bot joins, then click **Leave** and **Join** |
 | "Discord voice needs libopus" (Linux) | Install libopus, for example `sudo apt install libopus0` |
 | "Kept for this session only; the system credential store is unavailable" | MiraSpeak couldn't reach your OS credential store (keyring), so the token is kept for this session only and you'll need to paste it again next time. Fix or enable the keyring to save it. Advanced users can set the `MIRASPEAK_DISCORD_TOKEN` environment variable instead |
-| The bot joins the voice channel and immediately leaves | Your network or firewall is probably blocking Discord voice. Voice needs outbound ports beyond 443 (for example 2083/2096 for the voice websocket) and UDP. See [miramocha/MiraSpeak#73](https://github.com/miramocha/MiraSpeak/issues/73) |
+| The bot joins the voice channel and immediately leaves | Your network or firewall is probably blocking Discord voice. Voice needs outbound ports beyond 443 (for example 2083/2096 for the voice websocket) and UDP. Try another network, or allow those ports and UDP in your firewall |
 | "Discord support is not installed in this copy of MiraSpeak" | Your build doesn't include Discord support. Update to the latest MiraSpeak build |
