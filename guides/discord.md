@@ -4,7 +4,7 @@ MiraSpeak's **Discord** module lets a bot join your voice channel and play every
 
 - It's **your own bot**. MiraSpeak doesn't ship a shared bot, so the name and avatar are yours to choose.
 - It's free. Discord doesn't charge for bots or voice, and the bot runs inside MiraSpeak on your computer.
-- MiraSpeak keeps the bot token in your OS credential store (keyring), never in `settings.toml`.
+- MiraSpeak keeps the bot token in your OS credential store (keyring), never in `settings.toml`. If the credential store is unavailable, the token is kept for the current session only (see [Troubleshooting](#troubleshooting)).
 
 > **Security note:** the bot token lets anyone control your bot. Never commit it, paste it in chat, or show it on stream. If it leaks, reset it (see [Troubleshooting](#troubleshooting)).
 
@@ -13,10 +13,22 @@ MiraSpeak's **Discord** module lets a bot join your voice channel and play every
 Open the [Discord developer portal](https://discord.com/developers/applications). You can also click **Open developer portal** on MiraSpeak's Discord page.
 
 1. Click **New Application** and give it a name, for example the name of your character.
-2. **Bot** tab: click **Reset Token** and copy the token. It's shown **once**.
+
+   ![Create a new app named MiraSpeak Voice](images/discord/01-new-application.png)
+
+   On **General Information** you can set the app icon. The Application ID is fine to share; keep the Public Key to yourself (it isn't needed here).
+
+   ![General Information for MiraSpeak Voice](images/discord/02-general-information.png)
+
+2. **Installation** tab: set **Install Link** to **None** and save. Do this first: Discord won't let you turn **Public Bot** off while an install link is set.
+
+   ![Install Link set to None](images/discord/03-installation-install-link-none.png)
+
+3. **Bot** tab: turn **Public Bot** off, so only you can add it to servers, and save.
+4. Still on the **Bot** tab, click **Reset Token** and copy the token. It's shown **once**.
    - You need the **Bot token**. The Public Key, Client ID and Client Secret won't work.
-   - Keep **Public Bot** off, so only you can add it to servers.
-3. **Installation** tab: set **Install Link** to **None**.
+
+   ![Bot tab with Public Bot off](images/discord/04-bot-public-bot-off.png)
 
 ## 2. Enable the module in MiraSpeak
 
@@ -27,18 +39,32 @@ Open the [Discord developer portal](https://discord.com/developers/applications)
 
 ## 3. Connect the bot
 
-Open the **Discord** page under **Speak**.
+Open the **Discord** page. It's at the top of the sidebar, directly under **Speak**.
+
+![MiraSpeak's Discord page](images/discord/07-miraspeak-discord-page.png)
 
 **Bot** section
 
 1. Paste the token into **Bot token**. It stays private on your computer.
 2. Click **Open invite link**, pick your server and click **Authorize**. You need the **Manage Server** permission on that server.
-3. Click **Connect**. The status should read `Connected as <bot name>`.
+
+   ![Pick a server for the bot](images/discord/05-invite-pick-server.png)
+
+   Discord confirms when the bot has been added:
+
+   ![Bot added to the server](images/discord/06-invite-success.png)
+
+3. Click **Connect**. The status should read `Connected as <bot name>`. Until you connect, the page shows "Press Connect first."
+
+   ![Not connected yet](images/discord/08-miraspeak-press-connect-first.png)
+
 **Voice channel** section
 
 4. Click **Refresh servers**, then pick your **Server** and **Voice channel**.
 5. Join that voice channel yourself in Discord, so you can hear the bot.
 6. Click **Join**, then **Test sound**. The status shows how much audio was sent and its peak level.
+
+![Server and voice channel picked](images/discord/09-miraspeak-voice-channel.png)
 
 From now on, every line MiraSpeak speaks also plays in the voice channel. Click **Leave** to disconnect the bot from the channel.
 
@@ -66,4 +92,6 @@ The status line on the Discord page tells you what's wrong. The common messages 
 | "That channel is gone" | Click **Connect** to refresh the lists |
 | Test sound plays but nobody hears it | Make sure you or other people are in the voice channel before the bot joins, then click **Leave** and **Join** |
 | "Discord voice needs libopus" (Linux) | Install libopus, for example `sudo apt install libopus0` |
+| "Kept for this session only; the system credential store is unavailable" | MiraSpeak couldn't reach your OS credential store (keyring), so the token is kept for this session only and you'll need to paste it again next time. Fix or enable the keyring to save it. Advanced users can set the `MIRASPEAK_DISCORD_TOKEN` environment variable instead |
+| The bot joins the voice channel and immediately leaves | Your network or firewall is probably blocking Discord voice. Voice needs outbound ports beyond 443 (for example 2083/2096 for the voice websocket) and UDP. See [miramocha/MiraSpeak#73](https://github.com/miramocha/MiraSpeak/issues/73) |
 | "Discord support is not installed in this copy of MiraSpeak" | Your build doesn't include Discord support. Update to the latest MiraSpeak build |
