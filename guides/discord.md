@@ -14,11 +14,11 @@ Open the [Discord developer portal](https://discord.com/developers/applications)
 
 1. Click **New Application** and give it a name, for example the name of your character.
 
-   ![Create a new app](images/discord/01-new-application.png)
+   ![Create a new app named MiraSpeak Voice](images/discord/01-new-application.png)
 
    On **General Information** you can set the app icon. The Application ID is fine to share; keep the Public Key to yourself (it isn't needed here).
 
-   ![General Information with the app icon](images/discord/02-general-information.png)
+   ![General Information for MiraSpeak Voice](images/discord/02-general-information.png)
 
 2. **Installation** tab: set **Install Link** to **None** and save. Do this first: Discord won't let you turn **Public Bot** off while an install link is set.
 
