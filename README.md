@@ -18,6 +18,7 @@ The application source is private. This repository documents how the system is d
 | [Integrations](architecture/integrations.md) | MCP, Live Chat, Avatar (VMC), captions |
 | [Remote MCP via Cloudflare](guides/remote-mcp-cloudflare.md) | Guide: reach the MCP server securely from a cloud agent |
 | [Azure Speech + Translator](guides/azure-speech-translator.md) | Guide: create the Azure resources and add keys to MiraSpeak |
+| [Discord voice channel](guides/discord.md) | Guide: create your Discord bot and play MiraSpeak in a voice channel |
 
 ## What this repo is not
 
