@@ -2,7 +2,7 @@
 
 MiraSpeak's **Discord** module lets a bot join your voice channel and play everything MiraSpeak speaks, so friends hear your TTS voice in calls without a virtual audio cable. This guide creates your own Discord bot and then connects it in MiraSpeak.
 
-- It's **your own bot**. MiraSpeak doesn't ship a shared bot, so the name and avatar are yours to choose.
+- It's **your own bot**. MiraSpeak doesn't ship a shared bot, so the name and avatar are yours to choose, and you can change them later right from MiraSpeak (see [Bot profile](#bot-profile)).
 - It's free. Discord doesn't charge for bots or voice, and the bot runs inside MiraSpeak on your computer.
 - MiraSpeak keeps the bot token in your OS credential store (keyring), never in `settings.toml`. If the credential store is unavailable, the token is kept for the current session only (see [Troubleshooting](#troubleshooting)).
 
@@ -69,6 +69,18 @@ Open the **Discord** page. It's at the top of the sidebar, directly under **Spea
 
 From now on, every line MiraSpeak speaks also plays in the voice channel. Click **Leave** to disconnect the bot from the channel.
 
+## Bot profile
+
+The **Bot profile** section on the Discord page changes how the bot looks in Discord without opening the developer portal. Connect first; the buttons stay disabled until the bot is connected.
+
+1. **Avatar**: click **Browse**, pick a PNG, JPG, GIF or WEBP image (up to 8 MB), then click **Update avatar**.
+2. **Name**: type the new name, then click **Update name**. Discord only lets a bot rename a couple of times an hour.
+3. **Show "Speaking as <voice>" as the bot's activity** (on by default): the bot's status shows the voice of the line that's playing. It appears once the first line plays and changes when the voice changes. Turn it off to clear the status.
+
+![The bot's profile in Discord showing "Speaking as" its voice while in a voice channel](images/discord/10-bot-speaking-as.png)
+
+The activity follows every line MiraSpeak speaks, which is why the module asks for permission to see spoken lines.
+
 ## Behavior settings
 
 | Setting | What it does |
@@ -95,4 +107,6 @@ The status line on the Discord page tells you what's wrong. The common messages 
 | "Discord voice needs libopus" (Linux) | Install libopus, for example `sudo apt install libopus0` |
 | "Kept for this session only; the system credential store is unavailable" | MiraSpeak couldn't reach your OS credential store (keyring), so the token is kept for this session only and you'll need to paste it again next time. Fix or enable the keyring to save it. Advanced users can set the `MIRASPEAK_DISCORD_TOKEN` environment variable instead |
 | The bot joins the voice channel and immediately leaves | Your network or firewall is probably blocking Discord voice. Voice needs outbound ports beyond 443 (for example 2083/2096 for the voice websocket) and UDP. Try another network, or allow those ports and UDP in your firewall |
+| "Discord says try again in … minutes" / "Bots can only rename a couple of times an hour" | Discord rate-limits profile changes. Wait the time shown, then try again |
+| No "Speaking as" status on the bot | Check the toggle is on, play a line, and make sure you approved the module's permissions. If you enabled the module before updating, disable and re-enable it to approve the new permission |
 | "Discord support is not installed in this copy of MiraSpeak" | Your build doesn't include Discord support. Update to the latest MiraSpeak build |
