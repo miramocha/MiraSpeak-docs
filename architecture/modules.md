@@ -35,6 +35,7 @@ Modules never inject slash commands and never change the live chips as a side ef
 | --- | --- |
 | `speak` | Required to queue speech |
 | `observe_lines` | Required to see other sources' line and playback events |
+| `observe_playback` | Required for `Module.on_playback_signal(PlaybackSignal)` (frames coalesced to at most 60 fps) and the mouth API (`on_mouth(MouthLine)`); keeps the playback feed running |
 | `stop_all` | Required to stop lines the module does not own |
 | `network` / `files` | Consent only for Python; **enforced** for Browser Source pages (connect allowlist and picked-file tokens) |
 
@@ -58,6 +59,8 @@ A module installs from a .zip, or from a public GitHub repository URL plus a tag
 
 Before a new module is enabled, a consent screen lists its permissions in plain words and the exact network hosts it asked for. Python modules are told they run with the same access as MiraSpeak; a module with a web page is told what the fence allows; modules with a Browser Source page are told anyone with the stream URL can see its events and saved values. An update that asks for more than was granted shows the new items marked and stays disabled until approved. Declining installs the files but leaves the module off, and enabling it later asks again. Installed web modules reach only the hosts that were granted.
 
+A bundled module whose `module.toml` sets `default_enabled` starts enabled on first run with its permissions granted, until the user turns it off.
+
 Removing an installed module deletes its files; the user chooses whether to keep or delete its saved data and settings.
 
 ## Web fence
@@ -76,4 +79,6 @@ Each module has one data root:
 
 ## Playback feed
 
-While a line plays, an optional feed pushes up to 60 ticks per second with the clip's loudness and AEIOU mouth shapes to Browser Source pages. Analysis runs on the feed thread, never on the playback thread. Each viewer can apply its own playback offset, and the feed only runs while a Browser Source page is open.
+While a line plays, an optional feed pushes up to 60 ticks per second with the clip's loudness and AEIOU mouth shapes to Browser Source pages. Analysis runs on the feed thread, never on the playback thread. Each viewer can apply its own playback offset, and the feed runs while a Browser Source page is open or a running module holds `observe_playback`.
+
+Python modules with `observe_playback` get `Module.on_playback_signal(PlaybackSignal)`, with frames coalesced to at most 60 fps. They can also set a mouth profile and receive `on_mouth(MouthLine)` callbacks; each carries a host-built mouth track plus the player-clock position, so the module can follow lip timing on its own thread.
