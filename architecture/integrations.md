@@ -34,10 +34,14 @@ Twitch is the first platform: IRC over TLS with PKCE OAuth through a loopback re
 
 Optional mouth blendshapes sent over the [VMC protocol](https://protocol.vmc.info/) to a local avatar app. Only blendshapes are sent, no bones.
 
+This is a bundled [module](modules.md) (id `avatar`), not an Output page. Turn it on under **Integrations → Modules**; its page then appears under Speak. It asks for `network`, `observe_lines`, and `observe_playback`. It is off by default. Anyone who had VMC turned on in an older version gets the module turned on once, with their old host, port, mode, and tuning copied over.
+
+- **Connection:** host and port (default `127.0.0.1:39539`), with a status line.
+
 - **ARKit mode:** Perfect Sync mouth keys at 60 fps, analyzed from the audio.
-- **AEIOU mode:** user-named vowel keys, driven by the audio, by English text, or by a hybrid of the two.
-- Gain, smoothing, and a timing offset are adjustable, with live meters for preview.
-- Mouth analysis runs on the playback path after the next synthesis is unblocked, and the mouth zeroes when a line stops.
+- **AEIOU mode:** user-named vowel keys, driven by the audio (Spectral), by English text, or by a hybrid of the two. A hint under the AEIOU source dropdown says what the chosen source does.
+- Mouth offset (±200 ms), gain (0.25×–4×, default 1×), and smoothing (0–300 ms, default 80) are sliders, with live meters for the shapes being sent.
+- The module sets a mouth profile and gets a mouth track for each line through the [mouth API](modules.md#playback-feed), then follows the player clock on its own 60 Hz thread. Mouth analysis runs on the playback path after the next synthesis is unblocked, and the mouth zeroes when a line stops.
 
 ## Text Output
 
