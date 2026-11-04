@@ -42,7 +42,3 @@ This is a bundled [module](modules.md) (id `avatar`), not an Output page. Turn i
 - **AEIOU mode:** user-named vowel keys, driven by the audio (Spectral), by English text, or by a hybrid of the two. A hint under the AEIOU source dropdown says what the chosen source does.
 - Mouth offset (±200 ms), gain (0.25×–4×, default 1×), and smoothing (0–300 ms, default 80) are sliders, with live meters for the shapes being sent.
 - The module sets a mouth profile and gets a mouth track for each line through the [mouth API](modules.md#playback-feed), then follows the player clock on its own 60 Hz thread. Mouth analysis runs on the playback path after the next synthesis is unblocked, and the mouth zeroes when a line stops.
-
-## Text Output
-
-Writes the currently playing line to a text file for stream overlays. The write is atomic, and the file clears a couple of seconds after playback goes idle. When a line was [translated](translation.md), the caption can be the translated text (default), the original, or both.
