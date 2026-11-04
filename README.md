@@ -16,6 +16,7 @@ The application source is private. This repository documents how the system is d
 | [Translation](architecture/translation.md) | Translating lines into the speech language before synthesis |
 | [Modules](architecture/modules.md) | Third-party form / web add-ons under Speak |
 | [Integrations](architecture/integrations.md) | MCP, Live Chat, Avatar (VMC), captions |
+| [Controls](architecture/controls.md) | Quick bar and global hotkeys |
 | [Remote MCP via Cloudflare](guides/remote-mcp-cloudflare.md) | Guide: reach the MCP server securely from a cloud agent |
 | [Azure Speech + Translator](guides/azure-speech-translator.md) | Guide: create the Azure resources and add keys to MiraSpeak |
 | [Discord voice channel](guides/discord.md) | Guide: create your Discord bot and play MiraSpeak in a voice channel |

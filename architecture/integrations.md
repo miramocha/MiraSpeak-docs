@@ -46,7 +46,3 @@ This is a bundled [module](modules.md) (id `avatar`), not an Output page. Turn i
 ## Text Output
 
 Writes the currently playing line to a text file for stream overlays. The write is atomic, and the file clears a couple of seconds after playback goes idle. When a line was [translated](translation.md), the caption can be the translated text (default), the original, or both.
-
-## Quick bar and hotkeys
-
-A floating composer summoned with a global hotkey, plus `Ctrl+Shift+1..9` to apply presets. Hotkeys are registered with the OS (`RegisterHotKey`) without low-level keyboard hooks. The window and overlay can each be hidden from screen capture.
