@@ -1,6 +1,6 @@
 # Architecture overview
 
-MiraSpeak is a **TTS-only** desktop app: there is no microphone path and no voice cloning. The user (or an automation) submits text; optional [translation](translation.md) turns it into the speech language; an engine synthesizes audio; the player outputs to selected devices. Optional outputs include text captions, VMC mouth blendshapes, Live Chat bridges, MCP tools, and third-party modules under Speak.
+MiraSpeak is a **TTS-only** desktop app: there is no microphone path and no voice cloning. The user (or an automation) submits text; optional [translation](translation.md) turns it into the speech language; an engine synthesizes audio; the player outputs to selected devices. Optional outputs include text captions, Live Chat bridges, MCP tools, and modules under Speak, such as the bundled Avatar (VMC) module that sends mouth blendshapes.
 
 ## Layer diagram
 
@@ -11,13 +11,13 @@ flowchart TD
     mcp["<b>mcp/</b><br/>local MCP server"]
     modules["<b>modules/</b><br/>module runtime, web policy"]
     audio["<b>audio/</b><br/>devices, pitch, player"]
-    avatar["<b>avatar/</b><br/>VMC mouth shapes"]
+    mouth["<b>mouth/</b><br/>mouth analysis"]
     engines["<b>engines/</b><br/>Kokoro, VOICEVOX, Azure Speech + registry"]
     core["<b>core/</b><br/>line text, markers, commands"]
 
     ui --> app & mcp & modules
-    app & mcp & modules --> audio & avatar
-    audio & avatar --> engines
+    app & mcp & modules --> audio & mouth
+    audio & mouth --> engines
     engines --> core
 ```
 
@@ -57,6 +57,6 @@ Typical top-level groups:
 2. **Voice Engines** — Kokoro, VOICEVOX, Azure Speech (cache / usage where relevant)  
 3. **Translation** — Translation, Azure Translator, Argos  
 4. **Voice** — Presets, Commands, Marker Aliases  
-5. **Output** — Audio Devices, Text Output, Avatar (VMC)  
+5. **Output** — Audio Devices, Text Output  
 6. **Integrations** — Live Chat, MCP, Modules (enable, permissions, Browser Source)  
 7. **Interface** — Quick Bar, Appearance (themes, Font Sets)  

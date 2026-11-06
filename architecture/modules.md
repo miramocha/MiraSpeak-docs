@@ -6,7 +6,7 @@ Modules are **third-party add-ons under Speak**. They speak with the voices Mira
 
 | Surface | Role |
 | --- | --- |
-| **Form page** | Declarative fields (plain data). The host renders them with its own form builders, so modules supply no widgets, styles, or colors. A `ui.Rows` list with no rows shows the host empty state from `ui.Empty` (title, body, an action that opens a File field's Browse or reaches `on_action`, and art named from `ui.ART_NAMES`), set on the spec with `when_empty` or at runtime with `ctx.ui.set_empty`. |
+| **Form page** | Declarative fields (plain data). The host renders them with its own form builders, so modules supply no widgets, styles, or colors. A `ui.Rows` list with no rows shows the host empty state from `ui.Empty` (title, body, an action that opens a File field's Browse or reaches `on_action`, and art named from `ui.ART_NAMES`), set on the spec with `when_empty` or at runtime with `ctx.ui.set_empty`. `ui.Slider` is a number field drawn as a slider with a live label. `ui.Meters` is a read-only block of 0–1 bars that the module fills with `ctx.ui.set_meters`. |
 | **Browser Source** | Optional localhost stream of a module web page for OBS and similar tools, behind a tokenized URL. |
 
 Enabled form pages appear under Speak, above the settings search. Integrations → Modules manages enablement, permissions, and Browser Source. The app does not open a Chromium panel: a module whose only page is web does not start, and a module that also has a form shows the form. Browser Source can still serve the web page.
@@ -62,6 +62,8 @@ Before a new module is enabled, a consent screen lists its permissions in plain 
 
 A bundled module whose `module.toml` sets `default_enabled` starts enabled on first run with its permissions granted, until the user turns it off.
 
+The bundled [Avatar (VMC)](integrations.md#avatar-vmc) module does not set it and starts off.
+
 Removing an installed module deletes its files; the user chooses whether to keep or delete its saved data and settings.
 
 ## Web fence
@@ -82,4 +84,4 @@ Each module has one data root:
 
 While a line plays, an optional feed pushes up to 60 ticks per second with the clip's loudness and AEIOU mouth shapes to Browser Source pages. Analysis runs on the feed thread, never on the playback thread. Each viewer can apply its own playback offset, and the feed runs while a Browser Source page is open or a running module holds `observe_playback`.
 
-Python modules with `observe_playback` get `Module.on_playback_signal(PlaybackSignal)`, with frames coalesced to at most 60 fps. They can also set a mouth profile and receive `on_mouth(MouthLine)` callbacks; each carries a host-built mouth track plus the player-clock position, so the module can follow lip timing on its own thread.
+Python modules with `observe_playback` get `Module.on_playback_signal(PlaybackSignal)`, with frames coalesced to at most 60 fps. They can also set a mouth profile with `ctx.set_mouth_profile(MouthProfile)` (ARKit or AEIOU, an audio, text, or hybrid source, and their own key names; the call does not wait on the GUI thread, and a missing permission is logged rather than raised) and receive `on_mouth(MouthLine)` callbacks; each carries a host-built mouth track plus the player-clock position, so the module can follow lip timing on its own thread.

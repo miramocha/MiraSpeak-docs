@@ -18,10 +18,10 @@ TTS adapters behind a shared contract (`Capabilities`, synthesize → audio clip
 - Registry of shipped adapters; availability checks stay off the UI thread where they involve network or heavy work.
 - Pure clip helpers that adapters need (e.g. concat) live here—not in `audio/`—so engines never depend upward.
 
-## `audio/` and `avatar/`
+## `audio/` and `mouth/`
 
 - **Audio** — Device enumeration (Output starts on the system default device), formant-preserving pitch, dual-output playback. Audio Devices can create a virtual output — VB-Cable on Windows, a PulseAudio null sink on Linux — so OBS can take the voice.
-- **Avatar** — Optional VMC mouth blendshapes (ARKit or AEIOU profiles). Mouth analysis runs on the play path so it does not block the next synthesis.
+- **Mouth** — Mouth analysis shared by the playback feed and modules (ARKit or AEIOU profiles). It runs on the play path so it does not block the next synthesis. Sending shapes over VMC is the bundled [Avatar (VMC) module](integrations.md#avatar-vmc), not core.
 
 ## `app/`
 
