@@ -36,6 +36,7 @@ Modules never inject slash commands and never change the live chips as a side ef
 | `speak` | Required to queue speech |
 | `observe_lines` | Required to see other sources' line and playback events |
 | `observe_playback` | Required for `Module.on_playback_signal(PlaybackSignal)` (frames coalesced to at most 60 fps) and the mouth API (`on_mouth(MouthLine)`); keeps the playback feed running |
+| `observe_chat` | Shared Live Chat messages (`on_chat_message`). Python modules only; not Browser Source |
 | `stop_all` | Required to stop lines the module does not own |
 | `network` / `files` | Consent only for Python; **enforced** for Browser Source pages (connect allowlist and picked-file tokens) |
 
