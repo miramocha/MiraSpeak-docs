@@ -41,7 +41,7 @@ Optional local MCP server (loopback only). Tools reach the running app through t
 
 ## `modules/`
 
-Qt-free module runtime: manifests, loader, permissions, web policy, Browser Source server, playback feed. See [Modules](modules.md).
+Qt-free module runtime: manifests, loader, permissions, playback feed. See [Modules](modules.md).
 
 ## `ui/`
 

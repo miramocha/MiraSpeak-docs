@@ -26,13 +26,13 @@ On the tunnel, **Add route → Published application**:
 
 | Field | Value |
 | --- | --- |
-| Subdomain | something specific, e.g. `miraspeak-mcp-dev` (keep plain names for product pages) |
+| Subdomain | something specific and hard to guess (keep plain names for product pages) |
 | Domain | your Cloudflare domain |
 | Path | *(empty)* |
 | Service URL | `http://localhost:56769` (plain `http`) |
 | Additional settings → HTTP Settings → **HTTP Host Header** | `localhost:56769` |
 
-The Host Header override is required: the MCP library rejects requests whose `Host` isn't localhost.
+The Host Header override is required: MiraSpeak answers `403 Forbidden host` to any `Host` that isn't localhost.
 
 ## 4. Protect it with Access
 
@@ -99,5 +99,6 @@ Because the Access application covers the whole hostname (Path empty), `/renders
 | `502` without token | Access not active yet (policy not attached, or still propagating) and MCP off |
 | `403` with token | Wrong token, policy action not **Service Auth**, or token not in Include |
 | `502` with token | MCP off in MiraSpeak, or wrong port |
-| `421` / host errors | HTTP Host Header not set to `localhost:<port>` |
+| `403` with body `Forbidden host` | HTTP Host Header not set to `localhost:<port>` |
+| `403` with body `Forbidden origin` | The client sends a browser `Origin`; remote clients must send none |
 | `404` on `/renders/…` | Render expired (10 min), MCP was restarted, or the path was mistyped |

@@ -58,5 +58,5 @@ Typical top-level groups:
 3. **Translation** — Translation, Azure Translator, Argos  
 4. **Voice** — Presets, Commands, Marker Aliases  
 5. **Output** — Audio Devices, Text Output, Avatar (VMC)  
-6. **Integrations** — Live Chat, MCP, Modules (enable, permissions, Browser Source)  
+6. **Integrations** — Live Chat, MCP, Modules (enable, permissions)  
 7. **Interface** — Quick Bar, Appearance (themes, Font Sets)  
