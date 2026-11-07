@@ -72,11 +72,11 @@ npx -y mcp-remote https://<host>/mcp --transport http-only \
   --header "CF-Access-Client-Secret:${CF_ACCESS_CLIENT_SECRET}"
 ```
 
-Tip: give the agent a rule to call `get_status` before `speak` or `render` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
+Tip: give the agent a rule to call `get_status` before `speak` or `render_audio` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
 
-## 6. Get audio files back (`render`)
+## 6. Get audio files back (`render_audio`)
 
-`render` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It is the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
+`render_audio` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It is the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
 
 ```json
 {"ok": true, "path": "/renders/<token>.mp3", "format": "mp3", "mime_type": "audio/mpeg", "duration_s": 2.48, "bytes": 39821, "expires_in_s": 600}
