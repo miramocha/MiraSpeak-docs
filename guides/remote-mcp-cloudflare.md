@@ -6,7 +6,7 @@ MiraSpeak's MCP server only listens on `127.0.0.1`. To let a cloud AI agent (for
 - Without the service token, every request gets a Cloudflare `403` before it reaches your PC.
 - Cost: Tunnel and Zero Trust Free (up to 50 users) are free. You need a domain whose DNS is on Cloudflare (it can stay registered elsewhere; just point its nameservers at Cloudflare).
 
-> **Security note:** whoever holds the token can call every MCP tool, including file-reading ones like `speak_from_file`. Keep the token secret, never show it on stream, and turn MCP off when you don't need it.
+> **Security note:** whoever holds the token can call every tool on `/mcp/remote`: speaking, voices, presets, themes, and module tools. It leaves out file reads, deletes, resets, and Live Chat changes. Keep the token secret, never show it on stream, and turn MCP off when you don't need it.
 
 ## 1. Enable MCP in MiraSpeak
 
@@ -49,10 +49,10 @@ The Host Header override is required: MiraSpeak answers `403 Forbidden host` to 
 
 ```sh
 # Without the token: expect 403
-curl -s -o /dev/null -w "%{http_code}\n" -X POST https://<host>/mcp
+curl -s -o /dev/null -w "%{http_code}\n" -X POST https://<host>/mcp/remote
 
 # With the token (MCP on): expect 200 and an initialize result naming "MiraSpeak"
-curl -s -X POST https://<host>/mcp \
+curl -s -X POST https://<host>/mcp/remote \
   -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
   -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
   -H "Content-Type: application/json" \
@@ -64,10 +64,10 @@ A `502` with the token means the tunnel works but MiraSpeak's MCP server isn't r
 
 ## 5. Connect your agent
 
-Add the URL `https://<host>/mcp` as a custom MCP connector and send the two Access headers on every request. If the client can't set headers directly, wrap it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), reading the values from environment variables:
+Add the URL `https://<host>/mcp/remote` as a custom MCP connector and send the two Access headers on every request. If the client can't set headers directly, wrap it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), reading the values from environment variables:
 
 ```sh
-npx -y mcp-remote https://<host>/mcp --transport http-only \
+npx -y mcp-remote https://<host>/mcp/remote --transport http-only \
   --header "CF-Access-Client-Id:${CF_ACCESS_CLIENT_ID}" \
   --header "CF-Access-Client-Secret:${CF_ACCESS_CLIENT_SECRET}"
 ```
@@ -100,5 +100,6 @@ Because the Access application covers the whole hostname (Path empty), `/renders
 | `403` with token | Wrong token, policy action not **Service Auth**, or token not in Include |
 | `502` with token | MCP off in MiraSpeak, or wrong port |
 | `403` with body `Forbidden host` | HTTP Host Header not set to `localhost:<port>` |
+| `403` with body `Forbidden through a proxy` | The URL ends in `/mcp`; use `/mcp/remote` |
 | `403` with body `Forbidden origin` | The client sends a browser `Origin`; remote clients must send none |
 | `404` on `/renders/…` | Render expired (10 min), MCP was restarted, or the path was mistyped |

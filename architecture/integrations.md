@@ -20,6 +20,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 - Every tool call hops to the GUI thread through the shared bridge. A failure sets `isError`, with text `error: <code>: <message>` and `{code, message, hint}` in `structuredContent`; `hint` appears when there is a next step. Clients match on `code`, never on `message`.
 - `set_live_voice` changes any live voice fields in one step and switches to Manual (no active preset); a refused call changes nothing. Editing a preset does not enter Manual. `list_voice_options` lists models, voices, voice banks, characters, styles, paces, markers, and speech languages through one `kind` param.
 - There are no tools for secrets, Argos downloads, or clearing caches.
+- `/mcp` is the full tool set for the PC. `/mcp/remote` leaves out `speak_from_file`, `refresh_devices`, `delete_theme`, `delete_preset_set`, `delete_preset`, `clear_preset`, `reset_appearance`, `clear_speak_history`, and `set_live_chat_mode`. A proxied request to `/mcp` gets a 403.
 - To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md).
 
 ## Live Chat
