@@ -48,7 +48,7 @@ Saved Live Chat still runs. Chat → TTS lines speak while CLI mode is up.
 
 ## MCP
 
-When MCP is turned on in the window, both `/mcp` and `/mcp/remote` serve `get_status`, `speak`, `stop_speech`, `list_presets`, `switch_preset`, `list_preset_sets`, `switch_preset_set`, `list_personas`, and `set_persona`. `GET /events` stays. Its `text` is the line as typed, not the `[style]` badge. The rest of the MCP behavior is in [Integrations](../architecture/integrations.md#mcp).
+When MCP is turned on in the window, both `/mcp` and `/mcp/remote` serve `get_status`, `speak`, `stop_speech`, `list_presets`, `switch_preset`, `list_preset_sets`, `switch_preset_set`, `list_personas`, `set_persona`, `list_engines`, `list_voice_options`, `list_modules`, and `render_audio`. Themes, appearance, and calling a module's own tools stay in the window. `GET /events` stays. Its `text` is the line as typed, not the `[style]` badge. `render_audio` returns a path to download from this same server. The rest of the MCP behavior is in [Integrations](../architecture/integrations.md#mcp).
 
 `list_personas` and `set_persona` are the agent form of `/persona`. `speak` with `persona_id` speaks one line as that persona and leaves the active persona as it is. `get_status.persona` is the active persona.
 
