@@ -93,7 +93,7 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 - **Japanese character voices:** install and run [VOICEVOX](https://voicevox.hiroshiba.jp/), then open **Voice Engines → VOICEVOX** and click **Refresh voices**.
 - **Twitch chat:** **Integrations → Live Chat** can speak your own chat messages, or post what you speak to your channel.
 - **Avatar mouth movement:** **Output → Avatar (VMC)** sends mouth shapes to a VMC receiver, such as Warudo, while a line plays.
-- **AI agents:** **Integrations → MCP** lets an agent such as Cursor drive MiraSpeak. To reach it from a cloud agent, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
+- **AI agents:** **Integrations → MCP** lets an agent such as Cursor drive MiraSpeak. To reach it from a cloud agent, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md). To run with no window, see [CLI mode](cli.md).
 - **Themes:** **Interface → Appearance** or `/theme` switches between the built-in themes, most of them in Light, Dark, and Midtones. To make your own, click **Duplicate** and edit the copy.
 - **Modules:** **Integrations → Modules → Install from GitHub**. Official modules: [Timer](https://github.com/miramocha/MiraSpeak-timer), [Lyrics](https://github.com/miramocha/MiraSpeak-lyrics), and [EPUB](https://github.com/miramocha/MiraSpeak-epub). Paste the URL and use tag `v0.1.0`, or leave the ref blank. Only install modules from people you trust.
 
