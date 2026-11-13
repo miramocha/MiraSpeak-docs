@@ -45,7 +45,7 @@ Qt-free module runtime: manifests, loader, permissions, playback feed. See [Modu
 
 ## `ui/`
 
-Qt widgets and controller facades.
+Qt widgets and controller facades. The design system under this layer is the `cetiui` package: theme tokens, bundled themes and fonts, the base stylesheet, and the generic widgets. MiraSpeak's `ui/` keeps the app sheet, the app widgets, and the controller facades.
 
 - Speak page (recent lines, composer), settings pages, quick bar / overlay.
 - `AppController` and facades (`azure`, `themes`, `modules`, …) are the only API widgets use.
