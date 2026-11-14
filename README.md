@@ -15,8 +15,8 @@ The application source is private. This repository documents how the system is d
 | [Line lifecycle](architecture/line-lifecycle.md) | From submit to playback (threads, capture, cache) |
 | [Voice engines](architecture/engines.md) | Adapter model, shipped engines, readiness checks |
 | [Translation](architecture/translation.md) | Translating lines into the speech language before synthesis |
-| [Modules](architecture/modules.md) | Third-party form / web add-ons under Speak |
-| [Integrations](architecture/integrations.md) | MCP, Live Chat, Avatar (VMC), captions |
+| [Modules](architecture/modules.md) | Third-party modules under Speak, which speak with the voices already set up |
+| [Integrations](architecture/integrations.md) | MCP, Live chat, the Avatar (VMC) module, and text output |
 | [Remote MCP via Cloudflare](guides/remote-mcp-cloudflare.md) | Guide: reach the MCP server securely from a cloud agent |
 | [Azure Speech + Translator](guides/azure-speech-translator.md) | Guide: create the Azure resources and add keys to MiraSpeak |
 | [Discord voice channel](guides/discord.md) | Guide: create your Discord bot and play MiraSpeak in a voice channel |

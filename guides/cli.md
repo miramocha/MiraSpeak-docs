@@ -44,7 +44,7 @@ done 3
 
 A `playing` line with no brackets was spoken as typed.
 
-Saved Live Chat still runs. Chat → TTS lines speak while CLI mode is up.
+Saved Live chat still runs. Chat → TTS lines speak while CLI mode is up.
 
 ## MCP
 
@@ -54,7 +54,7 @@ When MCP is turned on in the window, both `/mcp` and `/mcp/remote` serve `get_st
 
 ## What stays in the window
 
-CLI mode does not change engines, voices, themes, translation, output devices, Live Chat, or modules. Do that in the window, then start CLI mode again.
+CLI mode does not change engines, voices, themes, translation, output devices, Live chat, or modules. Do that in the window, then start CLI mode again.
 
 Switching a preset, a preset set, or a persona writes `settings.toml`, so the window shows that choice the next time it opens.
 

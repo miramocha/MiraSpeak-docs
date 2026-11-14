@@ -4,7 +4,7 @@ MiraSpeak's MCP server only listens on `127.0.0.1`. To let a cloud AI agent (for
 
 - No router ports opened; `cloudflared` only makes outbound connections, and your home IP stays hidden.
 - Without the service token, every request gets a Cloudflare `403` before it reaches your PC.
-- Cost: Tunnel and Zero Trust Free (up to 50 users) are free. You need a domain whose DNS is on Cloudflare (it can stay registered elsewhere; just point its nameservers at Cloudflare).
+- Cost: Tunnel and Zero Trust Free (up to 50 users) are free. You need a domain whose DNS is on Cloudflare (it can stay registered elsewhere; point its nameservers at Cloudflare).
 
 > **Security note:** whoever holds the token can call every tool on `/mcp/remote`: speaking, voices, presets, themes, and module tools. It leaves out file reads, deletes, resets, and Live Chat changes. Keep the token secret, never show it on stream, and turn MCP off when you don't need it.
 
@@ -90,7 +90,7 @@ curl -s -o line.mp3 "https://<host>/renders/<token>.mp3" \
   -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET"
 ```
 
-Because the Access application covers the whole hostname (Path empty), `/renders/` is protected by the same service token as `/mcp`. A `404` means the token in the path is unknown or expired. A render waits in the normal speaking queue and is stopped after 90 seconds (under Cloudflare's 100-second limit), so keep long lines short or split them.
+Because the Access application covers the whole hostname (Path empty), `/renders/` is protected by the same service token as `/mcp`. A `404` means the token in the path is unknown or expired. A render waits in the normal speaking queue and stops after 90 seconds (under Cloudflare's 100-second limit). Split a long line that needs longer than that.
 
 ## Troubleshooting
 

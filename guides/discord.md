@@ -10,7 +10,7 @@ MiraSpeak's **Discord** module lets a bot join your voice channel and play every
 
 ## 1. Create the bot in the Discord developer portal
 
-Open the [Discord developer portal](https://discord.com/developers/applications). You can also click **Open developer portal** on MiraSpeak's Discord page.
+Open the [Discord developer portal](https://discord.com/developers/applications). MiraSpeak's Discord page has **Open developer portal**, which opens the portal, and **Open setup guide**, which opens this guide.
 
 1. Click **New Application** and give it a name, for example the name of your character.
 
@@ -33,10 +33,12 @@ Open the [Discord developer portal](https://discord.com/developers/applications)
 
 ## 2. Enable the module in MiraSpeak
 
-**Settings → Integrations → Modules**
+Open **Integrations → Modules**.
 
 1. Enable **Discord**.
 2. Approve the permissions it asks for.
+
+The Discord page then appears under **Speak**.
 
 ## 3. Connect the bot
 
@@ -98,15 +100,15 @@ The status line on the Discord page tells you what's wrong. The common messages 
 | "That does not look like a bot token" | You copied the Public Key, Client ID or Client Secret. Copy the token from the **Bot** tab |
 | "Discord rejected the token" | **Reset Token** in the portal and paste the new token. Never share it |
 | "The bot can't see #…" / "lacks Connect" / "lacks Speak" | Give the bot **View Channel**, **Connect** and **Speak** in that channel's permissions |
-| "The bot is server-muted in #…" | In Discord, right-click the bot and untick **Server Mute** |
+| "The bot is server-muted in #…" | In Discord, right-click the bot and turn off **Server Mute** |
 | "The bot is suppressed in Stage #…" | In a Stage channel, a moderator must invite the bot to speak |
 | "The bot muted itself in #…" | Click **Leave**, then **Join** again |
 | "Removed from #…" | Someone disconnected the bot. Click **Join** to return |
 | "That channel is gone" | Click **Connect** to refresh the lists |
 | Test sound plays but nobody hears it | Make sure you or other people are in the voice channel before the bot joins, then click **Leave** and **Join** |
-| "Discord voice needs libopus" (Linux) | Install libopus, for example `sudo apt install libopus0` |
-| "Kept for this session only; the system credential store is unavailable" | MiraSpeak couldn't reach your OS credential store (keyring), so the token is kept for this session only and you'll need to paste it again next time. Fix or enable the keyring to save it. Advanced users can set the `MIRASPEAK_DISCORD_TOKEN` environment variable instead |
-| The bot joins the voice channel and immediately leaves | Your network or firewall is probably blocking Discord voice. Voice needs outbound ports beyond 443 (for example 2083/2096 for the voice websocket) and UDP. Try another network, or allow those ports and UDP in your firewall |
+| "Discord voice needs libopus" (Linux) | Install libopus. On Linux, for example `apt install libopus0` |
+| "Kept for this session only; … is unavailable" | MiraSpeak couldn't reach your OS credential store (keyring), so the token is kept for this session only and you'll need to paste it again next time. Fix or enable the keyring to save it. Advanced users can set the `MIRASPEAK_DISCORD_TOKEN` environment variable instead |
+| The bot joins the voice channel and immediately leaves, or "Couldn't reach Discord's voice server" | Your network or firewall may be blocking it: voice needs outbound access beyond port 443 (UDP and the voice websocket ports). Try another network, or allow UDP and those ports in your firewall |
 | "Discord says try again in … minutes" / "Bots can only rename a couple of times an hour" | Discord rate-limits profile changes. Wait the time shown, then try again |
 | No "Speaking as" status on the bot | Check the toggle is on, play a line, and make sure you approved the module's permissions. If you enabled the module before updating, disable and re-enable it to approve the new permission |
 | "Discord support is not installed in this copy of MiraSpeak" | Your build doesn't include Discord support. Update to the latest MiraSpeak build |
