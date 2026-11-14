@@ -83,4 +83,4 @@ While a line plays and a running module holds `observe_playback`, a feed produce
 
 Python modules with `observe_playback` get `Module.on_playback_signal(PlaybackSignal)`, with frames coalesced to at most 60 fps. They can also set a mouth profile with `ctx.set_mouth_profile(MouthProfile)` and receive `on_mouth(MouthLine)` callbacks; each carries a host-built mouth track plus the player-clock position, so the module can follow lip timing on its own thread.
 
-A `MouthProfile` has a mode (`arkit` or `aeiou`), a source for AEIOU (`audio`, `text`, or `hybrid`), and the module's own key names. `ctx.set_mouth_profile` does not wait for MiraSpeak, so it is safe in `on_start`. A missing permission is logged, not raised. Passing `None` stops the callbacks.
+A `MouthProfile` has a mode (`arkit` or `aeiou`). For `aeiou`, it also has a source (`audio`, `text`, or `hybrid`) and the module's key names. `arkit` uses the 8 Perfect Sync keys and ignores those names. `ctx.set_mouth_profile` does not wait for MiraSpeak, so it is safe in `on_start`. A missing permission is logged, not raised. Passing `None` stops `on_mouth`. It does not stop `on_playback_signal`.
