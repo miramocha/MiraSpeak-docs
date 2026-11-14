@@ -92,7 +92,7 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 
 - To send the voice to OBS, open **Output → Audio devices** and click **Set up VB-Cable**. After the installer finishes (reboot if it asks), click **Rescan**. Output switches to `CABLE Input`. In OBS, use `CABLE Output` as the microphone. Set **Monitor** to your headphones to keep hearing yourself (Monitor is a second copy of each line, played alongside Output).
 - To send the voice to OBS on Linux, open **Output → Audio devices** and click **Create virtual output**. It creates a `MiraSpeak` sink and switches Output to it. In OBS, add an **Audio Input Capture** and pick **Monitor of MiraSpeak**.
-- For on-stream captions, open **Output → Text output** and turn on **Caption file** (Write spoken text to a file (markers stripped)). Point an OBS Text source at the file.
+- For on-stream captions, open **Output → Text output** and turn on the **Caption file** checkbox, "Write spoken text to a file (markers stripped)." Point an OBS Text source at the file.
 - For Azure voices and translation, see [Azure Speech + Translator](azure-speech-translator.md).
 - For Japanese character voices, install and run [VOICEVOX](https://voicevox.hiroshiba.jp/). Then open **Voice engines → Local server**, set **Engine** to **VOICEVOX**, and click **Refresh voices**.
 - To bridge Twitch chat, open **Integrations → Live chat**. It can speak your own chat messages, or post what you speak to your channel.

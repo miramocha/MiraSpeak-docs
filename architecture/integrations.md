@@ -8,22 +8,22 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 
 - Streamable HTTP on `127.0.0.1` only, at a configurable port. A port collision fails softly and doesn't block startup.
 - Tools cover speaking, stopping, presets and preset sets, the live voice chips (engine, model, voice, styles, pace, language, pitch), catalogs, themes and appearance (including Font Set and font weight), translation (`set_translation`, `list_translation_languages`, and translation state in `get_status`), rendering speech to an audio file without playing it (`render_audio`; see [Line lifecycle](line-lifecycle.md#render-lines)), and running modules' own tools.
-- `speak` says its text as written: slash commands do not run over MCP. Tools cover what they did, such as `clear_speak_history`, `set_live_chat_mode`, `set_overlay_position`, and `set_overlay_scale`. Only the person at the PC can quit or restart the app, or add modules.
-- `speak` and `speak_from_file` return `line_ids`, one per queued line (several with Split Sentences), in order. Both take an optional `source` tag (1–64 characters); the lines and their events carry it as `mcp:<tag>`.
+- `speak` says its text as written: slash commands do not run over MCP. Tools cover what they did, such as `clear_speak_history`, `set_live_chat_mode`, `set_overlay_position`, and `set_overlay_scale` (these two move and scale the quick bar). Only the person at the PC can quit or restart the app, or add modules.
+- `speak` and `speak_from_file` return `line_ids`, one per queued line (several when Split sentences is on), in order. Both take an optional `source` tag (1–64 characters); the lines and their events carry it as `mcp:<tag>`.
 - `stop_speech` takes `scope` (`current` or `all`), or `line_ids` and/or `source` to stop only those lines while the rest play on. With either one set, `scope` is ignored.
 - Switching to an engine that isn't ready succeeds with a warning. MCP lines are not held back, so they can fail until the engine is ready (see [Voice engines](engines.md#readiness-checks)). `get_status.gates` reports whether a line can speak now and why not, whether the engine is local, its usage meter, the size limits, and the allowed file folders. A muted or rate-capped persona fails `speak` with `persona_muted` or `persona_rate_capped`.
 - `speak_from_file` reads only the folders listed under **File folders** on the MCP page, which only the user can change. Empty refuses every path, with `path_not_allowed`.
 - Catalog tools fail with `unknown_engine` for an engine that doesn't exist. `set_appearance` lists bad color keys in `skipped_colors`.
 - Every tool carries safety hints and every param a description. There is no login on the port: any process on the PC can use every tool while MCP is on.
 - Every route answers 403 to a foreign `Host` or `Origin`. A request with no `Origin` is fine. A tunnel must rewrite `Host` to `localhost:<port>`.
-- `GET /events` on the same port is a read-only Server-Sent Events stream of line events: `queued`, `playing`, `done`, `failed`, `stopped` (internal `synthesizing` / `ready` are not sent), plus `chat_message` while Live Chat sharing is on. Each message is the shared envelope `{app, run, type, id, ts, data}`, where `run` changes each time the app starts, so a stale resume id can be spotted; line `data` has `line_id` (the ids `speak` returns), `text` (the line as typed; a style a module added is on the Speak row and on the CLI `playing` line, not in this event), and when they apply `source`, `batch_*`, `silent`, `duration_s` (playing), `error` (failed). `chat_message` `data` has `platform`, `channel`, `author_login`, `author_id`, `display_name`, `badges` (`mod`, `sub`, `vip`, `broadcaster`), `text`, `timestamp`, `is_self`, and `message_id` (the Twitch message id, empty when the platform sent none). `id` rises for the whole app run; reconnect with `Last-Event-ID` (or `?after=`) to replay up to the last 500 events. A client that falls 256 events behind is disconnected and can resume the same way.
+- `GET /events` on the same port is a read-only Server-Sent Events stream of line events: `queued`, `playing`, `done`, `failed`, `stopped` (internal `synthesizing` / `ready` are not sent), plus `chat_message` while Live chat sharing is on. Each message is the shared envelope `{app, run, type, id, ts, data}`, where `run` changes each time the app starts, so a stale resume id can be spotted; line `data` has `line_id` (the ids `speak` returns), `text` (the line as typed; a style a module added is on the Speak row and on the CLI `playing` line, not in this event), and when they apply `source`, `batch_*`, `silent`, `duration_s` (playing), `error` (failed). `chat_message` `data` has `platform`, `channel`, `author_login`, `author_id`, `display_name`, `badges` (`mod`, `sub`, `vip`, `broadcaster`), `text`, `timestamp`, `is_self`, and `message_id` (the Twitch message id, empty when the platform sent none). `id` rises for the whole app run; reconnect with `Last-Event-ID` (or `?after=`) to replay up to the last 500 events. A client that falls 256 events behind is disconnected and can resume the same way.
 - Every tool call hops to the GUI thread through the shared bridge. A failure sets `isError`, with text `error: <code>: <message>` and `{code, message, hint}` in `structuredContent`; `hint` appears when there is a next step. Clients match on `code`, never on `message`.
 - `set_live_voice` changes any live voice fields in one step and switches to Manual (no active preset); a refused call changes nothing. Editing a preset does not enter Manual. `list_voice_options` lists models, voices, voice banks, characters, styles, paces, markers, and speech languages through one `kind` param.
 - There are no tools for secrets, Argos downloads, or clearing caches.
 - `/mcp` is the full tool set for the PC. `/mcp/remote` leaves out `speak_from_file`, `refresh_devices`, `delete_theme`, `delete_preset_set`, `delete_preset`, `clear_preset`, `reset_appearance`, `clear_speak_history`, and `set_live_chat_mode`. A proxied request to `/mcp` gets a 403. [CLI mode](../guides/cli.md) serves a smaller set on both endpoints, with no theme or appearance tools.
 - To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md).
 
-## Live Chat
+## Live chat
 
 A platform-agnostic chat bridge with one exclusive mode at a time:
 
@@ -39,17 +39,17 @@ Twitch is the first platform: IRC over TLS with PKCE OAuth through a loopback re
 
 ## Avatar (VMC)
 
-Optional mouth blendshapes sent over the [VMC protocol](https://protocol.vmc.info/) to a local avatar app. Only blendshapes are sent, no bones.
+Avatar (VMC) is a bundled [module](modules.md#bundled-modules). Enable it on Integrations → Modules, and its page appears under Speak. It sends mouth blendshapes over the [VMC protocol](https://protocol.vmc.info/) to a local avatar app. Only blendshapes are sent, no bones.
 
-- **ARKit mode:** Perfect Sync mouth keys at 60 fps, analyzed from the audio.
-- **AEIOU mode:** user-named vowel keys, driven by the audio, by English text, or by a hybrid of the two.
+- In ARKit (Perfect Sync) mode, it sends Perfect Sync mouth keys at 60 fps, analyzed from the audio.
+- In AEIOU (custom names) mode, it sends user-named vowel keys, driven by the audio, by English text, or by a hybrid of the two.
 - Gain, smoothing, and a timing offset are adjustable, with live meters for preview.
 - Mouth analysis runs on the playback path after the next synthesis is unblocked, and the mouth zeroes when a line stops.
 
-## Text Output
+## Text output
 
-Writes the currently playing line to a text file for stream overlays. The write is atomic, and the file clears a couple of seconds after playback goes idle. When a line was [translated](translation.md), the caption can be the translated text (default), the original, or both.
+Writes the currently playing line to a text file for stream overlays. The write is atomic, and the file clears a couple of seconds after nothing is playing. When a line was [translated](translation.md), the caption can be the translated text (default), the original, or both.
 
 ## Quick bar and hotkeys
 
-A floating composer summoned with a global hotkey, plus `Ctrl+Shift+1..9` to apply presets. Hotkeys are registered with the OS (`RegisterHotKey`) without low-level keyboard hooks. The window and overlay can each be hidden from screen capture.
+A floating composer summoned with a global hotkey, plus `Ctrl+Shift+1..9` to apply presets. Hotkeys are registered with the OS (`RegisterHotKey`) without low-level keyboard hooks. The main window and the quick bar can each be hidden from recording, with **Hide main window from recording** and **Hide quick bar from recording** on Interface → Quick bar.

@@ -6,7 +6,7 @@ MiraSpeak's MCP server only listens on `127.0.0.1`. To let a cloud AI agent (for
 - Without the service token, every request gets a Cloudflare `403` before it reaches your PC.
 - Cost: Tunnel and Zero Trust Free (up to 50 users) are free. You need a domain whose DNS is on Cloudflare (it can stay registered elsewhere; point its nameservers at Cloudflare).
 
-> **Security note:** whoever holds the token can call every tool on `/mcp/remote`: speaking, voices, presets, themes, and module tools. It leaves out file reads, deletes, resets, and Live Chat changes. Keep the token secret, never show it on stream, and turn MCP off when you don't need it.
+> **Security note:** whoever holds the token can call every tool on `/mcp/remote`: speaking, voices, presets, themes, and module tools. It leaves out file reads, deletes, resets, and Live chat changes. Keep the token secret, never show it on stream, and turn MCP off when you don't need it.
 
 ## 1. Enable MCP in MiraSpeak
 
