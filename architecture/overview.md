@@ -1,25 +1,34 @@
 # Architecture overview
 
-MiraSpeak is a **TTS-only** desktop app: there is no microphone path and no voice cloning. The user (or an automation) submits text; optional [translation](translation.md) turns it into the speech language; an engine synthesizes audio; the player outputs to selected devices. Optional outputs include text captions, VMC mouth blendshapes, Live Chat bridges, MCP tools, and third-party modules under Speak.
+MiraSpeak is a **TTS-only** desktop app: there is no microphone path and no voice cloning. The user (or an automation) submits text; optional [translation](translation.md) turns it into the speech language; an engine synthesizes audio; the player outputs to selected devices. Optional outputs include text captions, VMC mouth blendshapes, Live chat bridges, MCP tools, and third-party modules under Speak.
 
 ## Layer diagram
 
 ```mermaid
 flowchart TD
-    ui["<b>ui/</b><br/>Qt: Speak, settings, quick bar, overlays"]
-    app["<b>app/</b><br/>service, synth, settings, chat, translation"]
-    mcp["<b>mcp/</b><br/>local MCP server"]
-    modules["<b>modules/</b><br/>module runtime, web policy"]
-    audio["<b>audio/</b><br/>devices, pitch, player"]
-    avatar["<b>avatar/</b><br/>VMC mouth shapes"]
-    engines["<b>engines/</b><br/>Kokoro, VOICEVOX, Azure Speech + registry"]
-    core["<b>core/</b><br/>line text, markers, commands"]
+    ui["ui/"]
+    app["app/"]
+    mcp["mcp/"]
+    modules["modules/"]
+    audio["audio/"]
+    mouth["mouth/"]
+    engines["engines/"]
+    core["core/"]
 
     ui --> app & mcp & modules
-    app & mcp & modules --> audio & avatar
-    audio & avatar --> engines
+    app & mcp & modules --> audio & mouth
+    audio & mouth --> engines
     engines --> core
 ```
+
+- **ui/** Qt: Speak, the settings pages, and the quick bar.
+- **app/** The speak service, synth, settings, chat, and translation.
+- **mcp/** The local MCP server.
+- **modules/** The module runtime and web policy. The bundled modules (Discord, Avatar (VMC), and Emotion) live in `bundled_modules/` and run on it.
+- **audio/** Devices, pitch, and the player.
+- **mouth/** Mouth analysis from a clip or its text. The Avatar (VMC) module sends those shapes to a VMC receiver.
+- **engines/** The registry and the shipped engines: Kokoro, Piper, Windows (Windows only), VOICEVOX, Local TTS, and Azure Speech.
+- **core/** Line text, markers, and commands.
 
 Each arrow points to the next layer down. A layer may import anything below it and nothing above it. **Qt lives only in `ui/`** (and the process entrypoint). Widgets talk to an `AppController` facade—not the service, registry, or settings I/O modules directly.
 
@@ -32,7 +41,7 @@ Each arrow points to the next layer down. A layer may import anything below it a
 | Hotkeys without hooks | Global hotkeys use `RegisterHotKey` only—no low-level keyboard hooks. |
 | Capture frozen at submit | Engine, model, voice, styles, pace, speech language, pitch, and translation choices are snapshotted on the line object while it is in flight. |
 | Speech waits for a ready engine | Each engine is checked in the background; while the engine in use is not ready, speaking is off (slash commands still run, except `/render`, which needs the engine). |
-| Synth ahead | Per-engine concurrency limit (how many clips may synthesize or sit ready while one plays). |
+| Generate ahead | Per-engine concurrency limit (how many clips may synthesize or sit ready while one plays). |
 | Speech cache | Optional per-engine disk cache (pre-pitch audio); pitch applied after load. |
 | Modules don’t own providers | Third-party modules speak with the user’s configured voices; they never add engines or keys. |
 
@@ -47,16 +56,21 @@ Builds are one-folder PyInstaller bundles made on each target OS.
 
 ## Style and pace
 
-**Style** (delivery) and **Pace** (speed) are separate UI chips fed by the active adapter. Engines that support multi-style (e.g. Azure Dragon HD / Omni) expose a checklist Style picker; others stay single-select. Unsupported styles degrade to the engine default. Bracket markers in text are not a second style channel for chip state—inline markers are scrubbed or kept according to the adapter’s marker catalog plus MiraSpeak-wide `[date]` / `[time]` (expanded at synth/play from the local clock; `[time:full]`, `[time:24h]`, `[time:tod]`, `[time:h|m|s]`).
+**Style** (delivery) and **Pace** (speed) are separate UI chips fed by the active adapter. Engines that support multi-style, such as Azure DragonHD and Omni, use a checklist on the Style chip; others stay single-select. The Azure model (DragonHD, Omni, or Neural) is picked on the Engine chip. Unsupported styles degrade to the engine default. Bracket markers in text are not a second style channel for chip state—inline markers are scrubbed or kept according to the adapter’s marker catalog plus MiraSpeak-wide `[date]` / `[time]` (expanded at synth/play from the local clock; `[time:full]`, `[time:24h]`, `[time:tod]`, `[time:h|m|s]`).
 
 ## Navigation surface (settings)
 
-Typical top-level groups:
+The sidebar groups, in order:
 
-1. **Speak** — main thread, then one row per enabled module page  
-2. **Voice Engines** — Kokoro, VOICEVOX, Azure Speech (cache / usage where relevant)  
-3. **Translation** — Translation, Azure Translator, Argos  
-4. **Voice** — Presets, Commands, Marker Aliases  
-5. **Output** — Audio Devices, Text Output, Avatar (VMC)  
-6. **Integrations** — Live Chat, MCP, Modules (enable, permissions)  
-7. **Interface** — Quick Bar, Appearance (themes, Font Sets)  
+| Group | Pages |
+| --- | --- |
+| Speak | Speak, then one page per enabled module |
+| Voice engines | In-app (Kokoro, Piper, and Windows on Windows), Local server (VOICEVOX, Local TTS), Cloud (Azure Speech) |
+| Translation | General, In-app (Argos), Cloud (Azure Translator) |
+| Voice | Presets, Personas, Commands, Marker aliases |
+| Output | Audio devices, Text output |
+| Integrations | Live chat, MCP, Modules |
+| Interface | Quick bar, Appearance (themes, Font Sets), Effects |
+| Help | About |
+
+An engine page has an **Engine** dropdown for the engines in that group.

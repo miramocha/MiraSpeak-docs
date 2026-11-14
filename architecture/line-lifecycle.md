@@ -1,25 +1,25 @@
 # Line lifecycle
 
-One spoken line moves through fixed stages. Synthesis of the next line may overlap playback of the current one, bounded by the active engine’s **synth ahead** setting.
+One spoken line moves through fixed stages. Synthesis of the next line may overlap playback of the current one, bounded by the active engine’s **Generate ahead** setting.
 
 ## Stages
 
 | Stage | Thread | What happens |
 | --- | --- | --- |
-| Submit | UI | Slash commands parsed first (if any). Plain text is refused while the speaking engine is not ready. Remaining text is scrubbed for markers. Engine, model, voice, styles, pace, speech language, pitch, translation choices (and preset label) are **frozen** on the line. Optional “split sentences” enqueues one entry per sentence. |
+| Submit | UI | Slash commands parsed first (if any). Plain text is refused while the speaking engine is not ready. Remaining text is scrubbed for markers. Engine, model, voice, styles, pace, speech language, pitch, translation choices (and preset label) are **frozen** on the line. With **Split sentences** on, it enqueues one entry per sentence. |
 | Queue | — | Line waits as `queued`. |
 | Synthesize | Synth worker | Acquire ahead permit; take oldest line → `synthesizing`. |
 | Translate | Synth worker | If translation is on, translate text runs into the line's speech language (else the voice's locale); markers pass through. Failure speaks the original with a note. See [Translation](translation.md). |
 | Cache / network | Synth worker | Expand `[date]` / `[time]` and `time:` parts from local now (speech language, else the engine's default locale, else the voice's locale, else English) **before** fingerprint and adapter input. The expanded text is the line's spoken text; mouth analysis, the playback feed, and captions reuse it. `[time]` is hour and minute (same-minute cache hits); `[time:full]` includes seconds; `[time:24h]` is `HH:MM`; `[time:tod]` is the day period. If cache-read is allowed and the fingerprint hits, load cached audio. Otherwise call the adapter. Cache-write (when enabled) stores pre-pitch audio. Then apply pitch → `ready`. |
 | Drop or play | Synth / Play | If the session was cleared, drop the clip. Else hand off to the play queue. |
 | Play | Play worker | Release ahead permit; optional mouth analysis; captions / avatar follow; play clip → `playing`. |
-| Done | Play worker | Clip ends or stop; avatar zeros; captions clear after a short idle delay → terminal state. |
+| Done | Play worker | Clip ends or stop; avatar zeros; captions clear a couple of seconds after nothing is playing → terminal state. |
 
 Adapter work and disk/network cache I/O never run on the Qt thread.
 
 ## Render lines
 
-A render line goes through the same stages but is never played. The `/render` command asks where to save before anything is queued, and the MCP `render_audio` tool returns a short-lived download path. At the play stage the clip is handed back to whoever asked for it instead of going to the player, so the line ends `done` without ever reaching `playing`. Captions, the latest-line file, Live Chat, the avatar, and the playback feed skip it; modules still see its line events, marked `silent`. The Speak row shows a **Render** or **MCP render** badge and ends as **Rendered**. A stop or failure is reported to the caller and nothing is saved.
+A render line goes through the same stages but is never played. The `/render` command asks where to save before anything is queued, and the MCP `render_audio` tool returns a short-lived download path. At the play stage the clip is handed back to whoever asked for it instead of going to the player, so the line ends `done` without ever reaching `playing`. Captions, the latest-line file, Live chat, the avatar, and the playback feed skip it; modules still see its line events, marked `silent`. The Speak row shows a **Render** or **MCP render** badge and ends as **Rendered**. A stop or failure is reported to the caller and nothing is saved.
 
 ## Frozen capture
 
@@ -36,4 +36,4 @@ While a line is in flight, live chip changes do **not** rewrite that line. Repla
 
 ## Clear and stop
 
-Clearing the session stops playback and drops queued / ready work without paying for unbounded ahead synthesis. Stop targets the current play path; module and Speak ownership of lines is tracked via a line **source** so stop-mine semantics stay well-defined.
+Clearing the session stops playback and drops queued / ready work without paying for unbounded ahead synthesis. **Stop** stops the line that is playing. **Stop all** also drops lines that are waiting. Each line carries a **source** (Speak or a module). A module can stop lines it does not own only when it has the `stop_all` permission.

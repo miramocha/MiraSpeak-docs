@@ -1,6 +1,6 @@
 # Modules
 
-Modules are **third-party add-ons under Speak**. They speak with the voices MiraSpeak already has (the live chips or a numbered preset). They never add, configure, or pick TTS providers, models, or API keys.
+Modules are third-party pages under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset). They never add, configure, or pick TTS providers, models, or API keys.
 
 ## Form page
 
@@ -12,15 +12,15 @@ When a module has the `speak` grant, the host pins the same voice bar Speak uses
 
 ## Host boundary
 
-- **Python modules** run on their own thread. Calls into the host hop to the GUI thread through a shared bridge with a short timeout.
+- Python modules run on their own thread. Calls into the host hop to the GUI thread through a shared bridge with a short timeout.
 - Each runtime gets its own bound host. A stopped or replaced runtime is refused for calls and ignored for posts.
 
 ## Speech
 
 Modules queue speech through the same path as the Speak page, with:
 
-- **A voice reference:** Live (current chips) or Preset *N* (the preset's frozen voice; an empty slot is refused).
-- **A line source:** the module id and display name, used for ownership, the Speak row subtitle, and "stop my lines".
+- A voice reference: Live (current chips) or Preset *N* (the preset's frozen voice; an empty slot is refused).
+- A line source: the module id and display name, used for ownership, the Speak row subtitle, and "stop my lines".
 
 Modules never inject slash commands and never change the live chips as a side effect of speaking.
 
@@ -31,7 +31,7 @@ Modules never inject slash commands and never change the live chips as a side ef
 | `speak` | Required to queue speech |
 | `observe_lines` | Required to see other sources' line and playback events |
 | `observe_playback` | Required for `Module.on_playback_signal(PlaybackSignal)` (frames coalesced to at most 60 fps) and the mouth API (`on_mouth(MouthLine)`); keeps the playback feed running |
-| `observe_chat` | Shared Live Chat messages (`on_chat_message`) |
+| `observe_chat` | Shared Live chat messages (`on_chat_message`) |
 | `stop_all` | Required to stop lines the module does not own |
 | `network` / `files` | Consent only: a Python module runs with the same access as MiraSpeak |
 
@@ -39,7 +39,7 @@ Guard rails refuse speech past a waiting-line cap or a call-rate window, and sto
 
 ## Official modules
 
-These install from GitHub. Paste the URL under **Integrations → Modules → Install from GitHub**. Use the tag `v0.1.0`, or leave the ref blank for the default branch.
+These install from GitHub. On **Integrations → Modules**, click **Install from URL…**. In the Install from GitHub dialog, paste the URL into **Repository** and enter `v0.1.0` in **Tag or commit**, or leave it empty for the default branch.
 
 | Module | URL | Asks for |
 | --- | --- | --- |
@@ -48,6 +48,16 @@ These install from GitHub. Paste the URL under **Integrations → Modules → In
 | EPUB | https://github.com/miramocha/MiraSpeak-epub | speak |
 
 Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Granting network to a Python module is not limited to that host: the module runs with the same access as MiraSpeak.
+
+## Bundled modules
+
+These ship with MiraSpeak. Enable them on Integrations → Modules. Each page appears under Speak.
+
+| Module | Description |
+| --- | --- |
+| Discord | "A Discord bot joins your voice channel and plays everything MiraSpeak speaks, so you need no virtual audio cable." Setup: [Discord guide](../guides/discord.md). |
+| Avatar (VMC) | "Sends mouth shapes to a VMC receiver while MiraSpeak speaks, so your avatar's lips follow the voice." See [Integrations](integrations.md#avatar-vmc). |
+| Emotion | "Adds one Azure style tag to a live English line from a local emotion classifier." |
 
 ## Install and consent
 

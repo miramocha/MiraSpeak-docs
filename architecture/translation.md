@@ -25,21 +25,21 @@ If translation fails (no key, no installed pair, network error, bad output), the
 
 ## Providers
 
-- **Azure Translator** — key in the OS credential store, separate from the Azure Speech key. Region is optional. Characters served from cache count toward a saved-characters meter. Setup: [Azure guide](../guides/azure-speech-translator.md).
-- **Argos** — language pairs download into local app data. A missing direct pair pivots through English, and downloading it installs both legs. Decoding uses a repetition penalty and a length cap so small models don't loop; output still stuck on one repeated character is treated as a failure (spoken as typed, never cached).
+- Azure Translator keeps its key in the OS credential store, separate from the Azure Speech key. Region is optional. Characters served from cache count toward a saved-characters meter. Setup: [Azure guide](../guides/azure-speech-translator.md).
+- Argos downloads language pairs into local app data. A missing direct pair pivots through English, and downloading it installs both legs. Decoding uses a repetition penalty and a length cap so small models don't loop; output still stuck on one repeated character is treated as a failure (spoken as typed, never cached).
 
 ## Caching
 
-- One SQLite translation cache, keyed by provider, model version, source, target, and text run. It is LRU by last use with a fixed size cap, can be turned off, and has a Clear button on the Translation page.
+- One SQLite translation cache, keyed by provider, model version, source, target, and text run. It is LRU by last use with a fixed size cap, can be turned off, and has a **Clear** button on Translation → General.
 - Argos model versions include a decode version, so changing decoding settings misses old entries instead of reusing them.
 - The speech cache fingerprints the **translated** text, so each target language caches its own audio.
 - The translation cache and the speech cache share one canonical hash (sorted-key JSON → SHA-256).
 
-UI surfaces that need to know a line's text without speaking it (cache marks, fingerprints) only peek at the cache and never call a provider. The Translation page's **Try** row previews a translation in the background without speaking.
+UI surfaces that need to know a line's text without speaking it (cache marks, fingerprints) only peek at the cache and never call a provider. The **Try** row on Translation → General previews a translation in the background without speaking.
 
 ## Surfaces
 
-- **Settings:** a Translation nav group with Translation (toggle, provider, source, cache, Try), Azure Translator (key, region), and Argos (download, installed pairs).
-- **Speak:** a translated row shows the translation alongside the original.
-- **Captions:** Text Output can write the translated text, the original, or both.
-- **MCP:** `set_translation` (on/off, provider, source), `get_status` includes translation state, and `list_translation_languages`. There are no MCP tools for keys, Argos downloads, or clearing the cache.
+- In settings, the Translation section has three pages: General (toggle, provider, source, cache, Try), In-app (Argos: download, installed pairs), and Cloud (Azure Translator: key, region).
+- On Speak, a translated row shows the translation alongside the original.
+- For captions, Text output can write the translated text, the original, or both.
+- Over MCP, `set_translation` (on/off, provider, source), `get_status` includes translation state, and `list_translation_languages`. There are no MCP tools for keys, Argos downloads, or clearing the cache.

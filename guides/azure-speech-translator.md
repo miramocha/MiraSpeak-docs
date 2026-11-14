@@ -48,38 +48,38 @@ Search **Translator** and create a Translator resource.
 | Resource group | `<your-resource-group>` |
 | Region | **Global** (simplest) or a specific `<region>` |
 | Name | unique, e.g. `<your-translator-name>` |
-| Pricing tier | **Free F0** (monthly character allowance, doesn't expire) or **Standard S1** (pay per character) |
+| Pricing tier | **Free F0** (a character allowance that resets each month) or **Standard S1** (pay per character) |
 
 Then **Keys and Endpoint** again: copy **Key 1** and note the **Location/Region**.
 
-- **Global** resource: no region needed. MiraSpeak calls the global endpoint `api.cognitive.microsofttranslator.com`.
-- **Regional** (or multi-service) resource: the same global endpoint works, but the region must be sent with the key, so you must enter it in MiraSpeak.
+- For a Global resource, leave Region blank. MiraSpeak calls the global endpoint `api.cognitive.microsofttranslator.com`.
+- For a regional or multi-service resource, enter the region in MiraSpeak. The same global endpoint works, but the region must be sent with the key.
 
 See [Create a Translator resource](https://learn.microsoft.com/azure/ai-services/translator/how-to/create-translator-resource) and [Translator pricing](https://azure.microsoft.com/pricing/details/cognitive-services/translator/).
 
 ## 5. Add the keys to MiraSpeak
 
-**Voice Engines → Azure Speech**
+Open **Voice engines → Cloud** and set **Engine** to **Azure Speech**.
 
 1. Paste the key into **Speech key**, click **Save key**.
 2. Enter **Region** (e.g. `eastus`).
 3. **Test connection**, then **Refresh voices**.
 
-**Azure Translator** page (translation settings)
+Open **Translation → Cloud** and set **Engine** to **Azure Translator**.
 
 1. Paste the key into **Key**, click **Save key**.
 2. **Region**: leave blank for a Global resource; enter `<region>` for regional or multi-service resources.
 3. Click **Test**.
-4. Choose Azure Translator as the provider in the translation settings.
+4. On **Translation → General**, choose Azure Translator as the provider.
 
 Saved keys aren't shown again. Use **Clear key** to remove one.
 
 ## Cost and quota
 
-- The **Usage** meter on the Azure Speech page is a local, approximate character count, not portal billing. Set a limit and limit action there to avoid surprises.
+- The **Usage** meter on the Azure Speech page is a local, approximate character count, not portal billing. Set **Limit** and **At limit** there. At limit can be **Continue**, **Hard stop**, or **Play from cache if available**.
 - Translation cache hits are counted on the Azure Translator page and don't hit Azure.
 - For real numbers use the portal: **Cost Management → Budgets** (set an alert) and the resource's **Metrics**.
-- F0 quotas reset monthly; when exhausted you get `429`/`403` until reset or upgrade to S0/S1.
+- F0 quotas reset monthly. When a quota runs out you get `429` or `403` until the reset, or until you move to S0 (Speech) or S1 (Translator).
 
 ## Key rotation
 
@@ -93,11 +93,11 @@ If a key leaks, regenerate it immediately; the old one stops working. Keep keys 
 
 ## Troubleshooting
 
-| Symptom | Cause |
+| Symptom | What to do |
 | --- | --- |
-| `401` on Speech | Wrong key, or region doesn't match the Speech resource |
-| `401` on Translator | Wrong key, or regional resource with Region blank / wrong |
-| `429` | Rate limit or F0 monthly quota exhausted; wait, or move to S0/S1 |
-| `403` quota exceeded | Free quota used up, or subscription disabled/out of credit |
-| Voice missing / synth fails for HD voices | Model not offered in your Speech region |
-| Translator key works in one app, not MiraSpeak | Speech key pasted on the Translator page (or vice versa) |
+| `401` on Speech | Check **Speech key** and **Region** on Voice engines → Cloud. The region must match the Speech resource. |
+| `401` on Translator | Check **Key** and **Region** on Translation → Cloud. A regional resource needs its region. |
+| `429` | Wait for the rate limit or the F0 monthly reset, or move to S0 (Speech) or S1 (Translator). |
+| `403` quota exceeded | Wait for the monthly reset, or check that the subscription is enabled and has credit. |
+| Voice missing, or HD voices fail to synthesize | Use a Speech region that offers that model, or pick another model on the **Engine** chip. |
+| Translator key works in one app, not MiraSpeak | Paste the Translator key on Translation → Cloud. The Speech key does not work there, and the Translator key does not work for Speech. |
