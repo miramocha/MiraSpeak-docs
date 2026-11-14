@@ -4,7 +4,7 @@ Modules are third-party pages under Speak. They speak with the voices MiraSpeak 
 
 ## Form page
 
-A module's page is declarative fields (plain data). The host renders them with its own form builders, so modules supply no widgets, styles, or colors. A `ui.Rows` list with no rows shows the host empty state from `ui.Empty` (title, body, an action that opens a File field's Browse or reaches `on_action`, and art named from `ui.ART_NAMES`), set on the spec with `when_empty` or at runtime with `ctx.ui.set_empty`.
+A module's page is declarative fields (plain data). The host renders them with its own form builders, so modules supply no widgets, styles, or colors. A `ui.Rows` list with no rows shows the host empty state from `ui.Empty` (title, body, an action that opens a File field's Browse or reaches `on_action`, and art named from `ui.ART_NAMES`), set on the spec with `when_empty` or at runtime with `ctx.ui.set_empty`. `ui.Slider` is a number field drawn as a slider with a live value label. `ui.Meters` is a read-only block of 0–1 bars that the module fills with `ctx.ui.set_meters`.
 
 Enabled form pages appear under Speak, above the settings search. Integrations → Modules manages enablement and permissions.
 
@@ -81,4 +81,6 @@ Each module has one data root:
 
 While a line plays and a running module holds `observe_playback`, a feed produces the clip's loudness and AEIOU mouth shapes. Analysis runs on the feed thread, never on the playback thread.
 
-Python modules with `observe_playback` get `Module.on_playback_signal(PlaybackSignal)`, with frames coalesced to at most 60 fps. They can also set a mouth profile and receive `on_mouth(MouthLine)` callbacks; each carries a host-built mouth track plus the player-clock position, so the module can follow lip timing on its own thread.
+Python modules with `observe_playback` get `Module.on_playback_signal(PlaybackSignal)`, with frames coalesced to at most 60 fps. They can also set a mouth profile with `ctx.set_mouth_profile(MouthProfile)` and receive `on_mouth(MouthLine)` callbacks; each carries a host-built mouth track plus the player-clock position, so the module can follow lip timing on its own thread.
+
+A `MouthProfile` has a mode (`arkit` or `aeiou`), a source for AEIOU (`audio`, `text`, or `hybrid`), and the module's own key names. `ctx.set_mouth_profile` does not wait for MiraSpeak, so it is safe in `on_start`. A missing permission is logged, not raised. Passing `None` stops the callbacks.

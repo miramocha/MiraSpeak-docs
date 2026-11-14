@@ -39,17 +39,11 @@ Twitch is the first platform: IRC over TLS with PKCE OAuth through a loopback re
 
 ## Avatar (VMC)
 
-Avatar (VMC) is a bundled [module](modules.md#bundled-modules). Enable it on Integrations → Modules, and its page appears under Speak. It sends mouth blendshapes over the [VMC protocol](https://protocol.vmc.info/) to a local avatar app. Only blendshapes are sent, no bones.
+Avatar (VMC) is a bundled [module](modules.md#bundled-modules) (id `avatar`). Enable it on Integrations → Modules, and its page appears under Speak. It asks for `network`, `observe_lines`, and `observe_playback`. It sends mouth blendshapes over the [VMC protocol](https://protocol.vmc.info/) to a local avatar app. Only blendshapes are sent, no bones.
 
-- In ARKit (Perfect Sync) mode, it sends Perfect Sync mouth keys at 60 fps, analyzed from the audio.
-- In AEIOU (custom names) mode, it sends user-named vowel keys, driven by the audio, by English text, or by a hybrid of the two.
-- Gain, smoothing, and a timing offset are adjustable, with live meters for preview.
-- Mouth analysis runs on the playback path after the next synthesis is unblocked, and the mouth zeroes when a line stops.
-
-## Text output
-
-Writes the currently playing line to a text file for stream overlays. The write is atomic, and the file clears a couple of seconds after nothing is playing. When a line was [translated](translation.md), the caption can be the translated text (default), the original, or both.
-
-## Quick bar and hotkeys
-
-A floating composer summoned with a global hotkey, plus `Ctrl+Shift+1..9` to apply presets. Hotkeys are registered with the OS (`RegisterHotKey`) without low-level keyboard hooks. The main window and the quick bar can each be hidden from recording, with **Hide main window from recording** and **Hide quick bar from recording** on Interface → Quick bar.
+- The Connection section sets **Host** and **Port** (default `127.0.0.1:39539`). Its status line shows the address it sends to.
+- In **ARKit (Perfect Sync)** mode, it sends the eight Perfect Sync mouth keys at 60 fps, analyzed from the audio.
+- In **AEIOU (custom names)** mode, it sends the vowel keys named under **AEIOU shapekeys**. **AEIOU source** picks how they move: **Spectral** (from the audio), **Text (EN)** (from English spelling), or **Hybrid (EN)** (spelling picks the shape, loudness sets how far the mouth opens). A hint under the dropdown describes the chosen source.
+- Three sliders tune the mouth: **Mouth offset** (−200 to 200 ms, default 0), **Mouth gain** (0.25x to 4x, default 1x), and **Mouth smooth** (0 to 300 ms, default 80). **Live mouth shapes** shows the values being sent.
+- The module sets a mouth profile and gets a mouth track for each line through the [mouth API](modules.md#playback-feed). Its own 60 Hz thread follows the player clock. When a line ends, the mouth closes.
+- Mouth analysis runs on the playback path after the next synthesis is unblocked.
