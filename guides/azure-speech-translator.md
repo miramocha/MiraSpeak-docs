@@ -19,8 +19,8 @@ In the [Azure portal](https://portal.azure.com/): search **Resource groups → C
 | Field | Value |
 | --- | --- |
 | Subscription | your subscription |
-| Resource group | e.g. `<your-resource-group>` (`miraspeak`) |
-| Region | `<region>` close to you, e.g. `eastus`, `westeurope`, `japaneast` |
+| Resource group | for example, `<your-resource-group>` (`miraspeak`) |
+| Region | `<region>` close to you, for example, `eastus`, `westeurope`, `japaneast` |
 
 Tip: create Speech in this same region. Not every voice/model is in every region; check [Speech region support](https://learn.microsoft.com/azure/ai-services/speech-service/regions) first if you want HD voices. Deleting the group later removes everything in it.
 
@@ -32,12 +32,12 @@ Search **Speech** in the portal and create a Speech service resource (the portal
 | --- | --- |
 | Resource group | `<your-resource-group>` |
 | Region | `<region>` (same as above) |
-| Name | unique, e.g. `<your-speech-name>` |
+| Name | unique, for example, `<your-speech-name>` |
 | Pricing tier | **Free F0** to try, **Standard S0** for regular use |
 
 F0 has a small monthly text-to-speech character allowance and lower rate limits; S0 is billed per character (HD/neural voices cost more). See [Speech pricing](https://azure.microsoft.com/pricing/details/cognitive-services/speech-services/).
 
-After deploy: **Go to resource → Resource Management → Keys and Endpoint.** Copy **Key 1** (Key 2 is a spare) and the **Location/Region** (e.g. `eastus`). MiraSpeak needs the key and region, not the endpoint URL.
+After deploy: **Go to resource → Resource Management → Keys and Endpoint.** Copy **Key 1** (Key 2 is a spare) and the **Location/Region** (for example, `eastus`). MiraSpeak needs the key and region, not the endpoint URL.
 
 ## 4. Create the Azure AI Translator resource
 
@@ -47,7 +47,7 @@ Search **Translator** and create a Translator resource.
 | --- | --- |
 | Resource group | `<your-resource-group>` |
 | Region | **Global** (simplest) or a specific `<region>` |
-| Name | unique, e.g. `<your-translator-name>` |
+| Name | unique, for example, `<your-translator-name>` |
 | Pricing tier | **Free F0** (a character allowance that resets each month) or **Standard S1** (pay per character) |
 
 Then **Keys and Endpoint** again: copy **Key 1** and note the **Location/Region**.
@@ -61,15 +61,15 @@ See [Create a Translator resource](https://learn.microsoft.com/azure/ai-services
 
 Open **Voice engines → Cloud** and set **Engine** to **Azure Speech**.
 
-1. Paste the key into **Speech key**, click **Save key**.
-2. Enter **Region** (e.g. `eastus`).
+1. Paste the key into **Speech key**, select **Save key**.
+2. Enter **Region** (for example, `eastus`).
 3. **Test connection**, then **Refresh voices**.
 
 Open **Translation → Cloud** and set **Engine** to **Azure Translator**.
 
-1. Paste the key into **Key**, click **Save key**.
+1. Paste the key into **Key**, select **Save key**.
 2. **Region**: leave blank for a Global resource; enter `<region>` for regional or multi-service resources.
-3. Click **Test**.
+3. Select **Test**.
 4. On **Translation → General**, choose Azure Translator as the provider.
 
 Saved keys aren't shown again. Use **Clear key** to remove one.
@@ -100,4 +100,4 @@ If a key leaks, regenerate it immediately; the old one stops working. Keep keys 
 | `429` | Wait for the rate limit or the F0 monthly reset, or move to S0 (Speech) or S1 (Translator). |
 | `403` quota exceeded | Wait for the monthly reset, or check that the subscription is enabled and has credit. |
 | Voice missing, or HD voices fail to synthesize | Use a Speech region that offers that model, or pick another model on the **Engine** chip. |
-| Translator key works in one app, not MiraSpeak | Paste the Translator key on Translation → Cloud. The Speech key does not work there, and the Translator key does not work for Speech. |
+| Translator key works in one app, not MiraSpeak | Paste the Translator key on Translation → Cloud. The Speech key doesn't work there, and the Translator key doesn't work for Speech. |

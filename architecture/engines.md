@@ -6,11 +6,11 @@ MiraSpeak speaks through **adapters**. The UI never embeds provider-specific sty
 
 Each adapter exposes:
 
-- Whether it is local or cloud, and whether it is currently configured  
+- Whether it's local or cloud, and whether it's currently configured  
 - A default speech locale (or the voice's own locale), used for marker expansion and translation  
 - Models (if any), voices, styles, paces, speech languages  
 - Inline marker catalog (what `[id]` tokens survive scrubbing); the registry always adds MiraSpeak `[date]` / `[time]` on top (`[time:full]` / `[time:24h]` / `[time:tod]` / `[time:h|m|s]` share the time keep id)  
-- `multi_style` — checklist Style picker vs single-select  
+- `multi_style`: checklist Style picker vs single-select  
 - `synthesize(request) →` audio clip  
 
 Unsupported styles selected in the UI degrade to that engine’s default.
@@ -39,16 +39,16 @@ When Kokoro's phoneme output changes, its cache version bumps so old takes miss 
 
 ## Readiness checks
 
-Each engine is checked in the background: at launch, when its settings page opens, after Test / Refresh / key / URL / download changes, on engine or preset switch, and after a failed line. VOICEVOX is re-polled while it is failing and in view or in use; Azure is never polled.
+Each engine is checked in the background: at launch, when its settings page opens, after Test / Refresh / key / URL / download changes, on engine or preset switch, and after a failed line. VOICEVOX is re-polled while it's failing and in view or in use; Azure is never polled.
 
-- You can still switch to an engine that isn't ready (picker, preset, MCP). While the **speaking** engine is not ready, speech is gated: the Speak button and module controls that speak are off, and Enter on plain text is refused. Slash commands still run so you can switch away, except `/render`, which needs the engine. Replay and Regen stay on (frozen engine, may hit cache).
+- You can still switch to an engine that isn't ready (picker, preset, MCP). While the **speaking** engine isn't ready, speech is gated: the Speak button and module controls that speak are off, and Enter on plain text is refused. Slash commands still run so you can switch away, except `/render`, which needs the engine. Replay and Regen stay on (frozen engine, may hit cache).
 - The voice bar footer shows the failing engine's summary with **Check again** and **Open settings**; the nav marks in-use failing engines with a dot. Nothing navigates to a settings page on its own.
 - Provider pages always show connection and local rows (cache, Generate ahead, usage); only the voice/character catalog waits behind the check.
-- MCP, hotkeys, and Live chat are not gated.
+- MCP, hotkeys, and Live chat aren't gated.
 
 ## Engine-agnostic UI checklist
 
 - Style and pace chips bind to `Capabilities`, not hardcoded lists.  
-- Switching engine or model coerces multi-style selections down to one style when the new target is not multi-style.  
+- Switching engine or model coerces multi-style selections down to one style when the new target isn't multi-style.  
 - Marker pickers and alias targets come from the union of adapter catalogs, labeled by kind and source.  
 - Provider-specific pages (Test / Refresh / cache / usage) live under Voice engines, on In-app, Local server, or Cloud; Speak itself stays catalog-driven.

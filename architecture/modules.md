@@ -8,7 +8,7 @@ A module's page is declarative fields (plain data). The host renders them with i
 
 Enabled form pages appear under Speak, above the settings search. Integrations → Modules manages enablement and permissions.
 
-When a module has the `speak` grant, the host pins the same voice bar Speak uses to the bottom of its form page, including the Translate chip and a "now speaking" level meter. Its footer shows `Ctrl+Shift+1-9 preset` and has no control on the right. While the speaking engine isn't ready, module controls marked as speaking are turned off. Modules do not declare or place voice controls: they speak with Live, and code that needs a fixed voice passes Preset *N*.
+When a module has the `speak` grant, the host pins the same voice bar Speak uses to the bottom of its form page, including the Translate chip and a "now speaking" level meter. Its footer shows `Ctrl+Shift+1-9 preset` and has no control on the right. While the speaking engine isn't ready, module controls marked as speaking are turned off. Modules don't declare or place voice controls: they speak with Live, and code that needs a fixed voice passes Preset *N*.
 
 ## Host boundary
 
@@ -32,14 +32,14 @@ Modules never inject slash commands and never change the live chips as a side ef
 | `observe_lines` | Required to see other sources' line and playback events |
 | `observe_playback` | Required for `Module.on_playback_signal(PlaybackSignal)` (frames coalesced to at most 60 fps) and the mouth API (`on_mouth(MouthLine)`); keeps the playback feed running |
 | `observe_chat` | Shared Live chat messages (`on_chat_message`) |
-| `stop_all` | Required to stop lines the module does not own |
+| `stop_all` | Required to stop lines the module doesn't own |
 | `network` / `files` | Consent only: a Python module runs with the same access as MiraSpeak |
 
 Guard rails refuse speech past a waiting-line cap or a call-rate window, and stop a Python module after repeated errors.
 
 ## Official modules
 
-These install from GitHub. On **Integrations → Modules**, click **Install from URL…**. In the Install from GitHub dialog, paste the URL into **Repository** and enter `v0.1.0` in **Tag or commit**, or leave it empty for the default branch.
+These install from GitHub. On **Integrations → Modules**, select **Install from URL…**. In the Install from GitHub dialog, paste the URL into **Repository** and enter `v0.1.0` in **Tag or commit**, or leave it empty for the default branch.
 
 | Module | URL | Asks for |
 | --- | --- | --- |
@@ -47,7 +47,7 @@ These install from GitHub. On **Integrations → Modules**, click **Install from
 | Lyrics | https://github.com/miramocha/MiraSpeak-lyrics | speak, network, MCP tools |
 | EPUB | https://github.com/miramocha/MiraSpeak-epub | speak |
 
-Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Granting network to a Python module is not limited to that host: the module runs with the same access as MiraSpeak.
+Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Granting network to a Python module isn't limited to that host: the module runs with the same access as MiraSpeak.
 
 ## Bundled modules
 
@@ -61,7 +61,7 @@ These ship with MiraSpeak. Enable them on Integrations → Modules. Each page ap
 
 ## Install and consent
 
-A module installs from a .zip, or from a public GitHub repository URL plus a tag, branch, or commit (blank uses the default branch). A GitHub install downloads that commit's archive and runs it through the same .zip checks; there is no git clone. The archive is checked member by member before anything is written: no absolute paths, parent-directory escapes, symbolic links, encrypted entries, or names Windows cannot hold, with caps on total size and file count that are enforced on the bytes actually written. It is extracted to a staging folder, its manifest is validated, and only then is it swapped into the modules folder, with the old copy restored if the swap fails. The manifest sits at the zip root or inside a single top-level folder. A GitHub install records the repository URL and the commit on the Modules row; updating asks for the ref again and does not check in the background. Installing or updating from a .zip clears that record.
+A module installs from a .zip, or from a public GitHub repository URL plus a tag, branch, or commit (blank uses the default branch). A GitHub install downloads that commit's archive and runs it through the same .zip checks; there is no git clone. The archive is checked member by member before anything is written: no absolute paths, parent-directory escapes, symbolic links, encrypted entries, or names Windows can't hold, with caps on total size and file count that are enforced on the bytes actually written. It's extracted to a staging folder, its manifest is validated, and only then is it swapped into the modules folder, with the old copy restored if the swap fails. The manifest sits at the zip root or inside a single top-level folder. A GitHub install records the repository URL and the commit on the Modules row; updating asks for the ref again and doesn't check in the background. Installing or updating from a .zip clears that record.
 
 Before a new module is enabled, a consent screen lists its permissions in plain words and the exact network hosts it asked for. Python modules are told they run with the same access as MiraSpeak. An update that asks for more than was granted shows the new items marked and stays disabled until approved. Declining installs the files but leaves the module off, and enabling it later asks again.
 
@@ -83,4 +83,4 @@ While a line plays and a running module holds `observe_playback`, a feed produce
 
 Python modules with `observe_playback` get `Module.on_playback_signal(PlaybackSignal)`, with frames coalesced to at most 60 fps. They can also set a mouth profile with `ctx.set_mouth_profile(MouthProfile)` and receive `on_mouth(MouthLine)` callbacks; each carries a host-built mouth track plus the player-clock position, so the module can follow lip timing on its own thread.
 
-A `MouthProfile` has a mode (`arkit` or `aeiou`). For `aeiou`, it also has a source (`audio`, `text`, or `hybrid`) and the module's key names. `arkit` uses the 8 Perfect Sync keys and ignores those names. `ctx.set_mouth_profile` does not wait for MiraSpeak, so it is safe in `on_start`. A missing permission is logged, not raised. Passing `None` stops `on_mouth`. It does not stop `on_playback_signal`.
+A `MouthProfile` has a mode (`arkit` or `aeiou`). For `aeiou`, it also has a source (`audio`, `text`, or `hybrid`) and the module's key names. `arkit` uses the 8 Perfect Sync keys and ignores those names. `ctx.set_mouth_profile` doesn't wait for MiraSpeak, so it's safe in `on_start`. A missing permission is logged, not raised. Passing `None` stops `on_mouth`. It doesn't stop `on_playback_signal`.

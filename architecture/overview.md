@@ -36,27 +36,27 @@ Each arrow points to the next layer down. A layer may import anything below it a
 
 | Rule | Intent |
 | --- | --- |
-| Engine-agnostic UI | Style, pace, voice, and marker catalogs come from each adapter’s `Capabilities`. The UI does not hard-code provider catalogs. |
+| Engine-agnostic UI | Style, pace, voice, and marker catalogs come from each adapter’s `Capabilities`. The UI doesn't hard-code provider catalogs. |
 | Secrets out of settings | API keys and tokens go in the OS credential store (keyring), never `settings.toml`. |
 | Hotkeys without hooks | Global hotkeys use `RegisterHotKey` only—no low-level keyboard hooks. |
-| Capture frozen at submit | Engine, model, voice, styles, pace, speech language, pitch, and translation choices are snapshotted on the line object while it is in flight. |
-| Speech waits for a ready engine | Each engine is checked in the background; while the engine in use is not ready, speaking is off (slash commands still run, except `/render`, which needs the engine). |
+| Capture frozen at submit | Engine, model, voice, styles, pace, speech language, pitch, and translation choices are snapshotted on the line object while it's in flight. |
+| Speech waits for a ready engine | Each engine is checked in the background; while the engine in use isn't ready, speaking is off (slash commands still run, except `/render`, which needs the engine). |
 | Generate ahead | Per-engine concurrency limit (how many clips may synthesize or sit ready while one plays). |
 | Speech cache | Optional per-engine disk cache (pre-pitch audio); pitch applied after load. |
 | Modules don’t own providers | Third-party modules speak with the user’s configured voices; they never add engines or keys. |
 
 ## Startup
 
-1. **Profile** — `--profile NAME` picks a separate set of settings, data folders, saved keys, and single-instance lock (`MiraSpeak-NAME`). With no profile the app uses plain `MiraSpeak`. Testing a fresh setup never touches the everyday one.
-2. **Single instance** — a second launch in the same profile asks the running app to show its window, then exits. When that process is [CLI mode](../guides/cli.md), the second launch shows “MiraSpeak is running in CLI mode.” and exits. The CLI process stays up.
-3. **Beta gate** — beta builds (a flag baked in at build time) ask the user to sign in with GitHub before anything else loads. Sign-in uses a GitHub App's device flow: the app shows a short code and the user approves it in the browser. Access means the signed-in user can read a private beta repository, so the beta list is that repository's collaborators. The token lives in the OS credential store. Access is rechecked at each launch, and if GitHub can't be reached the app keeps working for 7 days after the last successful check. Regular builds skip this step.
-4. **Settings and controller** — settings load, then the controller, tray, and window start.
+1. **Profile:** `--profile NAME` picks a separate set of settings, data folders, saved keys, and single-instance lock (`MiraSpeak-NAME`). With no profile the app uses plain `MiraSpeak`. Testing a fresh setup never touches the everyday one.
+2. **Single instance:** a second launch in the same profile asks the running app to show its window, then exits. When that process is [CLI mode](../guides/cli.md), the second launch shows “MiraSpeak is running in CLI mode.” and exits. The CLI process stays up.
+3. **Beta gate:** beta builds (a flag baked in at build time) ask the user to sign in with GitHub before anything else loads. Sign-in uses a GitHub App's device flow: the app shows a short code and the user approves it in the browser. Access means the signed-in user can read a private beta repository, so the beta list is that repository's collaborators. The token lives in the OS credential store. Access is rechecked at each launch, and if GitHub can't be reached the app keeps working for 7 days after the last successful check. Regular builds skip this step.
+4. **Settings and controller:** settings load, then the controller, tray, and window start.
 
 Builds are one-folder PyInstaller bundles made on each target OS.
 
 ## Style and pace
 
-**Style** (delivery) and **Pace** (speed) are separate UI chips fed by the active adapter. Engines that support multi-style, such as Azure DragonHD and Omni, use a checklist on the Style chip; others stay single-select. The Azure model (DragonHD, Omni, or Neural) is picked on the Engine chip. Unsupported styles degrade to the engine default. Bracket markers in text are not a second style channel for chip state—inline markers are scrubbed or kept according to the adapter’s marker catalog plus MiraSpeak-wide `[date]` / `[time]` (expanded at synth/play from the local clock; `[time:full]`, `[time:24h]`, `[time:tod]`, `[time:h|m|s]`).
+**Style** (delivery) and **Pace** (speed) are separate UI chips fed by the active adapter. Engines that support multi-style, such as Azure DragonHD and Omni, use a checklist on the Style chip; others stay single-select. The Azure model (DragonHD, Omni, or Neural) is picked on the Engine chip. Unsupported styles degrade to the engine default. Bracket markers in text aren't a second style channel for chip state—inline markers are scrubbed or kept according to the adapter’s marker catalog plus MiraSpeak-wide `[date]` / `[time]` (expanded at synth/play from the local clock; `[time:full]`, `[time:24h]`, `[time:tod]`, `[time:h|m|s]`).
 
 ## Navigation surface (settings)
 

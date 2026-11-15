@@ -1,4 +1,4 @@
-# Controls: quick bar and hotkeys
+# Controls: Quick bar and hotkeys
 
 The quick bar is a floating composer summoned with a global hotkey. Set that hotkey on Interface → Quick bar. `Ctrl+Shift+1` through `Ctrl+Shift+9` apply presets 1 to 9. `Ctrl+Alt+1` through `Ctrl+Alt+9` activate the first 9 personas. Those chords are fixed.
 
