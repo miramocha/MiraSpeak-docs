@@ -16,7 +16,7 @@ Keep MCP **off** until step 4 is done, so the URL is never exposed without Acces
 
 ## 2. Create the tunnel
 
-1. In the [Zero Trust dashboard](https://one.dash.cloudflare.com/): **Networks → Tunnels → Create a tunnel**, pick **Cloudflared**, name it (e.g. `miraspeak`).
+1. In the [Zero Trust dashboard](https://one.dash.cloudflare.com/): **Networks → Tunnels → Create a tunnel**, pick **Cloudflared**, name it (for example, `miraspeak`).
 2. Choose your OS (Windows **64-bit** for most PCs) and run the shown install command in an admin terminal. That command contains a token: keep it private.
 3. Wait until the tunnel shows **Healthy**.
 
@@ -37,7 +37,7 @@ The Host Header override is required: MiraSpeak answers `403 Forbidden host` to 
 ## 4. Protect it with Access
 
 1. Pick the **Zero Trust Free** plan if asked.
-2. **Access → Service credentials → Service Tokens → Add a service token.** Name it (e.g. `grokbot`), set a duration (1 year is fine). Copy the **Client ID** and **Client Secret** immediately: the secret is shown only once. If you miss it, refresh or recreate the token.
+2. **Access → Service credentials → Service Tokens → Add a service token.** Name it (for example, `grokbot`), set a duration (1 year is fine). Copy the **Client ID** and **Client Secret** immediately: the secret is shown only once. If you miss it, refresh or recreate the token.
 3. **Access → Applications → Add an application → Self-hosted.** Add the same public hostname, Path empty.
 4. Create a policy:
    - Action: **Service Auth** (not Allow)
@@ -76,7 +76,7 @@ Tip: give the agent a rule to call `get_status` before `speak` or `render_audio`
 
 ## 6. Get audio files back (`render_audio`)
 
-`render_audio` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It is the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
+`render_audio` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It's the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
 
 ```json
 {"ok": true, "path": "/renders/<token>.mp3", "format": "mp3", "mime_type": "audio/mpeg", "duration_s": 2.48, "bytes": 39821, "expires_in_s": 600}

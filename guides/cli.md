@@ -8,7 +8,7 @@ CLI mode runs from a source checkout:
 uv run miraspeak --cli
 ```
 
-`--cli` and `--show` cannot be used together. The installed app starts in the tray and does not offer this flag.
+`--cli` and `--show` can't be used together. The installed app starts in the tray and doesn't offer this flag.
 
 There is no window, tray icon, quick bar, or hotkey. A beta build uses the sign-in you already saved. With no valid sign-in it prints `run once with the window to sign in` and exits.
 
@@ -22,11 +22,11 @@ Each line is spoken the same way as a line in the Speak box. `//` speaks a leadi
 | `/persona none` | Clears the persona. |
 | `Natsuki: hello` | Speaks that one line as Natsuki. |
 | `Say \: this` | Speaks a colon. |
-| `/preset2` | Switches to preset 2. Text after it is spoken in that voice. |
+| `/preset2` | Switches to preset 2. Speaks text after the command in that voice. |
 | `/manual` | Switches to Manual. |
 | `/preset Name` | Switches to a preset by name. |
 | `/presetset Name` | Switches preset set. |
-| `/stop` | Stops the line that is playing. |
+| `/stop` | Stops the line that's playing. |
 | `/stopall` | Stops every line. |
 | `/quit` | Quits, with no confirm. |
 
@@ -54,7 +54,7 @@ When MCP is turned on in the window, both `/mcp` and `/mcp/remote` serve `get_st
 
 ## What stays in the window
 
-CLI mode does not change engines, voices, themes, translation, output devices, Live chat, or modules. Do that in the window, then start CLI mode again.
+CLI mode doesn't change engines, voices, themes, translation, output devices, Live chat, or modules. Do that in the window, then start CLI mode again.
 
 Switching a preset, a preset set, or a persona writes `settings.toml`, so the window shows that choice the next time it opens.
 

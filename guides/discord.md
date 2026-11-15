@@ -12,7 +12,7 @@ MiraSpeak's **Discord** module lets a bot join your voice channel and play every
 
 Open the [Discord developer portal](https://discord.com/developers/applications). MiraSpeak's Discord page has **Open developer portal**, which opens the portal, and **Open setup guide**, which opens this guide.
 
-1. Click **New Application** and give it a name, for example the name of your character.
+1. Select **New Application** and give it a name, for example the name of your character.
 
    ![Create a new app named MiraSpeak Voice](images/discord/01-new-application.png)
 
@@ -28,7 +28,7 @@ Open the [Discord developer portal](https://discord.com/developers/applications)
 
    ![Bot tab with Public Bot off](images/discord/04-bot-public-bot-off.png)
 
-4. Still on the **Bot** tab, click **Reset Token** and copy the token. It's shown **once**.
+4. Still on the **Bot** tab, select **Reset Token** and copy the token. It's shown **once**.
    - You need the **Bot token**. The Public Key, Client ID and Client Secret won't work.
 
 ## 2. Enable the module in MiraSpeak
@@ -49,7 +49,7 @@ Open the **Discord** page. It's at the top of the sidebar, directly under **Spea
 **Bot** section
 
 1. Paste the token into **Bot token**. It stays private on your computer.
-2. Click **Open invite link**, pick your server and click **Authorize**. You need the **Manage Server** permission on that server.
+2. Select **Open invite link**, pick your server and select **Authorize**. You need the **Manage Server** permission on that server.
 
    ![Pick a server for the bot](images/discord/05-invite-pick-server.png)
 
@@ -57,26 +57,26 @@ Open the **Discord** page. It's at the top of the sidebar, directly under **Spea
 
    ![Bot added to the server](images/discord/06-invite-success.png)
 
-3. Click **Connect**. The status should read `Connected as <bot name>`. Until you connect, the voice channel controls show "Press Connect first."
+3. Select **Connect**. The status should read `Connected as <bot name>`. Until you connect, the voice channel controls show "Press Connect first."
 
    ![Not connected yet](images/discord/08-miraspeak-press-connect-first.png)
 
 **Voice channel** section
 
-4. Click **Refresh servers**, then pick your **Server** and **Voice channel**.
+4. Select **Refresh servers**, then pick your **Server** and **Voice channel**.
 5. Join that voice channel yourself in Discord, so you can hear the bot.
-6. Click **Join**, then **Test sound**. The status shows how much audio was sent and its peak level.
+6. Select **Join**, then **Test sound**. The status shows how much audio was sent and its peak level.
 
 ![Server and voice channel picked](images/discord/09-miraspeak-voice-channel.png)
 
-From now on, every line MiraSpeak speaks also plays in the voice channel. Click **Leave** to disconnect the bot from the channel.
+From now on, every line MiraSpeak speaks also plays in the voice channel. Select **Leave** to disconnect the bot from the channel.
 
 ## Bot profile
 
 The **Bot profile** section on the Discord page changes how the bot looks in Discord without opening the developer portal. Connect first; the buttons stay disabled until the bot is connected.
 
-1. **Avatar**: click **Browse**, pick a PNG, JPG, GIF or WEBP image (up to 8 MB), then click **Update avatar**.
-2. **Name**: type the new name, then click **Update name**. Discord only lets a bot rename a couple of times an hour.
+1. **Avatar**: select **Browse**, pick a PNG, JPG, GIF or WEBP image (up to 8 MB), then select **Update avatar**.
+2. **Name**: type the new name, then select **Update name**. Discord only lets a bot rename a couple of times an hour.
 3. **Show "Speaking as <voice>" as the bot's activity** (on by default): the bot's status shows the voice of the line that's playing. It appears once the first line plays and changes when the voice changes. Turn it off to clear the status.
 
 ![The bot's profile in Discord showing "Speaking as" its voice while in a voice channel](images/discord/10-bot-speaking-as.png)
@@ -96,16 +96,16 @@ The status line on the Discord page tells you what's wrong. The common messages 
 
 | Status message | Fix |
 | --- | --- |
-| "Connected as …, but the bot is not in any server" | The invite didn't finish. Click **Open invite link** again, then **Refresh servers** |
+| "Connected as …, but the bot is not in any server" | The invite didn't finish. Select **Open invite link** again, then **Refresh servers** |
 | "That does not look like a bot token" | You copied the Public Key, Client ID or Client Secret. Copy the token from the **Bot** tab |
 | "Discord rejected the token" | **Reset Token** in the portal and paste the new token. Never share it |
 | "The bot can't see #…" / "lacks Connect" / "lacks Speak" | Give the bot **View Channel**, **Connect** and **Speak** in that channel's permissions |
 | "The bot is server-muted in #…" | In Discord, right-click the bot and turn off **Server Mute** |
 | "The bot is suppressed in Stage #…" | In a Stage channel, a moderator must invite the bot to speak |
-| "The bot muted itself in #…" | Click **Leave**, then **Join** again |
-| "Removed from #…" | Someone disconnected the bot. Click **Join** to return |
-| "That channel is gone" | Click **Connect** to refresh the lists |
-| Test sound plays but nobody hears it | Make sure you or other people are in the voice channel before the bot joins, then click **Leave** and **Join** |
+| "The bot muted itself in #…" | Select **Leave**, then **Join** again |
+| "Removed from #…" | Someone disconnected the bot. Select **Join** to return |
+| "That channel is gone" | Select **Connect** to refresh the lists |
+| Test sound plays but nobody hears it | Make sure you or other people are in the voice channel before the bot joins, then select **Leave** and **Join** |
 | "Discord voice needs libopus" (Linux) | Install libopus. On Linux, for example `apt install libopus0` |
 | "Kept for this session only; … is unavailable" | MiraSpeak couldn't reach your OS credential store (keyring), so the token is kept for this session only and you'll need to paste it again next time. Fix or enable the keyring to save it. Advanced users can set the `MIRASPEAK_DISCORD_TOKEN` environment variable instead |
 | The bot joins the voice channel and immediately leaves, or "Couldn't reach Discord's voice server" | Your network or firewall may be blocking it: voice needs outbound access beyond port 443 (UDP and the voice websocket ports). Try another network, or allow UDP and those ports in your firewall |

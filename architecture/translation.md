@@ -21,7 +21,7 @@ These choices are frozen on the line at submit with the rest of the voice captur
 3. Look up each run in the translation cache; send only the misses to the provider.
 4. Rejoin the runs and markers. That text is what the engine speaks; then `[date]` / `[time]` expand (see [Line lifecycle](line-lifecycle.md)).
 
-If translation fails (no key, no installed pair, network error, bad output), the original text is spoken and the line carries a translation note. The line itself does not fail.
+If translation fails (no key, no installed pair, network error, bad output), the original text is spoken and the line carries a translation note. The line itself doesn't fail.
 
 ## Providers
 
@@ -30,7 +30,7 @@ If translation fails (no key, no installed pair, network error, bad output), the
 
 ## Caching
 
-- One SQLite translation cache, keyed by provider, model version, source, target, and text run. It is LRU by last use with a fixed size cap, can be turned off, and has a **Clear** button on Translation → General.
+- One SQLite translation cache, keyed by provider, model version, source, target, and text run. It's LRU by last use with a fixed size cap, can be turned off, and has a **Clear** button on Translation → General.
 - Argos model versions include a decode version, so changing decoding settings misses old entries instead of reusing them.
 - The speech cache fingerprints the **translated** text, so each target language caches its own audio.
 - The translation cache and the speech cache share one canonical hash (sorted-key JSON → SHA-256).

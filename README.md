@@ -23,7 +23,7 @@ The application source is private. This repository documents how the system is d
 | [Azure Speech + Translator](guides/azure-speech-translator.md) | Guide: create the Azure resources and add keys to MiraSpeak |
 | [Discord voice channel](guides/discord.md) | Guide: create your Discord bot and play MiraSpeak in a voice channel |
 
-## What this repo is not
+## What this repo isn't
 
 - Not a changelog or status board  
 - Not API reference for unreleased internals  
