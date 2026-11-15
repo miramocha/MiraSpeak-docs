@@ -39,11 +39,11 @@ Twitch is the first platform: IRC over TLS with PKCE OAuth through a loopback re
 
 ## Avatar (VMC)
 
-Avatar (VMC) is a bundled [module](modules.md#bundled-modules) (id `avatar`). Enable it on Integrations → Modules, and its page appears under Speak. It asks for `network`, `observe_lines`, and `observe_playback`. It sends mouth blendshapes over the [VMC protocol](https://protocol.vmc.info/) to a local avatar app. Only blendshapes are sent, no bones.
+Avatar (VMC) is a bundled [module](modules.md#bundled-modules) (id `avatar`). Enable it on Integrations → Modules, and its page appears under Speak. It asks for `network`, `observe_lines`, and `observe_playback`. It sends mouth blendshapes over the [VMC protocol](https://protocol.vmc.info/) to the address in the Connection section. Only blendshapes are sent, no bones.
 
 - The Connection section sets **Host** and **Port** (default `127.0.0.1:39539`). Its status line shows the address it sends to.
-- In **ARKit (Perfect Sync)** mode, it sends the eight Perfect Sync mouth keys at 60 fps, analyzed from the audio.
+- In **ARKit (Perfect Sync)** mode, it sends the 8 Perfect Sync mouth keys at 60 fps, analyzed from the audio.
 - In **AEIOU (custom names)** mode, it sends the vowel keys named under **AEIOU shapekeys**. **AEIOU source** picks how they move: **Spectral** (from the audio), **Text (EN)** (from English spelling), or **Hybrid (EN)** (spelling picks the shape, loudness sets how far the mouth opens). A hint under the dropdown describes the chosen source.
 - Three sliders tune the mouth: **Mouth offset** (−200 to 200 ms, default 0), **Mouth gain** (0.25x to 4x, default 1x), and **Mouth smooth** (0 to 300 ms, default 80). **Live mouth shapes** shows the values being sent.
 - The module sets a mouth profile and gets a mouth track for each line through the [mouth API](modules.md#playback-feed). Its own 60 Hz thread follows the player clock. When a line ends, the mouth closes.
-- Mouth analysis runs on the playback path after the next synthesis is unblocked.
+- Shared clip features are computed on the synth thread before the clip is queued, while that line still holds its ahead permit. The play thread builds the mouth track from those features after it releases the permit.
