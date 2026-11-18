@@ -12,7 +12,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 - `speak` takes `text` and returns `{ok, queue_depth}` when the line is queued. Slash commands in that text still run, except commands that add modules or open a file dialog, which are refused; call `speak_from_file` or `render` instead. Only the person at the PC can quit or restart the app, or add modules.
 - `stop` takes `scope` (`current` or `all`).
 - Switching to an engine that isn't ready succeeds with a warning. MCP lines aren't held back, so they can fail until the engine is ready (see [Voice engines](engines.md#readiness-checks)).
-- Live voice setters enter Manual. `update_preset` and the theme / appearance tools do not. `set_translation` does not enter Manual.
+- Live voice setters enter Manual. `update_preset` and the theme / appearance tools don't. `set_translation` doesn't enter Manual.
 - Catalog tools fail with `reason=unknown_engine` for an engine that doesn't exist. Bad hex keys in `set_appearance` are skipped.
 - A failure is `{ok: false, reason, message}` plus any extra fields. Clients match on `reason`.
 - Every tool call hops to the GUI thread through the shared bridge.

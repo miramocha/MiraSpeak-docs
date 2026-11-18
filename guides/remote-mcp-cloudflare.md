@@ -12,7 +12,7 @@ MiraSpeak's MCP server only listens on `127.0.0.1`. To connect a client on the s
 
 ## 1. Enable MCP in MiraSpeak
 
-Turn on the MCP server in MiraSpeak's settings. Default endpoint: `http://127.0.0.1:56769/mcp` (port is `mcp_port` in `settings.toml`).
+Open **Integrations → MCP** and select **Enable MCP server (localhost only)**. Default endpoint: `http://127.0.0.1:56769/mcp` (port is `mcp_port` in `settings.toml`).
 
 Keep MCP **off** until step 4 is done, so the URL is never exposed without Access.
 
@@ -74,11 +74,11 @@ npx -y mcp-remote https://<host>/mcp/remote --transport http-only \
   --header "CF-Access-Client-Secret:${CF_ACCESS_CLIENT_SECRET}"
 ```
 
-Tip: give the agent a rule to call `get_status` before `speak` or `render_audio` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
+Tip: give the agent a rule to call `get_status` before `speak` or `render` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
 
-## 6. Get audio files back (`render_audio`)
+## 6. Get audio files back (`render`)
 
-`render_audio` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It's the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
+`render` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It's the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
 
 ```json
 {"ok": true, "path": "/renders/<token>.mp3", "format": "mp3", "mime_type": "audio/mpeg", "duration_s": 2.48, "bytes": 39821, "expires_in_s": 600}
