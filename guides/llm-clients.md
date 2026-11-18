@@ -4,6 +4,40 @@ MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets a local
 
 The snippets below match the current beta (`v0.1.0-beta`). If `tools/list` shows different names than the table here, follow the names the server returns. [Later builds](#later-builds) lists the known renames.
 
+## Copyable prompts
+
+Paste the short prompt when you want the client to write the config for you. Paste the long prompt so the client knows how to use MiraSpeak.
+
+### Set this up for me
+
+```text
+Add MiraSpeak as an MCP server in this client. MiraSpeak is a Streamable HTTP server at http://127.0.0.1:56769/mcp (use 127.0.0.1, not localhost). If it isn't listening, enable it in MiraSpeak under Integrations → MCP: select Enable MCP server (localhost only). The default port is 56769.
+
+If this client speaks HTTP or Streamable HTTP natively, point it at that URL (Claude Code: `claude mcp add --transport http miraspeak http://127.0.0.1:56769/mcp`; Codex: `[mcp_servers.miraspeak]` with `url` in ~/.codex/config.toml; Cursor: `url` in ~/.cursor/mcp.json or .cursor/mcp.json). If it only speaks stdio (Claude Desktop's claude_desktop_config.json), bridge with `npx -y mcp-remote http://127.0.0.1:56769/mcp --transport http-only`. Don't use a "url" entry in Claude Desktop's config file.
+
+Then check that the MiraSpeak tools appear, and call get_status to verify the connection. Tell me if MCP isn't listening or the port was changed.
+```
+
+### Use MiraSpeak
+
+```text
+You can control MiraSpeak, a desktop TTS app, through its MCP tools. MiraSpeak must already be running with MCP enabled.
+
+Call get_status before speak or render. If the active engine is not local (for example Azure), ask me before you spend characters. After you queue a line, you can stop it with stop (scope "current" or "all").
+
+speak({text}) queues a line with the current engine, voice, and preset. It returns ok and queue_depth.
+
+speak_from_file({path}) reads a UTF-8 file. If the result is needs_confirm, ask me, then call again with confirm=true.
+
+render({text}, optional preset, optional format) writes an audio file and does not play it. GET the returned path from the same MCP server within expires_in_s.
+
+Live voice tools (set_engine, set_model, set_voice, set_voice_bank, set_voice_character, set_styles, set_pace, set_speech_language, set_pitch, enter_manual) switch to Manual. update_preset and theme/appearance tools do not. set_translation turns translation on or off and picks the provider and source; set_speech_language is the target. get_status.translation reports the state.
+
+list_presets / switch_preset and list_preset_sets / switch_preset_set change saved voices. list_themes / switch_theme and get_appearance / set_appearance change the UI. list_modules then call_module({module_id, tool, arguments}) runs a module tool.
+
+Do not invent tool names. Use tools/list if a name fails. Do not try to quit or restart the app, or to install modules; only I can do that from the window. Prefer a short test line the first time you speak.
+```
+
 ## Enable the server
 
 1. Start MiraSpeak on the same PC as the client.
@@ -157,40 +191,6 @@ Useful arguments and replies:
 - Commands that add modules, or that would open a file dialog, are refused. Call `speak_from_file` or `render` instead. Only the person at the PC can add modules.
 
 Call `get_status` before `speak` or `render`, and ask first when the active engine isn't local (for example Azure).
-
-## Copyable prompts
-
-Paste the long prompt into the client so it knows how to use MiraSpeak. Paste the short prompt when you want the client to write the config for you.
-
-### Use MiraSpeak
-
-```text
-You can control MiraSpeak, a desktop TTS app, through its MCP tools. MiraSpeak must already be running with MCP enabled.
-
-Call get_status before speak or render. If the active engine is not local (for example Azure), ask me before you spend characters. After you queue a line, you can stop it with stop (scope "current" or "all").
-
-speak({text}) queues a line with the current engine, voice, and preset. It returns ok and queue_depth.
-
-speak_from_file({path}) reads a UTF-8 file. If the result is needs_confirm, ask me, then call again with confirm=true.
-
-render({text}, optional preset, optional format) writes an audio file and does not play it. GET the returned path from the same MCP server within expires_in_s.
-
-Live voice tools (set_engine, set_model, set_voice, set_voice_bank, set_voice_character, set_styles, set_pace, set_speech_language, set_pitch, enter_manual) switch to Manual. update_preset and theme/appearance tools do not. set_translation turns translation on or off and picks the provider and source; set_speech_language is the target. get_status.translation reports the state.
-
-list_presets / switch_preset and list_preset_sets / switch_preset_set change saved voices. list_themes / switch_theme and get_appearance / set_appearance change the UI. list_modules then call_module({module_id, tool, arguments}) runs a module tool.
-
-Do not invent tool names. Use tools/list if a name fails. Do not try to quit or restart the app, or to install modules; only I can do that from the window. Prefer a short test line the first time you speak.
-```
-
-### Set this up for me
-
-```text
-Add MiraSpeak as an MCP server in this client. MiraSpeak is already a Streamable HTTP server at http://127.0.0.1:56769/mcp (use 127.0.0.1, not localhost). I will turn the server on in MiraSpeak under Integrations → MCP if it isn't listening.
-
-If this client speaks HTTP or Streamable HTTP natively, point it at that URL (Claude Code: `claude mcp add --transport http miraspeak http://127.0.0.1:56769/mcp`; Codex: `[mcp_servers.miraspeak]` with `url` in ~/.codex/config.toml; Cursor: `url` in ~/.cursor/mcp.json or .cursor/mcp.json). If it only speaks stdio (Claude Desktop's claude_desktop_config.json), bridge with `npx -y mcp-remote http://127.0.0.1:56769/mcp --transport http-only`. Don't use a "url" entry in Claude Desktop's config file.
-
-Then check that the MiraSpeak tools appear, and call get_status to verify the connection. Tell me if MCP isn't listening or the port was changed.
-```
 
 ## Troubleshooting
 
