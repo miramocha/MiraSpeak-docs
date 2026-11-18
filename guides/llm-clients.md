@@ -1,8 +1,6 @@
 # Connect an LLM client
 
-MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets a local AI client drive the running app: speak lines, change voices and presets, render audio, and call module tools. This page covers enabling the server and connecting a client. The tool surface is summarized here; later-build behavior is in [Integrations](../architecture/integrations.md#mcp). For a cloud agent that can't reach your PC, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
-
-The snippets below match the current beta (`v0.1.0-beta`). If `tools/list` shows different names than the table here, follow the names the server returns. [Later builds](#later-builds) lists the known renames.
+MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets a local AI client drive the running app: speak lines, change voices and presets, render audio, and call module tools. This page covers enabling the server and connecting a client. For a cloud agent that can't reach your PC, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
 
 ## Let your LLM client set it up
 
@@ -165,9 +163,9 @@ With MiraSpeak running and MCP listening, ask the client to call `get_status`. A
 
 A connection error usually means MCP is off, MiraSpeak isn't running, the port is wrong, or the URL used `localhost` instead of `127.0.0.1`.
 
-## Tools (current beta)
+## Tools
 
-`tools/list` is the source of truth. Names below are the handlers the beta server registers, including `call_module` and `render`.
+`tools/list` is the source of truth. Names below are the tools the server registers, including `call_module` and `render`.
 
 | Group | Tools |
 | --- | --- |
@@ -202,20 +200,3 @@ Call `get_status` before `speak` or `render`, and ask first when the active engi
 | Hang on first Claude Desktop launch | `npx` is waiting for install confirmation; include `-y` |
 | `localhost` works in a browser, fails in the client | The client resolved IPv6 (`::1`); MiraSpeak binds IPv4 only — use `127.0.0.1` |
 | Footer says enabled but not listening | The port is in use. A collision doesn't block app startup; pick another port and save |
-| Tool name not found (`stop_speech`, `render_audio`, `list_voice_options`) | You're on a later build than this table; use `tools/list` and see [Later builds](#later-builds) |
-
-## Later builds
-
-Builds after `v0.1.0-beta` keep the same transport, bind, default port, and `/mcp` path, and still have no login on the port. They also add:
-
-| Area | Change |
-| --- | --- |
-| Remote endpoint | `/mcp/remote` serves a reduced tool set for a tunneled client. A proxied request to `/mcp` is refused. See [Remote MCP via Cloudflare](remote-mcp-cloudflare.md). |
-| Host guard | Every route answers 403 to a foreign `Host` or `Origin`. A tunnel must rewrite `Host` to `localhost:<port>`. |
-| Events | `GET /events` is a read-only SSE stream of line events. |
-| Renames | `stop` becomes `stop_speech` (adds `line_ids` and `source`). `render` becomes `render_audio`. |
-| Merged tools | Live voice setters become `set_live_voice`. Catalog `list_models`, `list_voices`, `list_voice_banks`, `list_voice_characters`, `list_styles`, `list_paces`, `list_markers`, and `list_speech_languages` become `list_voice_options`. `enter_manual` is dropped. |
-| New tools | `list_personas`, `set_persona`, `clear_speak_history`, `set_live_chat_mode`, `set_overlay_position`, `set_overlay_scale`, `refresh_devices`. |
-| Speak | `speak` and `speak_from_file` return `line_ids`, take an optional `source` tag, and (for `speak`) an optional `persona_id`. `speak_from_file` is limited to folders the user lists on the MCP page. |
-
-Those details live in [Integrations](../architecture/integrations.md#mcp). The prompts above follow the beta names; if `tools/list` already shows the later names, use those instead.
