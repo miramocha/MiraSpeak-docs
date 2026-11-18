@@ -1,5 +1,7 @@
 # CLI mode
 
+This feature isn't in the current MiraSpeak build yet.
+
 Run MiraSpeak from a terminal, with no window. You set the profile up in the window first. CLI mode then speaks lines you type, and lines an agent sends over MCP, using those saved settings.
 
 CLI mode runs from a source checkout:
