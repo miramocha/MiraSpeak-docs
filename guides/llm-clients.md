@@ -4,9 +4,9 @@ MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets a local
 
 The snippets below match the current beta (`v0.1.0-beta`). If `tools/list` shows different names than the table here, follow the names the server returns. [Later builds](#later-builds) lists the known renames.
 
-## Copyable prompts
+## Let your LLM client set it up
 
-Paste the short prompt when you want the client to write the config for you. Paste the long prompt so the client knows how to use MiraSpeak.
+Paste the first prompt into your client to have it write the config. After the server is connected, paste the second prompt so the client knows how to use MiraSpeak.
 
 ### Set this up for me
 
@@ -218,4 +218,4 @@ Builds after `v0.1.0-beta` keep the same transport, bind, default port, and `/mc
 | New tools | `list_personas`, `set_persona`, `clear_speak_history`, `set_live_chat_mode`, `set_overlay_position`, `set_overlay_scale`, `refresh_devices`. |
 | Speak | `speak` and `speak_from_file` return `line_ids`, take an optional `source` tag, and (for `speak`) an optional `persona_id`. `speak_from_file` is limited to folders the user lists on the MCP page. |
 
-Those details live in [Integrations](../architecture/integrations.md#mcp). The copyable prompts above follow the beta names; if `tools/list` already shows the later names, use those instead.
+Those details live in [Integrations](../architecture/integrations.md#mcp). The prompts above follow the beta names; if `tools/list` already shows the later names, use those instead.
