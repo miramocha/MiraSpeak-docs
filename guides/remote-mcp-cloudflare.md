@@ -1,5 +1,7 @@
 # Remote MCP access with Cloudflare Tunnel + Access
 
+This feature isn't in the current MiraSpeak build yet.
+
 MiraSpeak's MCP server only listens on `127.0.0.1`. To connect a client on the same PC, see [Connect an LLM client](llm-clients.md). To let a cloud AI agent (for example a hosted assistant) drive MiraSpeak on your PC, publish it through a **Cloudflare Tunnel** and lock it with **Cloudflare Access** using a service token.
 
 - No router ports opened; `cloudflared` only makes outbound connections, and your home IP stays hidden.

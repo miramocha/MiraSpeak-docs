@@ -17,7 +17,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 - A failure is `{ok: false, reason, message}` plus any extra fields. Clients match on `reason`.
 - Every tool call hops to the GUI thread through the shared bridge.
 - There are no tools for secrets, Argos downloads, or clearing caches.
-- To connect a local LLM client, see [Connect an LLM client](../guides/llm-clients.md). To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md).
+- To connect a local LLM client, see [Connect an LLM client](../guides/llm-clients.md). To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md) (not in the current build yet).
 
 ## Live chat
 
