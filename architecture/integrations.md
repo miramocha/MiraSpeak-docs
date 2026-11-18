@@ -8,7 +8,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 
 - Streamable HTTP on `127.0.0.1` only, at a configurable port. A port collision fails and doesn't block startup. The endpoint is `/mcp`.
 - MCP is off by default. There is no login on the port: any process on the PC can use every tool while MCP is on.
-- Tools cover speaking, stopping, presets and preset sets, the live voice chips, catalogs, themes and appearance (including Font Set and font weight), translation (`set_translation`, `list_translation_languages`, and translation state in `get_status`), rendering speech to an audio file without playing it (`render`; see [Line lifecycle](line-lifecycle.md#render-lines)), and running modules' own tools. Tool names, arguments, and replies are in [Connect an LLM client](../guides/llm-clients.md).
+- Tools cover speaking, stopping, presets and preset sets, the live voice chips, catalogs, themes and appearance (including Font Set and font weight), translation (`set_translation`, `list_translation_languages`, and translation state in `get_status`), rendering speech to an audio file without playing it (`render`; see [Line lifecycle](line-lifecycle.md#render-lines)), and running modules' own tools. Tool names, arguments, and replies are in [Connect an MCP client](../guides/mcp-clients.md).
 - `speak` takes `text` and returns `{ok, queue_depth}` when the line is queued. Slash commands in that text still run, except commands that add modules or open a file dialog, which are refused; call `speak_from_file` or `render` instead. Only the person at the PC can quit or restart the app, or add modules.
 - `stop` takes `scope` (`current` or `all`).
 - Switching to an engine that isn't ready succeeds with a warning. MCP lines aren't held back, so they can fail until the engine is ready (see [Voice engines](engines.md#readiness-checks)).
@@ -17,7 +17,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 - A failure is `{ok: false, reason, message}` plus any extra fields. Clients match on `reason`.
 - Every tool call hops to the GUI thread through the shared bridge.
 - There are no tools for secrets, Argos downloads, or clearing caches.
-- To connect a local LLM client, see [Connect an LLM client](../guides/llm-clients.md). To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md) (not in the current build yet).
+- To connect a local MCP client, see [Connect an MCP client](../guides/mcp-clients.md). To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md) (not in the current build yet).
 
 ## Live chat
 

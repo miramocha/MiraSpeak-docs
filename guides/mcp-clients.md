@@ -1,6 +1,6 @@
-# Connect an LLM client
+# Connect an MCP client
 
-MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets a local AI client drive the running app: speak lines, change voices and presets, render audio, and call module tools. This page covers enabling the server and connecting a client. For a cloud agent that can't reach your PC, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
+MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets an MCP client on the same PC drive the running app: speak lines, change voices and presets, render audio, and call module tools. This page covers enabling the server and connecting a client. For a cloud agent that can't reach your PC, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
 
 ## Let your LLM client set it up
 
