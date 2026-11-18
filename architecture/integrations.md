@@ -21,7 +21,7 @@ A local [Model Context Protocol](https://modelcontextprotocol.io/) server lets a
 - `set_live_voice` changes any live voice fields in one step and switches to Manual (no active preset); a refused call changes nothing. Editing a preset doesn't enter Manual. `list_voice_options` lists models, voices, voice banks, characters, styles, paces, markers, and speech languages through one `kind` param.
 - There are no tools for secrets, Argos downloads, or clearing caches.
 - `/mcp` is the full tool set for the PC. `/mcp/remote` leaves out `speak_from_file`, `refresh_devices`, `delete_theme`, `delete_preset_set`, `delete_preset`, `clear_preset`, `reset_appearance`, `clear_speak_history`, and `set_live_chat_mode`. A proxied request to `/mcp` gets a 403. [CLI mode](../guides/cli.md) serves a smaller set on both endpoints, with no theme or appearance tools.
-- To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md).
+- To connect a local LLM client, see [Connect an LLM client](../guides/llm-clients.md). To reach it from a cloud agent, see [Remote MCP via Cloudflare](../guides/remote-mcp-cloudflare.md).
 
 ## Live chat
 
