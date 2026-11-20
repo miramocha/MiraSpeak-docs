@@ -31,11 +31,19 @@ Open the [Discord developer portal](https://discord.com/developers/applications)
 4. Still on the **Bot** tab, select **Reset Token** and copy the token. It's shown **once**.
    - You need the **Bot token**. The Public Key, Client ID and Client Secret won't work.
 
-## 2. Enable the module in MiraSpeak
+## 2. Install the module in MiraSpeak
 
-Open **Integrations → Modules**.
+Discord is an official module. It no longer ships inside MiraSpeak.
 
-1. Enable **Discord**.
+1. Open **Integrations → Modules → Install from URL…** and paste:
+   https://github.com/miramocha/MiraSpeak-modules/tree/v0.2.0/discord
+2. The consent screen lists what the module asks for: **audio**, **network** and **observe lines**. It also lists the Python packages it installs into its own folder, `discord.py[voice]` and `davey`, plus the packages they need. Select **Install and enable**. MiraSpeak downloads the packages from PyPI (under 4 MB).
+
+If you used the Discord module that came with an older MiraSpeak, your bot token and settings carry over. Install it once and it picks them up.
+
+Then, still on **Integrations → Modules**:
+
+1. Enable **Discord** if it is off.
 2. Approve the permissions it asks for.
 
 The Discord page then appears under **Speak**.
@@ -111,4 +119,7 @@ The status line on the Discord page tells you what's wrong. The common messages 
 | The bot joins the voice channel and immediately leaves, or "Couldn't reach Discord's voice server" | Your network or firewall may be blocking it: voice needs outbound access beyond port 443 (UDP and the voice websocket ports). Try another network, or allow UDP and those ports in your firewall |
 | "Discord says try again in … minutes" / "Bots can only rename a couple of times an hour" | Discord rate-limits profile changes. Wait the time shown, then try again |
 | No "Speaking as" status on the bot | Check the toggle is on, play a line, and make sure you approved the module's permissions. If you enabled the module before updating, disable and re-enable it to approve the new permission |
-| "Discord support is not installed in this copy of MiraSpeak" | Your build doesn't include Discord support. Update to the latest MiraSpeak build |
+| "The Discord packages are not installed. Remove the module and install it again." | The module's packages are missing. Remove the module (keep its data) and install it again from the URL above |
+| "Could not download …" while installing | MiraSpeak couldn't reach PyPI. Check your connection and install again. Nothing was installed |
+| "… Restart MiraSpeak to finish." | Windows keeps the old copy's packages open until MiraSpeak exits. Restart and the update or removal finishes |
+| No Discord module after updating MiraSpeak | Discord moved out of the app. Install it from the URL above. Your token and settings are still there |

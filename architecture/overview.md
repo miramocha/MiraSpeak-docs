@@ -24,7 +24,7 @@ flowchart TD
 - **ui/** Qt: Speak, the settings pages, and the quick bar.
 - **app/** The speak service, synth, settings, chat, and translation.
 - **mcp/** The local MCP server.
-- **modules/** The module runtime and web policy. The bundled modules (Discord, Avatar (VMC), and Emotion) live in `bundled_modules/` and run on it.
+- **modules/** The module runtime and web policy. The bundled modules (Avatar (VMC) and Emotion) live in `bundled_modules/` and run on it.
 - **audio/** Devices, pitch, and the player.
 - **mouth/** Mouth analysis from a clip or its text. The Avatar (VMC) module sends those shapes to a VMC receiver.
 - **engines/** The registry and the shipped engines: Kokoro, Piper, Windows (Windows only), VOICEVOX, Local TTS, and Azure Speech.
