@@ -39,15 +39,16 @@ Guard rails refuse speech past a waiting-line cap or a call-rate window, and sto
 
 ## Official modules
 
-These install from GitHub. On **Integrations → Modules**, select **Install from URL…**. In the Install from GitHub dialog, paste the URL into **Repository** and enter `v0.1.0` in **Tag or commit**, or leave it empty for the default branch.
+These install from GitHub. On **Integrations → Modules**, select **Install from URL…**. In the Install from GitHub dialog, paste the link. The link sets the tag and the folder.
 
 | Module | URL | Asks for |
 | --- | --- | --- |
-| Timer | https://github.com/miramocha/MiraSpeak-timer | speak, MCP tools |
-| Lyrics | https://github.com/miramocha/MiraSpeak-lyrics | speak, network, MCP tools |
-| EPUB | https://github.com/miramocha/MiraSpeak-epub | speak |
+| Timer | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/timer | speak, MCP tools |
+| Lyrics | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/lyrics | speak, network, MCP tools |
+| EPUB | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/epub | speak |
+| Agent Chat | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/agentchat | network, filler |
 
-Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Granting network to a Python module isn't limited to that host: the module runs with the same access as MiraSpeak.
+Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Agent Chat sends what you type to an agent and plays a filler while you wait. The agent speaks the reply. Granting network to a Python module isn't limited to that host: the module runs with the same access as MiraSpeak.
 
 ## Bundled modules
 
