@@ -47,8 +47,9 @@ These install from GitHub. On **Integrations → Modules**, select **Install fro
 | Lyrics | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/lyrics | speak, network, MCP tools |
 | EPUB | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/epub | speak |
 | Agent Chat | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/agentchat | network, filler |
+| Discord | https://github.com/miramocha/MiraSpeak-modules/tree/v0.2.0/discord | audio, network, observe lines; installs `discord.py[voice]` and `davey` |
 
-Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Agent Chat sends what you type to an agent and plays a filler while you wait. The agent speaks the reply. Granting network to a Python module isn't limited to that host: the module runs with the same access as MiraSpeak.
+Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Agent Chat sends what you type to an agent and plays a filler while you wait. The agent speaks the reply. Discord plays everything MiraSpeak speaks in your voice channel through your own bot; setup is in the [Discord guide](../guides/discord.md). Granting network to a Python module isn't limited to that host: the module runs with the same access as MiraSpeak.
 
 ## Bundled modules
 
@@ -56,7 +57,6 @@ These ship with MiraSpeak. Enable them on Integrations → Modules. Each page ap
 
 | Module | Description |
 | --- | --- |
-| Discord | "A Discord bot joins your voice channel and plays everything MiraSpeak speaks, so you need no virtual audio cable." Setup: [Discord guide](../guides/discord.md). |
 | Avatar (VMC) | "Sends mouth shapes to a VMC receiver while MiraSpeak speaks, so your avatar's lips follow the voice." See [Integrations](integrations.md#avatar-vmc). |
 | Emotion | "Adds one Azure style tag to a live English line from a local emotion classifier." |
 
@@ -65,6 +65,18 @@ These ship with MiraSpeak. Enable them on Integrations → Modules. Each page ap
 A module installs from a .zip, or from a public GitHub repository URL plus a tag, branch, or commit (blank uses the default branch). A GitHub install downloads that commit's archive and runs it through the same .zip checks; there is no git clone. The archive is checked member by member before anything is written: no absolute paths, parent-directory escapes, symbolic links, encrypted entries, or names Windows can't hold, with caps on total size and file count that are enforced on the bytes actually written. It's extracted to a staging folder, its manifest is validated, and only then is it swapped into the modules folder, with the old copy restored if the swap fails. The manifest sits at the zip root or inside a single top-level folder. A GitHub install records the repository URL and the commit on the Modules row; updating asks for the ref again and doesn't check in the background. Installing or updating from a .zip clears that record.
 
 Before a new module is enabled, a consent screen lists its permissions in plain words and the exact network hosts it asked for. Python modules are told they run with the same access as MiraSpeak. An update that asks for more than was granted shows the new items marked and stays disabled until approved. Declining installs the files but leaves the module off, and enabling it later asks again.
+
+### Module packages
+
+A module can list Python packages in `requires` as exact pins, such as `requires = ["discord.py[voice]==2.7.1"]`. It ships one `pylock.<python>-<platform>.toml` per target with the wheel URLs and sha256 hashes.
+
+**Consent:** the consent screen lists the packages. Declining installs nothing, and an update that changes the packages asks again.
+
+**Install:** after approval, MiraSpeak downloads the wheels for this machine from PyPI on a worker thread. It checks each hash and unpacks the wheels into the module's own `site` folder before the module is swapped in. A failed download, a hash mismatch, or a missing lock for this platform installs nothing. MiraSpeak needs no pip or Python of its own for this. CetiModule does the install.
+
+**Loading:** `site` goes at the end of the import path when the module loads, so a package MiraSpeak already has wins.
+
+**Windows:** Windows holds a loaded compiled package open. An update or removal that it blocks finishes at the next start, and the result says to restart.
 
 A bundled module whose `module.toml` sets `default_enabled` starts enabled on first run with its permissions granted, until the user turns it off.
 
