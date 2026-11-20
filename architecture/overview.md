@@ -43,7 +43,7 @@ Each arrow points to the next layer down. A layer may import anything below it a
 | Speech waits for a ready engine | Each engine is checked in the background; while the engine in use isn't ready, speaking is off (slash commands still run, except `/render`, which needs the engine). |
 | Generate ahead | Per-engine concurrency limit (how many clips may synthesize or sit ready while one plays). |
 | Speech cache | Optional per-engine disk cache (pre-pitch audio); pitch applied after load. |
-| Modules don’t own providers | Third-party modules speak with the user’s configured voices; they never add engines or keys. |
+| Modules don’t own the live voice | Third-party modules speak with the user’s configured voices and never pick or reconfigure them. An engine module can add a voice engine of its own; it still can’t add API keys. |
 
 ## Startup
 

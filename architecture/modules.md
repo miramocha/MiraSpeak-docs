@@ -1,6 +1,6 @@
 # Modules
 
-Modules are third-party pages under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset), and never pick or reconfigure those voices. An [engine module](#engine-modules) can add a voice engine of its own, such as Piper.
+Modules are third-party add-ons, each with its own page, usually under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset), and never pick or reconfigure those voices. An [engine module](#engine-modules) can add a voice engine of its own, such as Piper.
 
 ## Form page
 

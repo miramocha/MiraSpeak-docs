@@ -40,10 +40,11 @@ The old Piper runtime download in `%LOCALAPPDATA%\MiraSpeak\support\piper` isn't
 | Problem | What to do |
 | --- | --- |
 | Piper isn't in the In-app Engine list | The module isn't running. Enable it on **Integrations → Modules**. |
-| "Piper packages not installed" | Remove the Piper module and install it again. |
+| "Piper packages not installed. Reinstall the Piper module." | Remove the Piper module and install it again. |
 | A voice row says **missing files** | Pick it under **Voice** and select **Download** again. |
 | "Removed … The voice files are still on disk." | Windows still had the voice open. Restart MiraSpeak, then delete it from the voices folder. |
-| A voice says it needs another package | Some Piper voices need an extra phonemizer. Only English voices are offered. |
+| "This Piper voice needs the … package." | That voice needs an extra phonemizer package the module doesn't install. Pick another voice. |
+| "Piper currently supports English voices only." | The voice isn't English, for example one added to settings by hand. Pick one from the **Voice** list, which offers only English voices. |
 
 ## License
 

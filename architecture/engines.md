@@ -15,12 +15,11 @@ Each adapter exposes:
 
 Unsupported styles selected in the UI degrade to that engine’s default.
 
-## Shipped engines
+## Built-in engines
 
 | Engine | Group | Notes |
 | --- | --- | --- |
 | Kokoro | In-app (ONNX) | Offline synthesis; styles/paces from adapter capabilities. Each voice speaks its own language (see below). |
-| Piper | In-app (ONNX, CPU), module | English Piper voices, one ONNX file per speaker, downloaded one voice at a time. Added by the official Piper module; see the [Piper guide](../guides/piper.md). |
 | Windows | In-app, Windows only | The voices already installed in Windows. |
 | VOICEVOX | Local server (HTTP) | Expects a running VOICEVOX engine. Character + style (mood) selection; catalog labels are user-facing. |
 | Local TTS | Local server (HTTP) | A TTS server on localhost (default `http://127.0.0.1:8020`). The address must be `localhost`, `127.0.0.1`, or `[::1]`. |
@@ -30,7 +29,11 @@ Engines share the same submit → synth → play path. Generate ahead and cache 
 
 ## Engine modules
 
-The registry starts with the built-in engines. A module with the `voice_engine` permission can add more while it runs (see [Modules](modules.md#engine-modules)). Piper is the first.
+The registry starts with the built-in engines. A module with the `voice_engine` permission can add more while it runs (see [Modules](modules.md#engine-modules)).
+
+| Engine | Group | Notes |
+| --- | --- | --- |
+| Piper | In-app (ONNX, CPU) | Official Piper module. English Piper voices, one ONNX file per speaker, downloaded one voice at a time. See the [Piper guide](../guides/piper.md). |
 
 - **Lifetime:** a module engine is added once its module is running and dropped when it stops. Its settings table stays, so the engine comes back as it was.
 - **Leases:** each line holds its adapter from start to finish. Dropping or resetting an engine mid-line closes the adapter only after that line is done.
