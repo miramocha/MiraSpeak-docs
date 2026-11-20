@@ -1,12 +1,12 @@
 # Modules
 
-Modules are third-party pages under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset). They never add, configure, or pick TTS providers, models, or API keys.
+Modules are third-party add-ons, each with its own page, usually under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset), and never pick or reconfigure those voices. An [engine module](#engine-modules) can add a voice engine of its own, such as Piper.
 
 ## Form page
 
 A module's page is declarative fields (plain data). The host renders them with its own form builders, so modules supply no widgets, styles, or colors. A `ui.Rows` list with no rows shows the host empty state from `ui.Empty` (title, body, an action that opens a File field's Browse or reaches `on_action`, and art named from `ui.ART_NAMES`), set on the spec with `when_empty` or at runtime with `ctx.ui.set_empty`. `ui.Slider` is a number field drawn as a slider with a live value label. `ui.Meters` is a read-only block of 0–1 bars that the module fills with `ctx.ui.set_meters`.
 
-Enabled form pages appear under Speak, above the settings search. Integrations → Modules manages enablement and permissions.
+Enabled form pages appear under Speak, above the settings search. An engine module's page sits on Voice engines instead. Integrations → Modules manages enablement and permissions.
 
 When a module has the `speak` grant, the host pins the same voice bar Speak uses to the bottom of its form page, including the Translate chip and a "now speaking" level meter. Its footer shows `Ctrl+Shift+1-9 preset` and has no control on the right. While the speaking engine isn't ready, module controls marked as speaking are turned off. Modules don't declare or place voice controls: they speak with Live, and code that needs a fixed voice passes Preset *N*.
 
@@ -37,6 +37,7 @@ Modules never inject slash commands and never change the live chips as a side ef
 | `style_lines` | Required to add one voice style tag to a live line before it is spoken |
 | `mcp_tools` | Required to add tools and instructions to the MiraSpeak MCP server |
 | `filler` | Required to play cached filler clips for a persona |
+| `voice_engine` | Required to add voice engines (`Module.engines()`) and to read or change their settings |
 | `network` / `files` | Consent only: a Python module runs with the same access as MiraSpeak |
 
 Guard rails refuse speech past a waiting-line cap or a call-rate window, and stop a Python module after repeated errors.
@@ -52,8 +53,21 @@ These install from GitHub. On **Integrations → Modules**, select **Install fro
 | EPUB | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/epub | speak |
 | Agent Chat | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/agentchat | network, filler |
 | Discord | https://github.com/miramocha/MiraSpeak-modules/tree/v0.2.0/discord | audio, network, observe_lines; installs `discord.py[voice]` and `davey` |
+| Piper | https://github.com/miramocha/MiraSpeak-modules/tree/v0.3.0/piper | voice_engine, network; installs `piper-tts` and `pathvalidate` |
 
-Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Agent Chat sends what you type to an agent and plays a filler while you wait. The agent speaks the reply. Discord plays everything MiraSpeak speaks in your voice channel through your own bot; setup is in the [Discord guide](../guides/discord.md). Granting network to a Python module isn't limited to that host: the module runs with the same access as MiraSpeak.
+Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. Lyrics looks up a song on [LRCLIB](https://lrclib.net). Agent Chat sends what you type to an agent and plays a filler while you wait. The agent speaks the reply. Discord plays everything MiraSpeak speaks in your voice channel through your own bot; setup is in the [Discord guide](../guides/discord.md). Piper adds local English Piper voices; see the [Piper guide](../guides/piper.md). Granting network to a Python module isn't limited to that host: the module runs with the same access as MiraSpeak.
+
+## Engine modules
+
+A module with the `voice_engine` permission adds voice engines. `Module.engines()` returns `Adapter` classes. MiraSpeak calls it once on the module thread after `on_start`.
+
+- **Adding and dropping:** MiraSpeak adds the engines once the module is running and drops them when it stops, is disabled, or is removed. An engine id that MiraSpeak or another module already uses is skipped with a warning.
+- **Settings:** the adapter's `default_config` fills in missing keys of its `[engines.<id>]` table when the engine is added. The table stays when the module stops, so a restart picks up where it left off.
+- **Voice list:** `ctx.engine_config(id)` returns a copy of that table. `ctx.set_engine_config(id, voices=…)` replaces the voice list (Speak alias → the engine's own voice id). When the live voice is no longer in it, MiraSpeak switches to the first alias. Both work only for the module's own engines.
+- **Threads:** adapters aren't module callbacks. MiraSpeak creates them and calls `synthesize` on its synthesis threads, not the module thread, so adapter state must be thread-safe and must not call `ModuleContext`.
+- **API:** engine modules build adapters from `miraspeak.modules.engine_api`: `Adapter`, `Capabilities`, `SynthesisResult`, the style and pace helpers, the audio and download helpers, and `engine_data_dir(id)` for downloads (`<data>/<engine id>`, the folder the built-in engines use). `ENGINE_API_VERSION` goes up when a name there changes in a way an engine module would notice. The module `API_VERSION` stays 1.
+- **Page:** an engine module's form page sits in the Voice engines Engine list (In-app), placed by name, not under Speak. MiraSpeak adds its own Speech cache and Generate ahead rows under the form. The engine gets the same readiness check as a built-in one, from its adapter's `unavailable_reason`, so the list and nav show the warning dot and reason.
+- **Missing engine:** a line that names an engine whose module isn't running speaks with the [fallback engine](engines.md#engine-modules).
 
 ## Bundled modules
 

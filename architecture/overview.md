@@ -27,7 +27,7 @@ flowchart TD
 - **modules/** The module runtime and web policy. The bundled modules (Avatar (VMC) and Emotion) live in `bundled_modules/` and run on it.
 - **audio/** Devices, pitch, and the player.
 - **mouth/** Mouth analysis from a clip or its text. The Avatar (VMC) module sends those shapes to a VMC receiver.
-- **engines/** The registry and the shipped engines: Kokoro, Piper, Windows (Windows only), VOICEVOX, Local TTS, and Azure Speech.
+- **engines/** The registry and the shipped engines: Kokoro, Windows (Windows only), VOICEVOX, Local TTS, and Azure Speech. Engine modules (Piper) add more at runtime.
 - **core/** Line text, markers, and commands.
 
 Each arrow points to the next layer down. A layer may import anything below it and nothing above it. **Qt lives only in `ui/`** (and the process entrypoint). Widgets talk to an `AppController` facade—not the service, registry, or settings I/O modules directly.
@@ -43,7 +43,7 @@ Each arrow points to the next layer down. A layer may import anything below it a
 | Speech waits for a ready engine | Each engine is checked in the background; while the engine in use isn't ready, speaking is off (slash commands still run, except `/render`, which needs the engine). |
 | Generate ahead | Per-engine concurrency limit (how many clips may synthesize or sit ready while one plays). |
 | Speech cache | Optional per-engine disk cache (pre-pitch audio); pitch applied after load. |
-| Modules don’t own providers | Third-party modules speak with the user’s configured voices; they never add engines or keys. |
+| Modules don’t own the live voice | Third-party modules speak with the user’s configured voices and never pick or reconfigure them. An engine module can add a voice engine of its own; it still can’t add API keys. |
 
 ## Startup
 
@@ -64,8 +64,8 @@ The sidebar groups, in order:
 
 | Group | Pages |
 | --- | --- |
-| Speak | Speak, then one page per enabled module |
-| Voice engines | In-app (Kokoro, Piper, and Windows on Windows), Local server (VOICEVOX, Local TTS), Cloud (Azure Speech) |
+| Speak | Speak, then one page per enabled module (except engine modules, whose page is on Voice engines) |
+| Voice engines | In-app (Kokoro, Windows on Windows, and engine modules such as Piper), Local server (VOICEVOX, Local TTS), Cloud (Azure Speech) |
 | Translation | General, In-app (Argos), Cloud (Azure Translator) |
 | Voice | Presets, Personas, Commands, Marker aliases |
 | Output | Audio devices, Text output |
