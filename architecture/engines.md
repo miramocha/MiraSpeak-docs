@@ -20,13 +20,21 @@ Unsupported styles selected in the UI degrade to that engine’s default.
 | Engine | Group | Notes |
 | --- | --- | --- |
 | Kokoro | In-app (ONNX) | Offline synthesis; styles/paces from adapter capabilities. Each voice speaks its own language (see below). |
-| Piper | In-app (ONNX, CPU) | English Piper voices, one ONNX file per speaker, downloaded one voice at a time. |
+| Piper | In-app (ONNX, CPU), module | English Piper voices, one ONNX file per speaker, downloaded one voice at a time. Added by the official Piper module; see the [Piper guide](../guides/piper.md). |
 | Windows | In-app, Windows only | The voices already installed in Windows. |
 | VOICEVOX | Local server (HTTP) | Expects a running VOICEVOX engine. Character + style (mood) selection; catalog labels are user-facing. |
 | Local TTS | Local server (HTTP) | A TTS server on localhost (default `http://127.0.0.1:8020`). The address must be `localhost`, `127.0.0.1`, or `[::1]`. |
 | Azure Speech | Cloud | One Azure engine. The Engine chip shows the model: DragonHD, Omni, or Neural. Multi-style checklist where the model supports it. Secrets in keyring. Optional usage meter; **At limit** is Continue, Hard stop, or Play from cache if available. Setup: [Azure guide](../guides/azure-speech-translator.md). |
 
 Engines share the same submit → synth → play path. Generate ahead and cache policies are configured per engine id (Azure models share one Azure bucket).
+
+## Engine modules
+
+The registry starts with the built-in engines. A module with the `voice_engine` permission can add more while it runs (see [Modules](modules.md#engine-modules)). Piper is the first.
+
+- **Lifetime:** a module engine is added once its module is running and dropped when it stops. Its settings table stays, so the engine comes back as it was.
+- **Leases:** each line holds its adapter from start to finish. Dropping or resetting an engine mid-line closes the adapter only after that line is done.
+- **Fallback:** a line whose engine isn't loaded (its module isn't installed, enabled, or started yet) speaks with Kokoro's first voice, default style, and default pace. The fallback happens when the line is submitted, so the speech cache stores it under Kokoro. Settings don't change: the persona, preset, or live voice still names the module engine, and uses it again once the module runs. The line's row says why, for example "piper is not installed or enabled; using Kokoro".
 
 ## Kokoro languages
 
@@ -39,7 +47,7 @@ When Kokoro's phoneme output changes, its cache version bumps so old takes miss 
 
 ## Readiness checks
 
-Each engine is checked in the background: at launch, when its settings page opens, after Test / Refresh / key / URL / download changes, on engine or preset switch, and after a failed line. VOICEVOX is re-polled while it's failing and in view or in use; Azure is never polled.
+Each engine is checked in the background (a module engine from its adapter's own readiness check): at launch, when its settings page opens, after Test / Refresh / key / URL / download changes, on engine or preset switch, and after a failed line. VOICEVOX is re-polled while it's failing and in view or in use; Azure is never polled.
 
 - You can still switch to an engine that isn't ready (picker, preset, MCP). While the **speaking** engine isn't ready, speech is gated: the Speak button and module controls that speak are off, and Enter on plain text is refused. Slash commands still run so you can switch away, except `/render`, which needs the engine. Replay and Regen stay on (frozen engine, may hit cache).
 - The voice bar footer shows the failing engine's summary with **Check again** and **Open settings**; the nav marks in-use failing engines with a dot. Nothing navigates to a settings page on its own.
