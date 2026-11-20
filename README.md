@@ -16,6 +16,7 @@ The application source is private. This repository documents how the system is d
 | [Voice engines](architecture/engines.md) | Adapter model, shipped engines, readiness checks |
 | [Translation](architecture/translation.md) | Translating lines into the speech language before synthesis |
 | [Modules](architecture/modules.md) | Third-party modules: pages under Speak, and engine modules that add voice engines |
+| [Module API](module-api/README.md) | Reference for writing modules: manifest, author API, form pages, MCP tools, and MiraSpeak callbacks |
 | [Integrations](architecture/integrations.md) | MCP, Live chat, and the Avatar (VMC) module |
 | [Controls](architecture/controls.md) | Quick bar and global hotkeys |
 | [Outputs](architecture/outputs.md) | Audio devices and text output (captions) |
@@ -24,9 +25,12 @@ The application source is private. This repository documents how the system is d
 | [Azure Speech + Translator](guides/azure-speech-translator.md) | Guide: create the Azure resources and add keys to MiraSpeak |
 | [Discord voice channel](guides/discord.md) | Guide: create your Discord bot and play MiraSpeak in a voice channel |
 | [Piper voices](guides/piper.md) | Guide: install the Piper module and download local English voices |
+| [Hello world module](guides/module-hello-world.md) | Guide: write, install, and run a first MiraSpeak module |
+| [Install a module from GitHub](guides/module-github-install.md) | Guide: publish a module in a repository folder and install it from a link |
+| [Build pylock files](guides/module-packages.md) | Guide: lock a module's Python packages for each platform |
 
 ## What this repo isn't
 
 - Not a changelog or status board  
 - Not API reference for unreleased internals  
-- Not the place for private source mirrors  
+- Not the place for private source mirrors
