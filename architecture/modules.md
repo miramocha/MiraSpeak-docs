@@ -33,6 +33,10 @@ Modules never inject slash commands and never change the live chips as a side ef
 | `observe_playback` | Required for `Module.on_playback_signal(PlaybackSignal)` (frames coalesced to at most 60 fps) and the mouth API (`on_mouth(MouthLine)`); keeps the playback feed running |
 | `observe_chat` | Shared Live chat messages (`on_chat_message`) |
 | `stop_all` | Required to stop lines the module doesn't own |
+| `audio` | Required to receive the audio of every line MiraSpeak speaks |
+| `style_lines` | Required to add one voice style tag to a live line before it is spoken |
+| `mcp_tools` | Required to add tools and instructions to the MiraSpeak MCP server |
+| `filler` | Required to play cached filler clips for a persona |
 | `network` / `files` | Consent only: a Python module runs with the same access as MiraSpeak |
 
 Guard rails refuse speech past a waiting-line cap or a call-rate window, and stop a Python module after repeated errors.
@@ -43,8 +47,8 @@ These install from GitHub. On **Integrations → Modules**, select **Install fro
 
 | Module | URL | Asks for |
 | --- | --- | --- |
-| Timer | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/timer | speak, MCP tools |
-| Lyrics | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/lyrics | speak, network, MCP tools |
+| Timer | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/timer | speak, mcp_tools |
+| Lyrics | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/lyrics | speak, network, mcp_tools |
 | EPUB | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/epub | speak |
 | Agent Chat | https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/agentchat | network, filler |
 
@@ -54,11 +58,11 @@ Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. L
 
 These ship with MiraSpeak. Enable them on Integrations → Modules. Each page appears under Speak.
 
-| Module | Description |
-| --- | --- |
-| Discord | "A Discord bot joins your voice channel and plays everything MiraSpeak speaks, so you need no virtual audio cable." Setup: [Discord guide](../guides/discord.md). |
-| Avatar (VMC) | "Sends mouth shapes to a VMC receiver while MiraSpeak speaks, so your avatar's lips follow the voice." See [Integrations](integrations.md#avatar-vmc). |
-| Emotion | "Adds one Azure style tag to a live English line from a local emotion classifier." |
+| Module | Description | Asks for |
+| --- | --- | --- |
+| Discord | "A Discord bot joins your voice channel and plays everything MiraSpeak speaks, so you need no virtual audio cable." Setup: [Discord guide](../guides/discord.md). | audio, network, observe_lines |
+| Avatar (VMC) | "Sends mouth shapes to a VMC receiver while MiraSpeak speaks, so your avatar's lips follow the voice." See [Integrations](integrations.md#avatar-vmc). | network, observe_lines, observe_playback |
+| Emotion | "Adds one Azure style tag to a live English line from a local emotion classifier." | style_lines, network |
 
 ## Install and consent
 
