@@ -1,6 +1,6 @@
 # Modules
 
-Modules are third-party add-ons, each with its own page, usually under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset), and never pick or reconfigure those voices. An [engine module](#engine-modules) can add a voice engine of its own, such as Piper.
+Modules are third-party add-ons, each with its own page, usually under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset), and never pick or reconfigure those voices. An [engine module](#engine-modules) can add a voice engine of its own, such as Piper. To write one, see the [Module API](../module-api/README.md).
 
 ## Form page
 
@@ -86,7 +86,7 @@ Before a new module is enabled, a consent screen lists its permissions in plain 
 
 ### Module packages
 
-A module can list Python packages in `requires` as exact pins, such as `requires = ["discord.py[voice]==2.7.1"]`. It ships one `pylock.<python>-<platform>.toml` per target with the wheel URLs and sha256 hashes.
+A module can list Python packages in `requires` as exact pins, such as `requires = ["discord.py[voice]==2.7.1"]`. It ships one `pylock.<python>-<platform>.toml` per target with the wheel URLs and sha256 hashes. The file rules are in [Module manifest](../module-api/core/manifest.md#packages), and the steps are in [Build pylock files](../guides/module-packages.md).
 
 **Consent:** the consent screen lists the packages. Declining installs nothing, and an update that changes the packages asks again.
 
@@ -102,11 +102,10 @@ Removing an installed module deletes its files; the user chooses whether to keep
 
 ## Data layout
 
-Each module has one data root:
+Each module keeps two kinds of data:
 
-- Typed form values, kept separate from the untyped document store
-- A JSON document store (atomic writes, size-capped)
-- An optional data directory
+- **Form values:** typed page values in `module_settings/<id>.json`
+- **Data files:** the module's own text files in `module_data/<id>/`, written with `ctx.data` ([Author API](../module-api/core/author-api.md#data-files))
 
 ## Playback feed
 
