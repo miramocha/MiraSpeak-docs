@@ -1,7 +1,5 @@
 # Remote MCP access with Cloudflare Tunnel + Access
 
-This feature isn't in the current MiraSpeak build yet.
-
 MiraSpeak's MCP server only listens on `127.0.0.1`. To connect a client on the same PC, see [Connect an MCP client](mcp-clients.md). To let a cloud AI agent (for example a hosted assistant) drive MiraSpeak on your PC, publish it through a **Cloudflare Tunnel** and lock it with **Cloudflare Access** using a service token.
 
 - No router ports opened; `cloudflared` only makes outbound connections, and your home IP stays hidden.
@@ -12,9 +10,9 @@ MiraSpeak's MCP server only listens on `127.0.0.1`. To connect a client on the s
 
 ## 1. Enable MCP in MiraSpeak
 
-Open **Integrations → MCP** and select **Enable MCP server (localhost only)**. Default endpoint: `http://127.0.0.1:56769/mcp` (port is `mcp_port` in `settings.toml`).
-
-Keep MCP **off** until step 4 is done, so the URL is never exposed without Access.
+How to turn the server on, set the port, and what `/mcp` versus `/mcp/remote` expose is in
+[MCP](mcp-clients.md). Keep MCP **off** until step 4 is done, so the URL is never exposed without
+Access.
 
 ## 2. Create the tunnel
 
@@ -76,9 +74,13 @@ npx -y mcp-remote https://<host>/mcp/remote --transport http-only \
 
 Tip: give the agent a rule to call `get_status` before `speak` or `render` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
 
-## 6. Get audio files back (`render`)
+## 6. Get audio files back
 
-`render` renders a line to an audio file without playing it on your PC (the Speak page shows it as an **MCP render** row that ends as **Rendered**). It's the remote twin of the `/render` slash command, which saves to a file you pick on the PC instead. The reply never carries the audio itself. It holds a relative `path`:
+The render tool writes a line to an audio file without playing it on your PC. Arguments, formats,
+expiry, and billing are in [MCP](mcp-clients.md#the-render_audio-tool). It's the remote twin of the
+`/render` slash command, which saves to a file you pick on the PC instead (see
+[CLI, commands, and the window](cli.md)). The reply never carries the audio itself. It holds
+a relative `path`:
 
 ```json
 {"ok": true, "path": "/renders/<token>.mp3", "format": "mp3", "mime_type": "audio/mpeg", "duration_s": 2.48, "bytes": 39821, "expires_in_s": 600}

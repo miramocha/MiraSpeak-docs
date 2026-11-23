@@ -1,6 +1,6 @@
 # Install a module from GitHub
 
-MiraSpeak installs a module from a public GitHub repository, either the whole repository or one folder in it. One repository can hold many modules, one per folder, as [MiraSpeak-modules](https://github.com/miramocha/MiraSpeak-modules) does.
+MiraSpeak installs a module from a public GitHub repository, either the whole repository or one folder in it. One repository can hold many modules, one per folder, as [MiraSpeak-modules](https://github.com/miramocha/MiraSpeak-modules) does. The in-app install steps are in [Integrations](../architecture/integrations.md#modules). Official module URLs are in [Modules](../architecture/modules.md#official-modules). This page is for publishing a module and for the rules the install link follows.
 
 ## Links
 

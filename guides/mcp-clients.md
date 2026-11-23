@@ -1,6 +1,43 @@
 # Connect an MCP client
 
-MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets an MCP client on the same PC drive the running app: speak lines, change voices and presets, render audio, and call module tools. This page covers enabling the server and connecting a client. For a cloud agent that can't reach your PC, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md) (not in the current build yet).
+MiraSpeak's built-in [MCP](https://modelcontextprotocol.io/) server lets an MCP client on the
+same PC drive the running app: speak lines, change voices and presets, render audio, and call
+module tools. This page covers enabling the server, connecting a client, and the tool reference.
+For a cloud agent that can't reach your PC, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md).
+
+## Enable the server
+
+1. Open **MCP** under Integrations. Check **Enable MCP server (localhost only)**, set **Port**
+   (default `56769`). Toggle off anytime to stop listening. No restart is needed. If the port is
+   taken, MiraSpeak stays up and shows an error; pick another port. There is no login: while MCP
+   is on, any process on this PC can use every tool, including deleting themes and presets, and
+   quitting the app. `speak_from_file` reads only the folders you list under **File folders** on
+   that page; empty refuses every path.
+
+2. Point Cursor at the same port in `mcp.json` (project or `~/.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "miraspeak": {
+      "url": "http://127.0.0.1:56769/mcp"
+    }
+  }
+}
+```
+
+The footer should read `Listening on http://127.0.0.1:<port>/mcp`.
+
+The server is Streamable HTTP, bound to `127.0.0.1` only. There is no stdio transport. Use
+`127.0.0.1` in client config, not `localhost` (which can resolve to IPv6).
+
+If you changed the port, substitute it in every snippet below.
+
+Default URL:
+
+```text
+http://127.0.0.1:56769/mcp
+```
 
 ## Let your MCP client set it up
 
@@ -27,39 +64,10 @@ Then check that the MiraSpeak tools appear, and call get_status to verify the co
 ```text
 You can control MiraSpeak, a desktop TTS app, through its MCP tools. MiraSpeak must already be running with MCP enabled.
 
-Call get_status before speak or render. If the active engine isn't local (for example Azure), ask me before you spend characters. After you queue a line, you can stop it with stop (scope "current" or "all").
-
-speak({text}) queues a line with the current engine, voice, and preset. It returns ok and queue_depth. Slash commands in that text still run, except commands that add modules or open a file dialog, which are refused.
-
-speak_from_file({path}) reads a UTF-8 file. If the result is reason=needs_confirm, ask me, then call again with confirm=true.
-
-render({text}, optional preset, optional format) writes an audio file and doesn't play it. The reply includes a relative path and expires_in_s. Download it with an HTTP GET to the same host and port as the MCP server (http://127.0.0.1:56769 plus that path) before it expires.
-
-Live voice tools (set_engine, set_model, set_voice, set_voice_bank, set_voice_character, set_styles, set_pace, set_speech_language, set_pitch, enter_manual) switch to Manual. update_preset and theme/appearance tools don't. set_translation turns translation on or off and picks the provider and source; set_speech_language is the target. get_status.translation reports the state.
-
-list_presets / switch_preset and list_preset_sets / switch_preset_set change saved voices. list_themes / switch_theme and get_appearance / set_appearance change the UI. list_modules then call_module({module_id, tool, arguments}) runs a module tool.
+Call get_status before you speak or render audio. If the active engine isn't local (for example Azure), ask me before you spend characters.
 
 Don't invent tool names. Use tools/list if a name fails. Don't try to quit or restart the app, or to install modules; only I can do that from the window. Prefer a short test line the first time you speak.
 ```
-
-## Enable the server
-
-1. Start MiraSpeak on the same PC as the client.
-2. Open **Integrations → MCP**.
-3. Select **Enable MCP server (localhost only)**.
-4. Leave **Port** at `56769` unless that port is already in use (`mcp_port` in `settings.toml`).
-
-The footer should read `Listening on http://127.0.0.1:<port>/mcp`. MCP is off by default. There is no login on the port: any process on the PC can call every tool while the server is on. Turn it off when you don't need it.
-
-The server is Streamable HTTP, bound to `127.0.0.1` only. There is no stdio transport. Use `127.0.0.1` in client config, not `localhost` (which can resolve to IPv6).
-
-Default URL:
-
-```text
-http://127.0.0.1:56769/mcp
-```
-
-If you changed the port, substitute it in every snippet below.
 
 ## Cursor
 
@@ -77,7 +85,9 @@ Cursor reads `~/.cursor/mcp.json` (every workspace) or `.cursor/mcp.json` at a p
 
 Restart Cursor or reload MCP servers, then confirm MiraSpeak is connected and its tools appear.
 
+<!-- vale MiraVoice.Headings = NO -->
 ## Claude Code
+<!-- vale MiraVoice.Headings = YES -->
 
 Claude Code speaks HTTP natively:
 
@@ -87,7 +97,9 @@ claude mcp add --transport http miraspeak http://127.0.0.1:56769/mcp
 
 A JSON entry needs `"type": "http"` (or `"streamable-http"`) plus `"url"`. An entry with a `url` and no `type` is treated as stdio and skipped. Verify with `claude mcp list`.
 
+<!-- vale MiraVoice.Headings = NO -->
 ## OpenAI Codex CLI
+<!-- vale MiraVoice.Headings = YES -->
 
 Codex reads `~/.codex/config.toml` and speaks Streamable HTTP natively:
 
@@ -98,7 +110,9 @@ url = "http://127.0.0.1:56769/mcp"
 
 You can also run `codex mcp add miraspeak --url http://127.0.0.1:56769/mcp`. Verify with `codex mcp list`.
 
+<!-- vale MiraVoice.Headings = NO -->
 ## Claude Desktop
+<!-- vale MiraVoice.Headings = YES -->
 
 Claude Desktop's `claude_desktop_config.json` only launches stdio servers. A `"url"` entry is ignored. Bridge with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) (Node 18+):
 
@@ -171,30 +185,126 @@ A connection error usually means MCP is off, MiraSpeak isn't running, the port i
 
 ## Tools
 
-`tools/list` is the source of truth. Names below are the tools the server registers, including `call_module` and `render`.
+`/mcp` is the full tool set for this PC. `/mcp/remote` is the tool set for a tunnel, marked in
+the table: it leaves out file reads, deletes, and resets, and a proxied request to `/mcp` gets a
+`403`.
 
-| Group | Tools |
-| --- | --- |
-| Speak | `speak`, `speak_from_file`, `stop`, `set_speak_by_sentence`, `render` |
-| Status and catalogs | `get_status`, `list_engines`, `list_models`, `list_voices`, `list_voice_banks`, `list_voice_characters`, `list_styles`, `list_paces`, `list_markers`, `list_speech_languages`, `list_translation_languages`, `list_devices` |
-| Live voice | `set_engine`, `set_model`, `set_voice`, `set_voice_bank`, `set_voice_character`, `set_styles`, `set_pace`, `set_speech_language`, `set_pitch`, `enter_manual` |
-| Presets | `list_presets`, `switch_preset`, `update_preset`, `clear_preset`, `add_preset`, `delete_preset`, `list_preset_sets`, `switch_preset_set`, `create_preset_set`, `rename_preset_set`, `delete_preset_set` |
-| Translation | `set_translation` (target language is `set_speech_language`; `get_status.translation` reports the state) |
-| Themes | `list_themes`, `switch_theme`, `create_theme`, `rename_theme`, `delete_theme`, `get_appearance`, `set_appearance`, `reset_appearance` |
-| Modules | `list_modules`, `call_module` |
-| Window | `set_ui_visible` |
+<!-- mcp-tools:start (generated by scripts/mcp_tool_table.py) -->
+| Tool | Access | Remote | What it does |
+| --- | --- | --- | --- |
+| `list_presets` | read | yes | List voice presets of the active set, active slot (0 = Manual), and active preset set. |
+| `list_preset_sets` | read | yes | List named preset sets and the active set id/name. |
+| `switch_preset_set` | writes | yes | Switch the active preset bank. Enters Manual; live voice settings unchanged. |
+| `create_preset_set` | writes | yes | Create a named preset set and switch to it. |
+| `rename_preset_set` | overwrites or removes | yes | Rename a preset set’s display name (id stays stable). |
+| `delete_preset_set` | overwrites or removes | no | Delete a preset set and its presets. This cannot be undone. |
+| `switch_preset` | overwrites or removes | yes | Apply a preset slot of the active set, or Manual when slot is 0. A vacant slot fails. |
+| `update_preset` | overwrites or removes | yes | Edit an existing preset slot's fields in place (does not enter Manual). |
+| `clear_preset` | overwrites or removes | no | Empty a preset slot; its voice is lost (the slot stays). If it was active, enters Manual. |
+| `add_preset` | writes | yes | Create an extra preset slot (no hotkey) at the end of the active set and fill it. |
+| `delete_preset` | overwrites or removes | no | Delete an extra preset slot (10 and up); later slots move down one number. |
+| `speak` | writes, may spend or send | yes | Queue text to speak with the current engine, voice, and preset. |
+| `list_personas` | read | yes | List personas (id, name, color, engine, voice, mute, cap_seconds). Changes nothing. |
+| `set_persona` | writes | yes | Set the app-wide persona for plain speak. |
+| `speak_from_file` | writes, may spend or send | no | Speak a UTF-8 text file by path (no picker). Use it only when the user asks. |
+| `stop_speech` | overwrites or removes | yes | Stop the current line, or all queued/playing lines when scope is 'all'. |
+| `warm_filler` | writes | yes | Load takes for 60 seconds; same files extend it. Pass only listening to skip the load. |
+| `start_filler` | overwrites or removes | yes | Start a filler session from cached takes and return its session_id. |
+| `cue_filler` | overwrites or removes | yes | Switch the playing filler to another cue at the next take, and restart its timeout. |
+| `stop_filler` | overwrites or removes | yes | Stop the filler session. Playback fades out. |
+| `list_filler_cues` | read | yes | List the cues of a persona's filler set, with cached take counts for its voice. |
+| `set_speak_by_sentence` | writes | yes | Turn Split sentences on or off (queue one line per sentence when speaking). |
+| `set_ui_visible` | writes | yes | Show or hide the main window and quick bar (same as /unhide and /hide). |
+| `clear_speak_history` | overwrites or removes | no | Stop playback and wipe the Speak page's line list. This cannot be undone. |
+| `set_live_chat_mode` | writes, may spend or send | no | Set the Live Chat mode. tts_to_chat posts each spoken line to the public chat. |
+| `set_overlay_position` | writes | yes | Place the quick bar at the bottom or center of the screen. |
+| `set_overlay_scale` | writes | yes | Set the quick bar size. The value snaps to a step of 10. |
+| `set_live_voice` | overwrites or removes | yes | Change any fields of the live voice in one step (enters Manual). |
+| `set_translation` | writes, may spend or send | yes | Turn translation on/off, pick the provider, or the source language. |
+| `get_status` | read | yes | Read Manual/preset, the live chips, queue, translation, persona, and speech gates. |
+| `list_engines` | read | yes | List TTS engines and whether each is configured (no secrets). |
+| `list_voice_options` | read | yes | List one kind of live voice option for an engine, with the current choice. |
+| `list_translation_languages` | read | yes | List translation source languages for the active provider and installed Argos pairs. |
+| `list_devices` | read | yes | List WASAPI output device names. An empty primary_output means the system default. |
+| `refresh_devices` | overwrites or removes | no | Rescan output devices, then list them. This stops playback. |
+| `list_themes` | read | yes | List named UI themes and the active theme. |
+| `switch_theme` | writes | yes | Switch the active UI theme (applies colors/fonts live). |
+| `create_theme` | writes | yes | Create a named theme and switch to it. |
+| `rename_theme` | overwrites or removes | yes | Rename a theme’s display name (id stays stable). |
+| `delete_theme` | overwrites or removes | no | Delete a user theme and its art. This cannot be undone. |
+| `get_appearance` | read | yes | Read active theme colors, fonts, corner image filename, and agent description. |
+| `set_appearance` | overwrites or removes | yes | Partial-update the active user theme's tokens. Refuses built-ins; does not enter Manual. |
+| `reset_appearance` | overwrites or removes | no | Overwrite the active user theme's tokens with Default (Dark). Cannot be undone. |
+| `list_modules` | read | yes | List modules and the tools they expose right now. |
+| `call_module` | overwrites or removes, may spend or send | yes | Call a tool on a running module. It runs module code and can speak or spend. |
+| `render_audio` | writes, may spend or send | yes | Render text to an audio file without playing it (nothing reaches either output). |
+<!-- mcp-tools:end -->
 
-Useful arguments and replies:
+## Errors and gates
 
-- `speak` takes `text`. It returns `{ok, queue_depth}` when the line is queued.
-- `stop` takes `scope`: `current` (default) or `all`.
-- `speak_from_file` takes a UTF-8 `path`. Over about 2,000 characters it returns `reason=needs_confirm`; ask the user, then call again with `confirm=true`.
-- `render` takes `text`, optional `preset` (a slot from `list_presets`), and optional `format`. It writes an audio file and doesn't play it. The reply includes a relative `path` and `expires_in_s` (10 minutes). Download it with an HTTP GET to the same host and port as the MCP server (`http://127.0.0.1:<port>` plus that path) before it expires.
-- `call_module` takes `module_id`, `tool`, and optional `arguments` from `list_modules`.
-- Live voice setters enter Manual. `update_preset` and the theme / appearance tools don't. `set_translation` doesn't enter Manual.
-- Slash commands in `speak` text still run, except commands that add modules or open a file dialog, which are refused. Call `speak_from_file` or `render` instead. Only the person at the PC can add modules.
+Every param has a description in `tools/list`, and every tool has safety hints. A failure sets
+`isError`, with text `error: <code>: <message>` and `{code, message, hint}` in
+`structuredContent`. Match on `code`, never on `message`.
 
-Call `get_status` before `speak` or `render`, and ask first when the active engine isn't local (for example Azure).
+`get_status.gates` tells a client whether a line can speak now and why not, before it's refused.
+`gates.blocked_reason` stays a sentence. Requests with a foreign `Host` or `Origin` get a `403`
+on every route.
+
+## Fillers
+
+`gates.filler` is the active persona's filler cache (the live voice when no persona is selected).
+`filler.cue` is the set's default cue and `filler.style` its engine style. `start_filler` plays
+that cue when no `cue` is passed, or when every cue passed has no takes. It waits the Fillers
+lead-in first (default 0.15 seconds, 0 allowed). Pass `lead_in_s` to override that call; a value
+outside 0–2 is refused. When Play openers is on and that voice has pinned openers, the first clip
+is one of those, then the cue. `list_filler_cues` lists the cue names, which can be renamed on
+the Fillers page. `filler.blocked_reason` is a code, or empty when a filler could play.
+`filler_playback` is the live session (`null` when none): session id, audible, cue, take, and
+milliseconds since it started. audible is false until the first take reaches the player.
+
+## Events
+
+`GET /events` sends `typing_started` and `typing_ended` while you type (no audio). Listening ends
+on `listening` false or 35 seconds after the last `listening` true, and either one sends
+`typing_ended`. Then `filler_started`, `filler_audible`, and `filler_ended`.
+
+## Personas
+
+`set_persona` sets the app-wide default for lines you type and for `speak` with no `persona`, the
+same as the Persona chip, until it's changed. It's not a separate choice per MCP client, and
+`""` or `"none"` clears it. `speak(persona_id=)` uses a persona for one line and doesn't change
+the default. `get_status.persona` is that default (`null` when none); `engine` and `voice` stay
+the live chips. While a persona is active, voice setters fail with `persona_active`. See
+[Controls](../architecture/controls.md#personas) for the live voice lock in the window.
+
+## Modules
+
+`call_module` runs a running module's tools, only when it has the MCP tools permission and its
+MCP tools switch on the Modules page is on. `granted` in `list_modules` leaves `mcp_tools` out
+while that switch is off.
+
+## The speak tool
+
+`speak` and `speak_from_file` with no `source` show an **MCP** badge on the Speak row
+(`stop_speech(source="mcp:")` stops those lines). Pass `source` to badge that name instead.
+`speak` also takes an optional `persona_id` to speak that one line as that persona without
+changing the active persona. A line you type in the app still has no badge.
+
+`speak` says its text as written: slash commands don't run over MCP. Use the matching tool, such
+as `switch_preset`, `stop_speech`, `clear_speak_history`, or `set_live_chat_mode`. Only the
+person at the PC can quit or restart the app, or add modules.
+
+## The render_audio tool
+
+`render_audio` takes `text`, an optional `slot` (a slot from `list_presets`; default is the live
+voice), `format` (`mp3`, `ogg`, or `wav`; default `mp3`), and `confirm` for long text. The line
+goes through the normal speaking queue but never plays: it shows on Speak as an **MCP render**
+row that ends as **Rendered**, and captions, the latest-line file, Live chat, and the avatar are
+skipped. It never translates. The reply holds a relative `path` such as `/renders/<token>.mp3`;
+download it with a GET to the same server (and the same headers, if you go through a tunnel)
+within 10 minutes. Files live in `%LOCALAPPDATA%\MiraSpeak\renders` and are cleared when MCP
+starts or stops. Renders that take longer than 90 seconds are stopped. Cloud engines (Azure)
+bill renders like any other line.
 
 ## Troubleshooting
 
