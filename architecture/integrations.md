@@ -33,7 +33,7 @@ A platform-agnostic chat bridge under **Integrations → Live chat**. Modes are 
 | --- | --- |
 | Off | Disconnected. No bridge. |
 | Chat → TTS | Speak only messages from the logged-in account (self), as plain text. Slash commands are never run from chat. |
-| TTS → Chat | Every successful Speak submit also posts the plain text to the joined channel, as the logged-in account (full paste). Text output captions update separately on play. |
+| TTS → Chat | Posts the plain text to the joined channel when the line starts playing, as the logged-in account (full paste). Text output captions update then as well. |
 
 Twitch is the first platform: IRC over TLS with PKCE OAuth through a loopback redirect. New
 platforms plug in as adapters without changing the controller.
@@ -51,7 +51,7 @@ follow that persona. If it's deleted, Speak as returns to Active and the page no
    streamer's chat, and a bad name isn't saved. Login doesn't overwrite Channel. Tokens stay in
    the OS credential store, never in `settings.toml`.
 2. Pick a mode (Settings radios, or the Speak slash command `/livechat off`, `/livechat chat`,
-   `/livechat tts`). Chat → TTS ignores other viewers. TTS → Chat posts on submit.
+   `/livechat tts`). Chat → TTS ignores other viewers. TTS → Chat posts when the line starts playing.
 
 **Share** is gated by `LIVE_CHAT_SHARE` in `app/features.py`. The flag is off: the section is
 hidden, and messages aren't published. With the flag on, **Share chat messages** (checkbox off by

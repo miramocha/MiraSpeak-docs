@@ -179,7 +179,7 @@ Windsurf, LM Studio, and similar apps take the same URL when they offer an HTTP 
 
 ## Verify
 
-With MiraSpeak running and MCP listening, ask the client to call `get_status`. A successful reply includes the live engine, voice, queue depth, and translation state. Then try a short `speak` line and `stop` if you need to cut it off.
+With MiraSpeak running and MCP listening, ask the client to call `get_status`. A successful reply includes the live engine, voice, queue depth, and translation state. Then try a short `speak` line and `stop_speech` if you need to cut it off.
 
 A connection error usually means MCP is off, MiraSpeak isn't running, the port is wrong, or the URL used `localhost` instead of `127.0.0.1`.
 

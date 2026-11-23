@@ -12,15 +12,13 @@ Install MiraSpeak, get a free local voice, and hear your first line. It takes ab
 
 ## 2. Install and start MiraSpeak
 
-<!-- TODO: replace with the release URL once the first public build is published. -->
-
-1. Download `MiraSpeak-<version>-windows-x64.zip` from <download link>.
+1. Download `MiraSpeak-<version>-windows-x64.zip`.
 2. Extract the zip anywhere you like, for example `C:\Apps\MiraSpeak`. Keep the whole `MiraSpeak` folder together.
 3. Run `MiraSpeak.exe`. The build isn't code-signed yet, so Windows SmartScreen may warn you: select **More info**, then **Run anyway**.
 
 MiraSpeak starts in the system tray (check the **^** overflow next to the clock if you don't see the icon). Select the icon to open the window. Closing the window keeps MiraSpeak running in the tray. To exit, right-click the icon and choose **Quit**.
 
-**On Linux:** download `MiraSpeak-<version>-linux-x86_64` from the same release, extract it, and run `MiraSpeak` from the folder. Your desktop needs a system tray (most do; on GNOME, install the AppIndicator extension). Global hotkeys (the quick bar shortcut and **Ctrl+Shift+1–9**) are Windows-only for now, so on Linux use the window or the tray instead.
+**On Linux:** download `MiraSpeak-<version>-linux-x86_64`, extract it, and run `MiraSpeak` from the folder. Your desktop needs a system tray (most do; on GNOME, install the AppIndicator extension). Global hotkeys (the quick bar shortcut and **Ctrl+Shift+1–9**) are Windows-only for now, so on Linux use the window or the tray instead.
 
 ## 3. Get a voice
 

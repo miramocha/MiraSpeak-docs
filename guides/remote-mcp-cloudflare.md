@@ -72,7 +72,7 @@ npx -y mcp-remote https://<host>/mcp/remote --transport http-only \
   --header "CF-Access-Client-Secret:${CF_ACCESS_CLIENT_SECRET}"
 ```
 
-Tip: give the agent a rule to call `get_status` before `speak` or `render` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
+Tip: give the agent a rule to call `get_status` before `speak` or `render_audio` and ask first when the active engine is a paid cloud one (Azure, etc.) rather than a local one like Kokoro.
 
 ## 6. Get audio files back
 
