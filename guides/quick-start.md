@@ -12,29 +12,13 @@ Install MiraSpeak, get a free local voice, and hear your first line. It takes ab
 
 ## 2. Install and start MiraSpeak
 
-<!-- TODO: replace with the release URL once the first public build is published. -->
-
-1. Download `MiraSpeak-<version>-windows-x64.zip` from <download link>.
+1. Download `MiraSpeak-<version>-windows-x64.zip`.
 2. Extract the zip anywhere you like, for example `C:\Apps\MiraSpeak`. Keep the whole `MiraSpeak` folder together.
 3. Run `MiraSpeak.exe`. The build isn't code-signed yet, so Windows SmartScreen may warn you: select **More info**, then **Run anyway**.
 
 MiraSpeak starts in the system tray (check the **^** overflow next to the clock if you don't see the icon). Select the icon to open the window. Closing the window keeps MiraSpeak running in the tray. To exit, right-click the icon and choose **Quit**.
 
-**On Linux:** download `MiraSpeak-<version>-linux-x86_64` from the same release, extract it, and run `MiraSpeak` from the folder. Your desktop needs a system tray (most do; on GNOME, install the AppIndicator extension). Global hotkeys (the quick bar shortcut and **Ctrl+Shift+1–9**) are Windows-only for now, so on Linux use the window or the tray instead.
-
-> **Beta testers:** beta builds ask you to sign in with GitHub before the app starts. Regular builds don't.
->
-> 1. Accept your invite at [github.com/MiraSpeak/MiraSpeak-beta/invitations](https://github.com/MiraSpeak/MiraSpeak-beta/invitations) first.
-> 2. Download `MiraSpeak-<version>-beta-windows-x64.zip` (or the `linux-x86_64` build) from the [beta releases](https://github.com/MiraSpeak/MiraSpeak-beta/releases/latest) and extract it as above.
-> 3. On first launch, select **Sign in with GitHub**. GitHub opens in your browser with the code already on your clipboard. Paste it there and approve MiraSpeak.
->
->    ![Beta sign-in dialog](images/quick-start/01-beta-dialog.png)
->
->    ![Paste the code on GitHub](images/quick-start/02-device-code.png)
->
->    ![Authorize MiraSpeak Beta](images/quick-start/03-authorize.png)
->
-> MiraSpeak checks your beta access each time it starts. If GitHub can't be reached, it keeps working for up to 7 days after the last successful check.
+**On Linux:** download `MiraSpeak-<version>-linux-x86_64`, extract it, and run `MiraSpeak` from the folder. Your desktop needs a system tray (most do; on GNOME, install the AppIndicator extension). Global hotkeys (the quick bar shortcut and **Ctrl+Shift+1–9**) are Windows-only for now, so on Linux use the window or the tray instead.
 
 ## 3. Get a voice
 
@@ -49,7 +33,7 @@ Before the models are downloaded, Speak shows that Kokoro isn't ready, with **Ch
 
    ![Kokoro page with Download models](images/quick-start/05-kokoro.png)
 
-The default voice (Heart) works as soon as the download finishes. To pick from more voices later, select **Refresh voices** and check the ones you want to see on Speak. Kokoro Japanese voices also need **Download Japanese dictionaries** on the same page. Other languages don't use it.
+The default voice (Heart) works as soon as the download finishes. To pick from more voices later, select **Refresh voices** and check the ones you want to see on Speak. Kokoro Japanese voices also need **Download Japanese dictionaries** on the same page. Other languages don't use it. More engine setup is in [Voice engines](../architecture/engines.md).
 
 ## 4. Speak your first line
 
@@ -80,7 +64,7 @@ With **Stay open** off (the default):
 
 With **Stay open** on, Enter keeps the bar up after speech. Esc and the hotkey still close it.
 
-Focus goes back to your game when the bar closes. You can change the shortcut and Stay open under **Interface → Quick bar**.
+Focus goes back to your game when the bar closes. You can change the shortcut and Stay open under **Interface → Quick bar**. The full slash-command catalog is in [CLI, commands, and the window](cli.md).
 
 ## 6. Save voices as presets
 
@@ -90,21 +74,19 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 
 ## 7. Next steps
 
-- To send the voice to OBS, open **Output → Audio devices** and select **Set up VB-Cable**. After the installer finishes (reboot if it asks), select **Rescan**. Output switches to `CABLE Input`. In OBS, use `CABLE Output` as the microphone. Set **Monitor** to your headphones to keep hearing yourself (Monitor is a second copy of each line, played alongside Output).
+- To send the voice to OBS on Windows, use **Set up VB-Cable** as described in [Audio and captions](../architecture/outputs.md). Set **Monitor** to your headphones to keep hearing yourself (Monitor is a second copy of each line, played alongside Output).
 - To send the voice to OBS on Linux, open **Output → Audio devices** and select **Create virtual output**. It creates a `MiraSpeak` sink and switches Output to it. In OBS, add an **Audio Input Capture** and pick **Monitor of MiraSpeak**.
-- For on-stream captions, open **Output → Text output** and turn on the **Caption file** checkbox, "Write spoken text to a file (markers stripped)." Point an OBS Text source at the file.
+- For on-stream captions, turn on the caption file as described in [Audio and captions](../architecture/outputs.md). Point an OBS Text source at the file.
 - For Azure voices and translation, see [Azure Speech + Translator](azure-speech-translator.md).
-- For Japanese character voices, install and run [VOICEVOX](https://voicevox.hiroshiba.jp/). Then open **Voice engines → Local server**, set **Engine** to **VOICEVOX**, and select **Refresh voices**.
-- To bridge Twitch chat, open **Integrations → Live chat**. It can speak your own chat messages, or post what you speak to your channel.
-- For avatar mouth movement, enable the **Avatar (VMC)** module under **Integrations → Modules**. Its page appears under **Speak**. It sends mouth shapes to a VMC receiver, such as Warudo, while a line plays.
-- To let an AI agent drive MiraSpeak, open **Integrations → MCP**. It lets an agent such as Cursor drive MiraSpeak. To connect a local client, see [Connect an MCP client](mcp-clients.md). To reach it from a cloud agent, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md) (not in the current build yet). To run with no window, see [CLI mode](cli.md) (not in the current build yet).
+- For Japanese character voices, see [Voice engines](../architecture/engines.md#voicevox).
+- To bridge Twitch chat or send mouth shapes to a VMC receiver, see [Integrations](../architecture/integrations.md).
+- To let an AI agent drive MiraSpeak, see [Connect an MCP client](mcp-clients.md). To reach it from a cloud agent, see [Remote MCP via Cloudflare](remote-mcp-cloudflare.md). To run with no window, see [CLI mode](cli.md).
 - To change the theme, use **Interface → Appearance** or `/theme`. It switches between the built-in themes, most of them in Light, Dark, and Midtones. To make your own, select **Duplicate** and edit the copy.
-- To add a module, open **Integrations → Modules** and select **Install from URL…**. In the Install from GitHub dialog, paste the link. The link sets the tag and the folder. Official modules: [Timer](https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/timer), [Lyrics](https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/lyrics), [EPUB](https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/epub), and [Agent Chat](https://github.com/miramocha/MiraSpeak-modules/tree/v0.1.0/agentchat). Only install modules from people you trust.
+- To add a module, see [Integrations](../architecture/integrations.md#modules). Only install modules from people you trust.
 
 ## Tips for typing lines
 
-- `[date]` and `[time]` are read out as the current date and time when the line plays.
-- Stray `[brackets]` are skipped, not spoken. Type `[[` for a literal `[`.
+- `[date]`, `[time]`, and stray `[brackets]` are covered in [Marker tokens](markers.md).
 - Turn on **Split sentences** under the line box to speak each sentence as its own line.
 - Start a line with `//` to speak a leading slash instead of running a command.
 
@@ -118,5 +100,3 @@ Press **Ctrl+Shift+1** through **Ctrl+Shift+9** to switch to slots 1–9 from an
 | The Speak button is off | The engine isn't ready yet. Download the Kokoro models (step 3), or start VOICEVOX if you're using it. |
 | The quick bar shortcut does nothing | Another app already uses it. Pick a different one under **Interface → Quick bar → Hotkey**. |
 | The window doesn't appear when you start MiraSpeak | It's already running in the tray. Select the tray icon. |
-| Beta: "Not on the beta list" | Accept the invite at [github.com/MiraSpeak/MiraSpeak-beta/invitations](https://github.com/MiraSpeak/MiraSpeak-beta/invitations), then select **Check again**. Signed in with the wrong account? Sign out of GitHub in your browser, then select **Use another account**. |
-| Beta: "Can't reach GitHub" | It's been more than 7 days since MiraSpeak last confirmed your access. Reconnect, then select **Try again**. |

@@ -59,11 +59,26 @@ See [Create a Translator resource](https://learn.microsoft.com/azure/ai-services
 
 ## 5. Add the keys to MiraSpeak
 
-Open **Voice engines → Cloud** and set **Engine** to **Azure Speech**.
+Open **Azure Speech** in MiraSpeak (under **Voice engines → Cloud**), paste the key, set the
+region, then Save. Use **Test connection** to verify the key and region. One key covers all
+models.
 
-1. Paste the key into **Speech key**, select **Save key**.
-2. Enter **Region** (for example, `eastus`).
-3. **Test connection**, then **Refresh voices**.
+On Speak or the quick bar in **Manual** mode, open the **Engine** chip (or Ctrl+/) and pick an
+Azure model row:
+
+| Row | Voices | Controls |
+| --- | --- | --- |
+| DragonHD | `*:DragonHDLatestNeural` voices (Ava, Nanami, and others) | A multi-select Style checklist, Pace, and speech-language chips. Styles and pace stack as markers at the start of the line (for example `[laughing] [whispering] [slow] …`). Temperature applies. |
+| Omni | `*:DragonHDOmniLatestNeural` | The same Style and Pace chips as DragonHD for v1. Refresh to fill the map; empty until then. Same HD pricing tier. |
+| Neural | Standard `*Neural` voices (Keita, Natasha, and others) | Style and pace chips hidden. The speech-language chip is still available. Prefer locales such as en-AU here (or Omni) when DragonHD has no bank. |
+
+The Voice picker groups voices by voicebank: the active model's map ∩ preferred languages (the
+chip shows the bank, for example `Ava (EN)`). After changing preferred locales, **Refresh
+voices** to fill DragonHD / Omni / Neural maps.
+
+The key is kept in the OS credential store (Windows Credential Manager on this platform), never
+in `settings.toml`, and is not shown again after you save it. For automation you can set
+`MIRASPEAK_AZURE_KEY` instead (keyring wins if both are set).
 
 Open **Translation → Cloud** and set **Engine** to **Azure Translator**.
 

@@ -1,6 +1,6 @@
 # Voice engines
 
-MiraSpeak speaks through **adapters**. The UI never embeds provider-specific style or voice tables; it reads `Capabilities` from the active adapter (and model, where the provider has one).
+MiraSpeak speaks through **adapters**. The UI never embeds provider-specific style or voice tables; it reads `Capabilities` from the active adapter (and model, where the provider has one). Marker tokens are in [Marker tokens](../guides/markers.md).
 
 ## Adapter contract (conceptual)
 
@@ -27,6 +27,44 @@ Unsupported styles selected in the UI degrade to that engine’s default.
 
 Engines share the same submit → synth → play path. Generate ahead and cache policies are configured per engine id (Azure models share one Azure bucket).
 
+## Setup
+
+### Kokoro
+
+On first run, open **Voice engines → Kokoro**. Select **Download models** (one-time, hundreds of
+MB), then check the voices you want on Speak. You can also run
+`uv run python scripts/fetch_models.py`. The first-run path with screenshots is in
+[Quick start](../guides/quick-start.md#3-get-a-voice).
+
+### Azure
+
+How to create the Azure resources, paste the Speech key, and pick a DragonHD, Omni, or Neural
+model is in [Azure Speech + Translator](../guides/azure-speech-translator.md).
+
+### VOICEVOX
+
+1. Install and start [VOICEVOX](https://voicevox.hiroshiba.jp/) (or
+   [voicevox_engine](https://github.com/VOICEVOX/voicevox_engine/releases)). Keep it running;
+   MiraSpeak doesn't launch it.
+2. Open **VOICEVOX** in MiraSpeak. Confirm **Base URL** (default `http://127.0.0.1:50021`), use
+   **Test connection**, then **Refresh voices** to pull the live `/speakers` list (newer
+   characters after a VOICEVOX update, without waiting for a MiraSpeak release). Check only the
+   characters you want on Speak.
+3. Pick engine **VOICEVOX** on Speak. Manual mode shows **Character** then **Voice** (mood) chips
+   when multiple characters are mapped. Style stays hidden. Defaults ship English labels (for
+   example `zundamon` → style id 3). Pace is normal / slow / fast via `speedScale`. Maintainers
+   can regenerate polished EN labels with `uv run python scripts/fetch_voicevox_catalog.py`.
+
+Japanese only for natural speech. English text is read as katakana-ish. Credit VOICEVOX and
+follow each character's terms for commercial use.
+
+### Piper
+
+Piper is an engine module, not a built-in engine. Install it under **Integrations → Modules**.
+Voices live in `%LOCALAPPDATA%\MiraSpeak\piper` (`voices.json`, then `voices/<id>.onnx` and
+`<id>.onnx.json`). How to install the module and download a voice is in
+[Piper voices](../guides/piper.md).
+
 ## Engine modules
 
 The registry starts with the built-in engines. A module with the `voice_engine` permission can add more while it runs (see [Modules](modules.md#engine-modules)).
@@ -35,9 +73,11 @@ The registry starts with the built-in engines. A module with the `voice_engine` 
 | --- | --- | --- |
 | Piper | In-app (ONNX, CPU) | Official Piper module. English Piper voices, one ONNX file per speaker, downloaded one voice at a time. See the [Piper guide](../guides/piper.md). |
 
-- **Lifetime:** a module engine is added once its module is running and dropped when it stops. Its settings table stays, so the engine comes back as it was.
-- **Leases:** each line holds its adapter from start to finish. Dropping or resetting an engine mid-line closes the adapter only after that line is done.
-- **Fallback:** a line whose engine isn't loaded (its module isn't installed, enabled, or started yet) speaks with Kokoro's first voice, default style, and default pace. The fallback happens when the line is submitted, so the speech cache stores it under Kokoro. Settings don't change: the persona, preset, or live voice still names the module engine, and uses it again once the module runs. The line's row says why, for example "piper is not installed or enabled; using Kokoro".
+| Rule | What happens |
+| --- | --- |
+| Lifetime | A module engine is added once its module is running and dropped when it stops. Its settings table stays, so the engine comes back as it was. |
+| Leases | Each line holds its adapter from start to finish. Dropping or resetting an engine mid-line closes the adapter only after that line is done. |
+| Fallback | A line whose engine isn't loaded (its module isn't installed, enabled, or started yet) speaks with Kokoro's first voice, default style, and default pace. The fallback happens when the line is submitted, so the speech cache stores it under Kokoro. Settings don't change: the persona, preset, or live voice still names the module engine, and uses it again once the module runs. The line's row says why, for example "piper is not installed or enabled; using Kokoro". |
 
 ## Kokoro languages
 

@@ -1,6 +1,6 @@
 # Modules
 
-Modules are third-party add-ons, each with its own page, usually under Speak. They speak with the voices MiraSpeak already has (the live chips or a numbered preset), and never pick or reconfigure those voices. An [engine module](#engine-modules) can add a voice engine of its own, such as Piper. To write one, see the [Module API](../module-api/README.md).
+Modules add a page, usually under Speak, and some add a voice engine. A speak-page module uses the voices MiraSpeak already has (the live chips or a numbered preset) and doesn't pick or reconfigure those voices. An [engine module](#engine-modules) can add a voice engine of its own, such as Piper. How to install from a .zip, a folder, or a GitHub URL is in [Integrations](integrations.md#modules). To write a module, see the [Module API](../module-api/README.md).
 
 ## Form page
 
@@ -61,13 +61,15 @@ Timer says a phrase on a schedule. EPUB opens a local book and reads it aloud. L
 
 A module with the `voice_engine` permission adds voice engines. `Module.engines()` returns `Adapter` classes. MiraSpeak calls it once on the module thread after `on_start`.
 
-- **Adding and dropping:** MiraSpeak adds the engines once the module is running and drops them when it stops, is disabled, or is removed. An engine id that MiraSpeak or another module already uses is skipped with a warning.
-- **Settings:** the adapter's `default_config` fills in missing keys of its `[engines.<id>]` table when the engine is added. The table stays when the module stops, so a restart picks up where it left off.
-- **Voice list:** `ctx.engine_config(id)` returns a copy of that table. `ctx.set_engine_config(id, voices=…)` replaces the voice list (Speak alias → the engine's own voice id). When the live voice is no longer in it, MiraSpeak switches to the first alias. Both work only for the module's own engines.
-- **Threads:** adapters aren't module callbacks. MiraSpeak creates them and calls `synthesize` on its synthesis threads, not the module thread, so adapter state must be thread-safe and must not call `ModuleContext`.
-- **API:** engine modules build adapters from `miraspeak.modules.engine_api`: `Adapter`, `Capabilities`, `SynthesisResult`, the style and pace helpers, the audio and download helpers, and `engine_data_dir(id)` for downloads (`<data>/<engine id>`, the folder the built-in engines use). `ENGINE_API_VERSION` goes up when a name there changes in a way an engine module would notice. The module `API_VERSION` stays 1.
-- **Page:** an engine module's form page sits in the Voice engines Engine list (In-app), placed by name, not under Speak. MiraSpeak adds its own Speech cache and Generate ahead rows under the form. The engine gets the same readiness check as a built-in one, from its adapter's `unavailable_reason`, so the list and nav show the warning dot and reason.
-- **Missing engine:** a line that names an engine whose module isn't running speaks with the [fallback engine](engines.md#engine-modules).
+| Rule | What happens |
+| --- | --- |
+| Adding and dropping | MiraSpeak adds the engines once the module is running and drops them when it stops, is disabled, or is removed. An engine id that MiraSpeak or another module already uses is skipped with a warning. |
+| Settings | The adapter's `default_config` fills in missing keys of its `[engines.<id>]` table when the engine is added. The table stays when the module stops, so a restart picks up where it left off. |
+| Voice list | `ctx.engine_config(id)` returns a copy of that table. `ctx.set_engine_config(id, voices=…)` replaces the voice list (Speak alias → the engine's own voice id). When the live voice is no longer in it, MiraSpeak switches to the first alias. Both work only for the module's own engines. |
+| Threads | Adapters aren't module callbacks. MiraSpeak creates them and calls `synthesize` on its synthesis threads, not the module thread, so adapter state must be thread-safe and must not call `ModuleContext`. |
+| API | Engine modules build adapters from `miraspeak.modules.engine_api`: `Adapter`, `Capabilities`, `SynthesisResult`, the style and pace helpers, the audio and download helpers, and `engine_data_dir(id)` for downloads (`<data>/<engine id>`, the folder the built-in engines use). `ENGINE_API_VERSION` goes up when a name there changes in a way an engine module would notice. The module `API_VERSION` stays 1. |
+| Page | An engine module's form page sits in the Voice engines Engine list (In-app), placed by name, not under Speak. MiraSpeak adds its own Speech cache and Generate ahead rows under the form. The engine gets the same readiness check as a built-in one, from its adapter's `unavailable_reason`, so the list and nav show the warning dot and reason. |
+| Missing engine | A line that names an engine whose module isn't running speaks with the [fallback engine](engines.md#engine-modules). |
 
 ## Bundled modules
 
@@ -104,8 +106,10 @@ Removing an installed module deletes its files; the user chooses whether to keep
 
 Each module keeps two kinds of data:
 
-- **Form values:** typed page values in `module_settings/<id>.json`
-- **Data files:** the module's own text files in `module_data/<id>/`, written with `ctx.data` ([Author API](../module-api/core/author-api.md#data-files))
+| Kind | Where it lives |
+| --- | --- |
+| Form values | Typed page values in `module_settings/<id>.json` |
+| Data files | The module's own text files in `module_data/<id>/`, written with `ctx.data` ([Author API](../module-api/core/author-api.md#data-files)) |
 
 ## Playback feed
 
